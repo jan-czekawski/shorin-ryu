@@ -1,24 +1,3 @@
-# README
+Shorin_ryu is a web application design to help obtaining information, participating and engaging with the debate about shorin_ryu karate.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+It's run on Ruby 2.5.0 and Rails 5.1.4.
