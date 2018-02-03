@@ -39,21 +39,27 @@ RSpec.describe User, type: :model do
       expect(user).not_to be_valid
     end
     
+    let(:first_user) do 
+      @first_user_info = { email: "first@email.com", password: "password" }
+      User.create(@first_user_info)
+    end
+    
     it "requires unique email address" do
-      first_user_info = { email: "first@email.com", password: "password" }
-      User.create(first_user_info)
-      
-      second_user = User.create(first_user_info)
+      # first_user_info = { email: "first@email.com", password: "password" }
+      # User.create(first_user_info)
+      first_user
+      second_user = User.create(@first_user_info)
 
       # expect(second_user.valid?).to be false
       expect(second_user).not_to be_valid
     end
     
     it "confirms case insensitivity with email uniqueness" do
-      first_user_info = { email: "first@email.com", password: "password" }
-      User.create(first_user_info)
+      # first_user_info = { email: "first@email.com", password: "password" }
+      # User.create(first_user_info)
+      first_user
       
-      second_user_info = first_user_info.each { |k, v| v.upcase! }
+      second_user_info = @first_user_info.each { |k, v| v.upcase! if k == :email }
       second_user = User.create(second_user_info)    
       
       # expect(second_user.valid?).to be false
@@ -71,7 +77,7 @@ RSpec.describe User, type: :model do
       users.each { |usr| expect(usr).not_to be_valid }
     end
     
-    it "makes admin attr false by default" do
+    it "assigns false to admin attr by default" do
       user = User.create(email: "some@email.com", password: "password")
       
       # expect(user.admin).to be false
