@@ -18,7 +18,8 @@ RSpec.describe User, type: :model do
       # verify
       # expect(new_count).to eq old_count + 1
       # expect(User.last).to eq user
-      expect(user.valid?).to be true
+      # expect(user.valid?).to be true
+      expect(user).to be_valid
       
       # teardown
       # User.delete_all
@@ -27,13 +28,15 @@ RSpec.describe User, type: :model do
     it "requires that email is present" do
       user = User.create(password: "password")
       
-      expect(user.valid?).to be false
+      # expect(user.valid?).to be false
+      expect(user).not_to be_valid
     end
     
     it "requires that password is present" do
       user = User.create(email: "email@email.com")
       
-      expect(user.valid?).to be false
+      # expect(user.valid?).to be false
+      expect(user).not_to be_valid
     end
     
     it "requires unique email address" do
@@ -42,7 +45,8 @@ RSpec.describe User, type: :model do
       
       second_user = User.create(first_user_info)
 
-      expect(second_user.valid?).to be false
+      # expect(second_user.valid?).to be false
+      expect(second_user).not_to be_valid
     end
     
     it "confirms case insensitivity with email uniqueness" do
@@ -52,7 +56,8 @@ RSpec.describe User, type: :model do
       second_user_info = first_user_info.each { |k, v| v.upcase! }
       second_user = User.create(second_user_info)    
       
-      expect(second_user.valid?).to be false
+      # expect(second_user.valid?).to be false
+      expect(second_user).not_to be_valid
     end
     
     it "requires email with correct format" do
@@ -63,13 +68,14 @@ RSpec.describe User, type: :model do
         users << ix = User.create(email: adr, password: "password")
       end
       
-      users.each { |usr| expect(usr.valid?).to be false }
+      users.each { |usr| expect(usr).not_to be_valid }
     end
     
     it "makes admin attr false by default" do
       user = User.create(email: "some@email.com", password: "password")
       
-      expect(user.admin).to be false
+      # expect(user.admin).to be false
+      expect(user).not_to be_admin
     end
   
   end
