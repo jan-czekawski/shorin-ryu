@@ -3,32 +3,34 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe User, ".new" do
     
-    after(:all) do
+    after(:each) do
       User.delete_all
     end
     
     it "creates new user if all info is provided" do
       # setup
-      old_count = User.all.count
+      # old_count = User.all.count
       
       # exercise
-      User.create(email: "user@email.com", password: "password")
-      new_count = User.all.count
+      user = User.create(email: "user@email.com", password: "password")
+      # new_count = User.all.count
       
       # verify
-      expect(new_count).to eq old_count + 1
+      # expect(new_count).to eq old_count + 1
+      # expect(User.last).to eq user
+      expect(user.valid?).to be true
       
       # teardown
       # User.delete_all
     end
     
-    it "makes user invalid unless email is present" do
+    it "requires that email is present" do
       user = User.create(password: "password")
       
       expect(user.valid?).to be false
     end
     
-    it "makes user invalid unless password is present" do
+    it "requires that password is present" do
       user = User.create(email: "email@email.com")
       
       expect(user.valid?).to be false
