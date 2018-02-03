@@ -7,8 +7,8 @@ class User
          :recoverable, :rememberable, :trackable, :validatable
 
   # VALIDATIONS
-  
-  
+  validates :email, format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+
   ## Database authenticatable
   field :email,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
