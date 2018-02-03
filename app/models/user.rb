@@ -1,15 +1,18 @@
 class User
   include Mongoid::Document
+  # include ActiveModel::Validations
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  # VALIDATIONS
+  validates :email, presence: true
+
   ## Database authenticatable
   field :email,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
   field :admin,              type: Boolean, default: false
-
 
   ## Recoverable
   field :reset_password_token,   type: String

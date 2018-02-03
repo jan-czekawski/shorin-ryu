@@ -17,6 +17,18 @@ RSpec.describe User, type: :model do
       # teardown
       User.all.delete_all
     end
+    
+    it "makes user invalid unless email is present" do
+      user = User.create(password: "password")
+      
+      expect(user.valid?).to be_falsy
+    end
+    
+    it "makes user invalid unless password is present" do
+      user = User.create(email: "email@email.com")
+      
+      expect(user.valid?).to be_falsy
+    end
   
   end
 end
