@@ -37,10 +37,20 @@ RSpec.describe User, type: :model do
     end
     
     it "requires unique email address" do
-      first_user_info = { email: "first@email.com", password: "password"}
+      first_user_info = { email: "first@email.com", password: "password" }
       User.create(first_user_info)
       
       second_user = User.create(first_user_info)
+
+      expect(second_user.valid?).to be false
+    end
+    
+    it "confirms case insensitivity with email uniqueness" do
+      first_user_info = { email: "first@email.com", password: "password" }
+      User.create(first_user_info)
+      
+      second_user_info = first_user_info.each { |k, v| v.upcase! }
+      second_user = User.create(second_user_info)    
       
       expect(second_user.valid?).to be false
     end
