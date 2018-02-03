@@ -7,7 +7,8 @@ class User
          :recoverable, :rememberable, :trackable, :validatable
 
   # VALIDATIONS
-  validates :email, presence: true
+  validates :email, presence: true,
+                    uniqueness: true
 
   ## Database authenticatable
   field :email,              type: String, default: ""
