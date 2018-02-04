@@ -21,7 +21,7 @@
     <ul class="navbar-nav">
       <% if user_signed_in? %>
         <li class="nav-item">
-          <%= link_to current_user.email, "#!", class: "nav-link" %>
+          <%= link_to "Signed in as #{current_user.email}", "#!", class: "nav-link" %>
         </li>
       <% end %>
     </ul>
