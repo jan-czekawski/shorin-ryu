@@ -39,11 +39,28 @@ RSpec.describe User, type: :model do
       expect(user).not_to be_valid
     end
     
+    it "requires email to have correct format" do
+      incorrect_emails = ["email.email.com", "@email.com", "email@email"]
+      users = []
+      
+      incorrect_emails.each_with_index do |adr, ix|
+        users << ix = User.new(email: adr, password: "password")
+      end
+      
+      users.each { |usr| expect(usr).not_to be_valid }
+    end
+    
     it "requires that password is present" do
       # user = build_correct_user(password: nil)
       user = build(:user, password: nil)
       
       # expect(user.valid?).to be false
+      expect(user).not_to be_valid
+    end
+    
+    it "requires password to have min 6 chars" do
+      user = build(:user, password: "a" * 5)
+      
       expect(user).not_to be_valid
     end
     
@@ -81,17 +98,6 @@ RSpec.describe User, type: :model do
         # expect(second_user.valid?).to be false
         expect(second_user).not_to be_valid
       end
-    end
-    
-    it "requires email with correct format" do
-      incorrect_emails = ["email.email.com", "@email.com", "email@email"]
-      users = []
-      
-      incorrect_emails.each_with_index do |adr, ix|
-        users << ix = User.new(email: adr, password: "password")
-      end
-      
-      users.each { |usr| expect(usr).not_to be_valid }
     end
     
     # def build_correct_user(email: "first@email.com", password: "password")
