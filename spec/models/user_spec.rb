@@ -46,9 +46,11 @@ RSpec.describe User, type: :model do
       expect(@user).not_to be_valid
     end
     
-    let(:first_user) do 
-      @first_user_info = { email: "first@email.com", password: "password" }
-      User.create(@first_user_info)
+    it "assigns false to admin attr by default" do
+      build_correct_user
+      
+      # expect(user.admin).to be false
+      expect(@user).not_to be_admin
     end
     
     it "requires unique email address" do
@@ -56,7 +58,7 @@ RSpec.describe User, type: :model do
       # User.new(first_user_info)
       build_correct_user
       @user.save
-      @second_user = @user.clone
+      @second_user = User.new(email: @user.email, password: "password")
       
       # second_user = User.new(email: "user@email.com", password: "password")
       # second_user = build_correct_user
@@ -68,15 +70,14 @@ RSpec.describe User, type: :model do
     it "confirms case insensitivity with email uniqueness" do
       # first_user_info = { email: "first@email.com", password: "password" }
       # User.new(first_user_info)
-      build_correct_user
-      @user.save
-      @second_user = @user.clone
-      @second_user.email = @user.email.upcase
+      user = User.create(email: "second_user@email.com", password: "password")
+      second_user = User.new(email: user.email.upcase, password: "password")
+      # @second_user.email = @user.email.upcase
       # second_user_info = @first_user_info.each { |k, v| v.upcase! if k == :email }
       # second_user = User.new(second_user_info)    
       
       # expect(second_user.valid?).to be false
-      expect(@second_user).not_to be_valid
+      expect(second_user).not_to be_valid
     end
     
     it "requires email with correct format" do
@@ -89,13 +90,5 @@ RSpec.describe User, type: :model do
       
       users.each { |usr| expect(usr).not_to be_valid }
     end
-    
-    it "assigns false to admin attr by default" do
-      build_correct_user
-      
-      # expect(user.admin).to be false
-      expect(@user).not_to be_admin
-    end
-    
   end
 end
