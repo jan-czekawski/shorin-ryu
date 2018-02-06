@@ -9,9 +9,9 @@
       <div class="card">
         <%= show_avatar(user) %>
         <div class="card-body">
-          <h6 class="card-title"><%= extract_name(user) %></h6>
+          <h5 class="card-title"><%= extract_name(user) %></h5>
           <p class="card-text"><p>
-          <% if user == current_user %>
+          <% if current_user?(user) %>
             <%= link_to "Edit", edit_user_registration_path, class: "btn btn-warning" %>
           <% end %>
           <%= link_to "Show", "#", class: "btn btn-info" %>

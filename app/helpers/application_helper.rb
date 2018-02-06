@@ -6,7 +6,12 @@ module ApplicationHelper
   end
   
   def extract_name(user)
-    user.email.slice(/\w+(?=@)/)
-    # user.email.split(/@/)[0]
+    # name = user.email.split(/@/)[0]
+    name = user.email.slice(/\w+(?=@)/)
+    truncate(name, length: 15)
+  end
+  
+  def current_user?(user)
+    self == current_user
   end
 end
