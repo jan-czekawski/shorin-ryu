@@ -5,13 +5,17 @@
 </div>
 <div class="row">
   <% @users.each do |user| %>
-    <div class="col-md-4 my-3">
+    <div class="col-md-3 my-3">
       <div class="card">
-        <img class="card-img-top" src="..." alt="Card image cap">
+        <%= show_avatar(user) %>
         <div class="card-body">
           <h5 class="card-title"><%= user.email %></h5>
           <p class="card-text"><p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <% if current_user == user %>
+            <%= link_to "Edit user info", edit_user_registration_path, class: "btn btn-warning" %>
+          <% else %>
+            <%= link_to "Show user info", "#", class: "btn btn-info" %>
+          <% end %>
         </div>
       </div>
     </div>
