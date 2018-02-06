@@ -4,4 +4,9 @@ module ApplicationHelper
     path = "https://secure.gravatar.com/avatar/#{id}?s=#{size}&d=mm"
     image_tag(path, alt: user.email, class: "avatar")
   end
+  
+  def extract_name(user)
+    user.email.slice(/\w+(?=@)/)
+    # user.email.split(/@/)[0]
+  end
 end
