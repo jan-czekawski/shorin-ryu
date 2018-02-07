@@ -9,6 +9,10 @@ RSpec.describe UsersController, type: :controller do
     @count = User.count
   end
   
+  after(:all) do
+    User.delete_all
+  end
+  
   describe "Users#index" do
     
     it "redirects to root unless user's logged in" do
@@ -33,9 +37,31 @@ RSpec.describe UsersController, type: :controller do
   
   describe "Users#destroy" do
     it "redirects to root unless user's logged_in" do
-      delete :destroy, params: { id: @user.id }
+      expect do
+        delete :destroy, params: { id: @user.id }
+      end.not_to change(User, :count)
+
       expect(response).to redirect_to(root_path)
-      expect(User.count).to eq(@count)
+    end
+    
+    it "redirects to root unless user's admin" do
+      sign_in @second_user
+      
+      expect do
+        delete :destroy, params: { id: @user.id }
+      end.not_to change(User, :count)
+      
+      expect(response).to redirect_to(root_path)
+    end
+    
+    it "deletes other user if logged user's admin", :delete do
+      sign_in @admin
+      
+      expect do
+        delete :destroy, params: { id: @user.id }
+      end.to change(User, :count).by(-1)
+      
+      expect(response).to redirect_to(users_path)
     end
   end
 end
