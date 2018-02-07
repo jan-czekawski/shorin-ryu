@@ -14,4 +14,5 @@ module ApplicationHelper
   def current_user?(user)
     self == current_user
   end
+
 end
