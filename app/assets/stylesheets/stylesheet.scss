@@ -11,6 +11,7 @@ h1 {
 
 body {
   background-color: $pearl;
+  color: $black_dojo;
 }
 
 .avatar {
@@ -33,6 +34,10 @@ body {
 .logo {
   margin-bottom: .2em;
   margin-right: 1em;
+}
+
+.navbar {
+  background-color: $white_dojo;
 }
 
 // body {
