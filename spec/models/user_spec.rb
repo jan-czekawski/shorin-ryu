@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe User, ".new", :new do
+  describe User, ".new" do
     
     after(:all) do
       User.delete_all

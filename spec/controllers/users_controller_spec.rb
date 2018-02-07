@@ -6,12 +6,11 @@ RSpec.describe UsersController, type: :controller do
     @user = create(:user, email: "controller@email.com")
     @second_user = create(:user, email: "second_controller@email.com")
     @admin = create(:admin, email: "admin@email.com")
-    @count = User.count
   end
   
-  after(:all) do
-    User.delete_all
-  end
+  # after(:all) do
+  #   User.delete_all
+  # end
   
   describe "Users#index" do
     
@@ -54,7 +53,7 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to redirect_to(root_path)
     end
     
-    it "deletes other user if logged user's admin", :delete do
+    it "deletes other user if logged user's admin" do
       sign_in @admin
       
       expect do
