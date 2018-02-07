@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in?, only: [:index]
+  before_action :logged_in?, only: [:index, :destroy]
   before_action :set_user, only: [:show, :destroy]
   
   def index
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     flash[:alert] = "User was deleted!"
-    redirect_to root_path
+    redirect_to users_path
   end
   
   private
