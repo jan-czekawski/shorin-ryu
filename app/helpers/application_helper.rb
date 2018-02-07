@@ -12,7 +12,7 @@ module ApplicationHelper
   end
   
   def current_user?(user)
-    self == current_user
+    user == current_user
   end
 
 end
