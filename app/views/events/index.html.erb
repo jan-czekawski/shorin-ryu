@@ -1,1 +1,10 @@
 <h1>Events index</h1>
+<% @events.each do |event| %>
+  <ul>
+    <li><%= event.name %></li>
+    <li><%= event.address[:city] %></li>
+    <li><%= event.address[:street] %> <%= event.address[:house_number] %></li>
+    <li><%= event.address[:zip_code] %></li>
+    <%= link_to "Show", event, class: "btn btn-info" %>
+  </ul>
+<% end %>
