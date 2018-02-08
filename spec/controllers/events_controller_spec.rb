@@ -5,6 +5,10 @@ RSpec.describe EventsController, type: :controller do
   before(:all) do
     @event = Event.create(name: "home", address: {city: "Poznan"})
   end
+  
+  after(:all) do
+    Event.delete_all
+  end
 
   describe "GET index" do
     it "returns http success" do
@@ -16,6 +20,13 @@ RSpec.describe EventsController, type: :controller do
   describe "GET show" do
     it "returns http success" do
       get :show, params: { id: @event.id }
+      expect(response).to have_http_status(:success)
+    end
+  end
+  
+  describe "GET new" do
+    it "returns http success" do
+      get :new
       expect(response).to have_http_status(:success)
     end
   end
