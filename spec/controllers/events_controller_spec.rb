@@ -1,18 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe EventsController, type: :controller do
+  
+  before(:all) do
+    @event = Event.create(name: "home", address: {city: "Poznan"})
+  end
 
-  describe "GET #name:string" do
+  describe "GET index" do
     it "returns http success" do
-      # get :name:string
-      # expect(response).to have_http_status(:success)
+      get :index
+      expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET #address:object" do
+  describe "GET show" do
     it "returns http success" do
-      # get :address:object
-      # expect(response).to have_http_status(:success)
+      get :show, params: { id: @event.id }
+      expect(response).to have_http_status(:success)
     end
   end
 
