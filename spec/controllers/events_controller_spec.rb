@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe EventsController, type: :controller do
   
   before(:all) do
-    @example_event = create(:event)
     @user = create(:user, email: "test@event.com")
     @admin = create(:admin, email: "admin@event.com")
+    @example_event = create(:event, user_id: @user.id)
   end
   
   after(:all) do
@@ -38,6 +38,7 @@ RSpec.describe EventsController, type: :controller do
     it "creates new event if all info is provided" do
       expect do
         post :create, params: { event: { name: "Home",
+                                         user_id: @user.id,
                                          address: { city: "home_city",
                                                     street: "home street",
                                                     flat_number: 11,
