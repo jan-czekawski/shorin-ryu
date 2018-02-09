@@ -56,5 +56,19 @@ RSpec.describe EventsController, type: :controller do
       expect(response).to render_template("new")
     end
   end
+  
+  describe "PUT update" do
+    it "updates info and redirects if correct info is provided" do
+      put :update, params: { id: @example_event.id,
+                             event: { name: "change_example",
+                                      address: { city: "changed_city",
+                                                 street: "changed_street",
+                                                 flat_number: 666,
+                                                 zip_code: 999 } } }
+      @example_event.reload
+      expect(@example_event.name).to eq("change_example")
+      expect(@example_event.address[:city]).to eq("changed_city")
+    end
+  end
 
 end

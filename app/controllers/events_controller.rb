@@ -11,7 +11,7 @@ class EventsController < ApplicationController
     @event = Event.new
   end
   
-  # def edit; end
+  def edit; end
     
   def create
     @event = Event.new(event_params)
@@ -23,6 +23,15 @@ class EventsController < ApplicationController
     end
   end
   
+  def update
+    if @event.update_attributes(event_params)
+      flash[:info] = "Event was successfully updated!"
+      redirect_to @event
+    else
+      render "edit"
+    end
+  end
+  
 
   private
   
@@ -31,6 +40,9 @@ class EventsController < ApplicationController
   end
   
   def event_params
-    params.require(:event).permit(:name)
+    params.require(:event).permit(:name, address: [:city,
+                                                   :street,
+                                                   :flat_number,
+                                                   :zip_code])
   end
 end
