@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
-  before_action(:set_event, only: [:show, :edit, :update, :destroy])
+  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, only: [:destroy]
+  before_action :require_admin, only: [:destroy]
   
   def index
     @events = Event.all
@@ -32,7 +34,12 @@ class EventsController < ApplicationController
     end
   end
   
-
+  def destroy
+    @event.destroy
+    flash[:danger] = "Event was successfully deleted!"
+    redirect_to events_path
+  end
+  
   private
   
   def set_event
@@ -44,5 +51,17 @@ class EventsController < ApplicationController
                                                    :street,
                                                    :flat_number,
                                                    :zip_code])
+  end
+  
+  def require_user
+    return if user_signed_in?
+    flash[:alert] = "You must be logged in to do that!"
+    redirect_to root_path
+  end
+  
+  def require_admin
+    return if current_user.admin?
+    flash[:alert] = "You must be an admin to do that!"
+    redirect_to root_path
   end
 end

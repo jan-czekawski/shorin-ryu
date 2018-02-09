@@ -8,9 +8,9 @@ RSpec.describe UsersController, type: :controller do
     @admin = create(:admin, email: "admin@email.com")
   end
   
-  # after(:all) do
-  #   User.delete_all
-  # end
+  after(:all) do
+    User.delete_all
+  end
   
   describe "Users#index" do
     

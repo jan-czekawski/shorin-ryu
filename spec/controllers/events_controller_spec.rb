@@ -4,6 +4,8 @@ RSpec.describe EventsController, type: :controller do
   
   before(:all) do
     @example_event = create(:event)
+    @user = create(:user, email: "test@event.com")
+    @admin = create(:admin, email: "admin@event.com")
   end
   
   after(:all) do
@@ -78,4 +80,26 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+  describe "DELETE destroy" do
+    it "doesn't delete event unless user's logged in" do
+      sign_out @user if @user
+      expect do
+        delete :destroy, params: { id: @example_event.id }
+      end.not_to change(Event, :count)
+    end
+    
+    it "doesn't delete event unless user's logged in" do
+      sign_in @user
+      expect do
+        delete :destroy, params: { id: @example_event.id }
+      end.not_to change(Event, :count)
+    end
+    
+    it "deletes event if user's logged in and is admin" do
+      sign_in @admin
+      expect do
+        delete :destroy, params: { id: @example_event.id }
+      end.to change(Event, :count).by(-1)
+    end
+  end
 end
