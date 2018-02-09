@@ -57,6 +57,13 @@ RSpec.describe EventsController, type: :controller do
     end
   end
   
+  describe "GET edit" do
+    it "returns http success" do
+      get :edit, params: { id: @example_event.id }
+      expect(response).to have_http_status(:success)
+    end
+  end
+  
   describe "PUT update" do
     it "updates info and redirects if correct info is provided" do
       put :update, params: { id: @example_event.id,
