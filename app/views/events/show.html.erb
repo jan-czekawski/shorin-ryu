@@ -1,1 +1,9 @@
 <h1>Show <%= @event.name %></h1>
+  <ul>
+    <li><%= @event.name %></li>
+    <li><%= @event.address[:city] %></li>
+    <li><%= @event.address[:street] %> <%= @event.address[:house_number] %></li>
+    <li><%= @event.address[:zip_code] %></li>
+    <%= link_to "Edit", edit_event_path(@event), class: "btn btn-warning" %>
+    <%= link_to "Delete", event_path(@event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
+  </ul>
