@@ -8,7 +8,7 @@
         <%= f.text_field :name, class: "form-control" %>
       </div>
       
-      <%= fields_for "event[address]" do |adr_form| %>
+      <%= f.fields_for :address do |adr_form| %>
         <div class="row">
           <div class="form-group col-md-8">
             <%= adr_form.label :street %>
@@ -34,9 +34,7 @@
         </div>
       <% end %>
       
-      <div class="mb-2">
-        <%= f.submit "Update", class: "btn btn-success btn-wide" %>        
-      </div>
+      <%= f.submit "Update", class: "btn btn-success btn-wide" %>        
 
     <% end %>
   </div>
