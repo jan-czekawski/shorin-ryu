@@ -10,6 +10,7 @@ RSpec.describe EventsController, type: :controller do
   
   after(:all) do
     Event.delete_all
+    User.delete_all
   end
 
   describe "GET index" do
