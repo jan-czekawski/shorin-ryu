@@ -1,1 +1,41 @@
-<h1>New event</h1>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h1>New event</h1>
+    <%= form_for @event do |f| %>
+      
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      
+      <%= f.fields_for :address do |adr_form| %>
+        <div class="row">
+          <div class="form-group col-md-8">
+            <%= adr_form.label :street %>
+            <%= adr_form.text_field :street, class: "form-control" %>
+          </div>  
+          
+          <div class="form-group col-md-4">
+            <%= adr_form.label :flat_number %>
+            <%= adr_form.text_field :flat_number, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-8">
+            <%= adr_form.label :city %>
+            <%= adr_form.text_field :city, class: "form-control" %>
+          </div>
+          
+          <div class="form-group col-md-4">
+            <%= adr_form.label :zip_code %>
+            <%= adr_form.text_field :zip_code, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
+      
+      <%= f.submit "Create", class: "btn btn-success btn-wide" %>        
+
+    <% end %>
+  </div>
+</div>

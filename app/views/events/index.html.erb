@@ -6,5 +6,6 @@
     <li><%= event.address[:street] %> <%= event.address[:house_number] %></li>
     <li><%= event.address[:zip_code] %></li>
     <%= link_to "Show", event, class: "btn btn-info" %>
+    <%= link_to "Edit", edit_event_path(event), class: "btn btn-warning" %>
   </ul>
 <% end %>
