@@ -1,7 +1,9 @@
 <% flash.each do |name, message| %>
+<div class="<%= @flash_row %>">
   <% name == "alert" ? alert_name = "danger" : alert_name = "success" %>
-  <div class='alert my-3 alert-<%= alert_name %>'>
+  <div class='alert my-3 alert-<%= alert_name %> <%= @flash_col %>'>
     <a class="close" href="#" data-dismiss="alert">&times;</a>
     <%= content_tag :div, message, id: "flash_#{name}" if message.is_a?(String) %>
   </div>
+</div>
 <% end %>
