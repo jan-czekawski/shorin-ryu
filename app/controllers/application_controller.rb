@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  before_action :set_class, except: [:home]
   
   def home; end
 
@@ -13,6 +14,10 @@ class ApplicationController < ActionController::Base
     return if current_user.admin?
     flash[:alert] = "You must be an admin to do that!"
     redirect_to root_path
+  end
+  
+  def set_class
+    @body_class = "container"
   end
 
 end
