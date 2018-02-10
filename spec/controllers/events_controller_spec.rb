@@ -9,8 +9,8 @@ RSpec.describe EventsController, type: :controller do
   end
   
   after(:all) do
-    Event.delete_all
     User.delete_all
+    Event.delete_all
   end
 
   describe "GET index" do
@@ -29,6 +29,7 @@ RSpec.describe EventsController, type: :controller do
   
   describe "GET new" do
     it "returns http success" do
+      sign_in @user
       get :new
       expect(response).to have_http_status(:success)
     end
@@ -36,9 +37,9 @@ RSpec.describe EventsController, type: :controller do
   
   describe "POST create" do
     it "creates new event if all info is provided" do
+      sign_in @user
       expect do
         post :create, params: { event: { name: "Home",
-                                         user_id: @user.id,
                                          address: { city: "home_city",
                                                     street: "home street",
                                                     flat_number: 11,
@@ -50,6 +51,7 @@ RSpec.describe EventsController, type: :controller do
     
     
     it "creates no event if all info is not provided" do
+      sign_in @user
       expect do
         post :create, params: { event: { name: nil,
                                         address: { city: "home_city",
