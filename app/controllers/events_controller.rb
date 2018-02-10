@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
-  before_action :require_user, only: [:destroy]
+  before_action :require_user, only: [:new, :create, :destroy]
   before_action :require_admin, only: [:destroy]
   
   def index
@@ -10,13 +10,15 @@ class EventsController < ApplicationController
   def show; end
   
   def new
-    @event = Event.new
+    @user = current_user
+    @event = @user.events.new
   end
   
   def edit; end
     
   def create
-    @event = Event.new(event_params)
+    @user = current_user
+    @event = @user.events.new(event_params)
     if @event.save
       flash[:info] = "New event was created!"
       redirect_to events_path
