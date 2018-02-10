@@ -1,11 +1,24 @@
-<h1>Events index</h1>
-<% @events.each do |event| %>
-  <ul>
-    <li><%= event.name %></li>
-    <li><%= event.address[:city] %></li>
-    <li><%= event.address[:street] %> <%= event.address[:house_number] %></li>
-    <li><%= event.address[:zip_code] %></li>
-    <%= link_to "Show", event, class: "btn btn-info" %>
-    <%= link_to "Edit", edit_event_path(event), class: "btn btn-warning" %>
-  </ul>
-<% end %>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h1>Events</h1>
+  </div>
+</div>
+<div class="row">
+  <% @events.each do |event| %>
+    <div class="col-lg-3 col-md-6 my-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= event.name %></h5>
+          <p class="card-text">
+            <b>City:</b> <%= event.address[:city] %> <b>Zip-code:</b> <%= event.address[:zip_code] %>  
+          <p>
+          <p>
+            <b>Street:</b> <%= event.address[:street] %> <%= event.address[:house_number] %>    
+          </p>
+          <%= link_to "Show", event, class: "btn btn-info" %>
+          <%= link_to "Edit", edit_event_path(event), class: "btn btn-warning" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
