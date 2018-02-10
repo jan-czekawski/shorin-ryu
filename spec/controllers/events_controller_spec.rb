@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe EventsController, type: :controller do
   
   before(:all) do
-    @user = create(:user, email: "test@event.com")
-    @admin = create(:admin, email: "admin@event.com")
+    @user = create(:user, email: "test@event.com", login: "first_event_controller")
+    @admin = create(:admin, email: "admin@event.com", login: "admin_event_controller")
     @example_event = create(:event, user_id: @user.id)
   end
   

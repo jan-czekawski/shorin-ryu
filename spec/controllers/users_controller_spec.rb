@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   
   before(:all) do
-    @user = create(:user, email: "controller@email.com")
-    @second_user = create(:user, email: "second_controller@email.com")
-    @admin = create(:admin, email: "admin@email.com")
+    @user = create(:user, email: "controller@email.com", login: "first_controller")
+    @second_user = create(:user, email: "second_controller@email.com", login: "second_controller")
+    @admin = create(:admin, email: "admin@email.com", login: "admin_controller")
   end
   
   after(:all) do

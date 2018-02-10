@@ -8,7 +8,7 @@ RSpec.describe Event, type: :model do
     end
     
     it "creates valid event" do
-      user = create(:user, email: "event@associate.com")
+      user = create(:user, email: "event@associate.com", login: "event")
       event = build(:event, user_id: user.id)
       expect(event).to be_valid
     end

@@ -2,10 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Devise::RegistrationsController, type: :controller do
   
-  before(:all) do
-    User.delete_all
-  end
-  
   after(:all) do
     User.delete_all
   end
@@ -23,6 +19,7 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
       # end.to change(User, :count).by(1)
       expect do
         User.create(email: "devise@email.com",
+                    login: "devise",
                     password: "password",
                     password_confirmation: "password")
       end.to change(User, :count).by(1)

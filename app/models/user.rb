@@ -12,8 +12,10 @@ class User
 
   # VALIDATIONS
   validates :email, format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :login, presence: true, uniqueness: { case_sensitive: false } 
 
   ## Database authenticatable
+  field :login,              type: String, default: ""
   field :email,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
   field :admin,              type: Boolean, default: false
