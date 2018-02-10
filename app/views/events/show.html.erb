@@ -10,6 +10,12 @@
         <p class="card-text">
           <b>Street: </b><%= @event.address[:street] %> <%= @event.address[:house_number] %>
         <p>
+        <p class="card-text">
+          <b>Added by: </b><%= link_to @event.user.login, user_path(@event.user) %>
+        <p>
+        <p class="card-text">
+          <b>Created: </b><%= @event.created_at.strftime("%e-%b-%Y") %>
+        <p>
         <%= link_to "Edit", edit_event_path(@event), class: "btn btn-warning" %>
         <%= link_to "Delete", event_path(@event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
       </div>

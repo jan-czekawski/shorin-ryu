@@ -5,7 +5,7 @@
       <%= show_avatar(@user, 200) %>
       <div class="card-body">
         <h5 class="card-title">User's login: <%= @user.login %></h5>
-        <h5 class="card-title">User created: <%= @user.created_at %></h5>
+        <h5 class="card-title">User created: <%= @user.created_at.strftime("%e-%b-%Y") %></h5>
         <p class="card-text"><p>
         <% if current_user?(@user) %>
           <%= link_to "Edit", edit_user_registration_path(@user), class: "btn btn-warning" %>
