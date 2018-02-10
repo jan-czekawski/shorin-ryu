@@ -8,7 +8,7 @@ class User
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable#, :confirmable
          
-  has_many :events
+  has_many :events, dependent: :destroy
 
   # VALIDATIONS
   validates :email, format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
