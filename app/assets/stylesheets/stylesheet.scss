@@ -12,6 +12,7 @@ h1 {
 body {
   background-color: $pearl;
   color: $black_dojo;
+  padding-top: 60px;
 }
 
 .avatar {
@@ -51,4 +52,15 @@ body {
 .col-10.absolute {
   position: absolute;
   z-index: 1;
+}
+
+.btn {
+  transition-property: padding;
+  transition-duration: 0.5s;
+  transition-delay: 0.1s;
+}
+
+.btn:hover {
+  padding-left: 1em;
+  padding-right: 1em;
 }
