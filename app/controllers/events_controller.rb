@@ -38,7 +38,7 @@ class EventsController < ApplicationController
   
   def destroy
     @event.destroy
-    flash[:danger] = "Event was successfully deleted!"
+    flash[:alert] = "Event was successfully deleted!"
     redirect_to events_path
   end
   
@@ -57,7 +57,7 @@ class EventsController < ApplicationController
   
   def require_same_user
     return if current_user.events.include?(@event) || current_user.admin?
-    flash[:danger] = "You can only delete events you've created."
+    flash[:alert] = "You can only delete events you've created."
     redirect_to events_path
   end
 end
