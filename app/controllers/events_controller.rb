@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
-  before_action :require_user, only: [:new, :create, :destroy]
-  before_action :require_admin, only: [:destroy]
+  before_action :require_user, only: [:new, :create, :edit, :update, :destroy]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
   
   def index
     @events = Event.all
@@ -53,5 +53,11 @@ class EventsController < ApplicationController
                                                               :street,
                                                               :flat_number,
                                                               :zip_code])
+  end
+  
+  def require_same_user
+    return if current_user.events.include?(@event) || current_user.admin?
+    flash[:danger] = "You can only delete events you've created."
+    redirect_to events_path
   end
 end
