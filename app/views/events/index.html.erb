@@ -10,8 +10,11 @@
         <div class="card-body">
           <h5 class="card-title"><%= event.name %></h5>
           <p class="card-text">
-            <b>City:</b> <%= event.address[:city] %> <b>Zip-code:</b> <%= event.address[:zip_code] %>  
+            <b>City:</b> <%= event.address[:city] %>
           <p>
+          <p class="card-text">
+            <b>Postal code:</b> <%= event.address[:zip_code] %>
+          </p>
           <p>
             <b>Street:</b> <%= event.address[:street] %> <%= event.address[:house_number] %>    
           </p>

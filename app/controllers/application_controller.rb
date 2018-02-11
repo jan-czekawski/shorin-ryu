@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
   
   def set_class
-    @body_class = "container"
+    @body_class = "container-fluid"
   end
   
   def set_flash
