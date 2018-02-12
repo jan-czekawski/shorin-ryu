@@ -21,4 +21,5 @@ FactoryBot.define do
               flat_number: 12,
               zip_code: 20-192 })
   end
+  
 end
