@@ -1,32 +1,39 @@
-<div class="row justify-content-center">
+<div class="row">
   <div class="col-md-6">
     <h1>Events</h1>
   </div>
 </div>
 <div class="row">
-  <% @events.each do |event| %>
-    <div class="col-lg-3 col-md-6 my-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title"><%= event.name %></h5>
-          <p class="card-text">
-            <b>City:</b> <%= event.address[:city] %>
-          <p>
-          <p class="card-text">
-            <b>Postal code:</b> <%= event.address[:zip_code] %>
-          </p>
-          <p>
-            <b>Street:</b> <%= event.address[:street] %> <%= event.address[:house_number] %>    
-          </p>
-          <p>
-            <b>Added by:</b> <%= link_to event.user.login, user_path(event.user) %>
-          </p>
-          <%= link_to "Show", event, class: "btn btn-info" %>
-          <% if is_owner_or_admin?(current_user, event) %>
-            <%= link_to "Edit", edit_event_path(event), class: "btn btn-warning" %>
-          <% end %>
+  <section class="col-md-9">
+    <% @events.each do |event| %>
+      <div class="card my-3">
+        <div class="row">
+          <div class="col-md-4">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ducimus totam non odio, ipsam officia nisi numquam excepturi eos voluptates ea vitae similique error consequuntur consectetur, nemo minus. Eius, possimus.</p>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title"><%= event.name %></h5>
+              <p class="card-text">
+                <b>Address:</b> <%= event.address[:street] %> <%= event.address[:house_number] %>,
+                 <%= event.address[:zip_code] %> <%= event.address[:city] %>,
+                <small><b>added by:</b> <%= link_to event.user.login, user_path(event.user) %></small>
+              </p>
+              <p class="card-text">
+                
+                <%= link_to "Show", event, class: "btn btn-info" %>
+                <% if is_owner_or_admin?(current_user, event) %>
+                  <%= link_to "Edit", edit_event_path(event), class: "btn btn-warning" %>
+                <% end %>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>    
+  </section>
+  <aside class="col-md-3">
+    
+  </aside>
+
 </div>
