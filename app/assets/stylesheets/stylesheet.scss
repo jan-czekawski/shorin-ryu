@@ -36,14 +36,21 @@ body {
 }
 
 .navbar,
-.navbar .dropdown-menu {
+.navbar .dropdown-menu,
+.dropdown-item:hover {
   background-color: $black_dojo;
-  font-family: cursive
+  font-family: cursive;
+  color: darken($white_dojo, 10%);
 }
 
 .navbar a,
 .navbar button {
   color: $white_dojo;  
+}
+
+.navbar a:hover,
+.navbar button:hover {
+  color: darken($white_dojo, 10%);
 }
 
 .custom-toggler .navbar-toggler-icon {
