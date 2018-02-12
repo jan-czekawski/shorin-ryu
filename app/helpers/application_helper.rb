@@ -14,5 +14,10 @@ module ApplicationHelper
   def current_user?(user)
     user == current_user
   end
+  
+  def is_owner_or_admin?(user, resource)
+    return false unless user_signed_in?
+    user.admin? || (resource.user_id == user._id)
+  end
 
 end
