@@ -18,7 +18,6 @@ RSpec.describe User, type: :model do
       # exercise
       # user = build_correct_user
       user = build(:user)
-  
       # new_count = User.all.count
       
       # verify
@@ -34,7 +33,6 @@ RSpec.describe User, type: :model do
     it "requires that email is present" do
       # user = build_correct_user(email: nil)
       user = build(:user, email: nil)
-      
       # expect(user.valid?).to be false
       expect(user).not_to be_valid
     end
@@ -80,12 +78,15 @@ RSpec.describe User, type: :model do
     end
     
     context "when email already exists" do
+      
+      before(:all) do
+        @user = create(:user)
+      end
+      
       it "requires unique email address" do
         # first_user_info = { email: "first@email.com", password: "password" }
         # User.new(first_user_info)
-        create(:user, email: "second@email.com", login: "second")
-        second_user = build(:user, email: "second@email.com")
-        
+        second_user = build(:user, email: @user.email, login: @user.login[1..-1])
         # second_user = User.new(email: "user@email.com", password: "password")
         # second_user = build_correct_user
         # p second_user, user
@@ -97,8 +98,7 @@ RSpec.describe User, type: :model do
         # first_user_info = { email: "first@email.com", password: "password" }
         # User.new(first_user_info)
         # user = User.create(email: "second_user@email.com", password: "password")
-        create(:user, email: "third@email.com", login: "third")
-        second_user = build(:user, email: "THIRD@email.com")
+        second_user = build(:user, email: @user.email.upcase, login: @user.login[1..-1])
         # @second_user.email = user.email.upcase
         # second_user_info = @first_user_info.each { |k, v| v.upcase! if k == :email }
         # second_user = User.new(second_user_info)    
@@ -109,15 +109,18 @@ RSpec.describe User, type: :model do
     end
     
     context "when login already exists" do
+      
+      before(:all) do
+        @user = create(:user)
+      end
+      
       it "requires unique login" do
-        create(:user, email: "first_login@email.com", login: "fourth")
-        second_user = build(:user, email: "second_login@email.com", login: "fourth")
+        second_user = build(:user, email: @user.email[1..-1] , login: @user.login)
         expect(second_user).not_to be_valid
       end
       
       it "confirms case insensitivity with email uniqueness" do
-        create(:user, email: "second_login@email.com", login: "fifth")
-        second_user = build(:user, email: "third_login@email.com", login: "FIFTH")
+        second_user = build(:user, email: @user.email[1..-1], login: @user.login.upcase)
         expect(second_user).not_to be_valid
       end
     end
