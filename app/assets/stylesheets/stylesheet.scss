@@ -1,8 +1,6 @@
-$black_dojo: #0B0B10;
-$white_dojo: #F7FFF7;
-$light_red: #EF6461;
-$earth_yellow: #E4B363;
-$pearl: #E5F2C9;
+// @import url('https://fonts.googleapis.com/css?family=Nanum+Brush+Script&subset=korean');
+
+@import "variables";
 
 h1 {
   // font-size: 2em;
@@ -37,8 +35,19 @@ body {
   margin-right: 1em;
 }
 
-.navbar {
-  background-color: $white_dojo;
+.navbar,
+.navbar .dropdown-menu {
+  background-color: $black_dojo;
+  font-family: cursive
+}
+
+.navbar a,
+.navbar button {
+  color: $white_dojo;  
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#F7FFF7' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
 .d-block.w-100 {
