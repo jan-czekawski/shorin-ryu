@@ -22,4 +22,12 @@ FactoryBot.define do
               zip_code: 20-192 })
   end
   
+  factory :item do
+    name "MyString"
+    description "MyText"
+    size {}
+    price 1.0
+    item_id 1
+    picture "MyString"
+  end
 end
