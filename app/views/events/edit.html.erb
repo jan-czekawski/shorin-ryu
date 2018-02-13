@@ -1,7 +1,17 @@
 <div class="row justify-content-center">
   <div class="col-md-6">
-    <h1>Edit <%= @event.name %></h1>
+    <h1>Edit</h1>
     <%= form_for @event do |f| %>
+
+      <% if @event.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <ul>
+            <% @event.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
       
       <div class="form-group">
         <%= f.label :name %>
@@ -16,8 +26,8 @@
           </div>  
           
           <div class="form-group col-md-4">
-            <%= adr_form.label :flat_number %>
-            <%= adr_form.text_field :flat_number, class: "form-control" %>
+            <%= adr_form.label :house_number %>
+            <%= adr_form.text_field :house_number, class: "form-control" %>
           </div>
         </div>
 

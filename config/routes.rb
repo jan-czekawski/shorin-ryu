@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources "users", only: [:index, :show, :destroy]
+  resources "users", only: [:index, :show, :destroy] do
+    get :image, on: :member
+  end
   resources "events"
   resources "items"
   root "application#home"
