@@ -9,20 +9,16 @@
       <div class="card my-3">
         <div class="row">
           <div class="col-md-4">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ducimus totam non odio, ipsam officia nisi numquam excepturi eos voluptates ea vitae similique error consequuntur consectetur, nemo minus. Eius, possimus.</p>
+            <%= image_tag(item.image, size: 150, class: "avatar") %>
           </div>
           <div class="col-md-8">
             <div class="card-body">
               <h4 class="card-title"><%= item.name %></h5>
+              <p class="card-text"><%= item.description %></p>
+              <small><%= item.store_item_id %></small>
               <p class="card-text">
-                <b>Address:</b> <%= item.address[:street] %> <%= item.address[:house_number] %>,
-                 <%= item.address[:zip_code] %> <%= item.address[:city] %>,
-                <small><b>added by:</b> <%= link_to item.user.login, user_path(item.user) %></small>
-              </p>
-              <p class="card-text">
-                
                 <%= link_to "Show", item, class: "btn btn-info" %>
-                <% if is_owner_or_admin?(current_user, item) %>
+                <% if current_user.admin? %>
                   <%= link_to "Edit", edit_item_path(item), class: "btn btn-warning" %>
                 <% end %>
               </p>
