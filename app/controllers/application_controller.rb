@@ -1,9 +1,17 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_class, except: [:home]
   before_action :set_flash, only: [:home]
   
   def home; end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:login, :image])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:login, :image])
+  end
 
   private
 
@@ -27,5 +35,4 @@ class ApplicationController < ActionController::Base
     @flash_row = "row justify-content-center"
     @flash_col = "col-10 absolute"
   end
-
 end
