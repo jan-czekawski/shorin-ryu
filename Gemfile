@@ -34,6 +34,8 @@ gem 'devise'
 gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'faker'
+gem 'carrierwave', '~> 1.0'
+gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
