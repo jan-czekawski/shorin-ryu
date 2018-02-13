@@ -1,2 +1,39 @@
-<h1>Items#index</h1>
-<p>Find me in app/views/items/index.html.erb</p>
+<div class="row">
+  <div class="col-md-6">
+    <h1>Items</h1>
+  </div>
+</div>
+<div class="row">
+  <section class="col-md-9">
+    <% @items.each do |item| %>
+      <div class="card my-3">
+        <div class="row">
+          <div class="col-md-4">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ducimus totam non odio, ipsam officia nisi numquam excepturi eos voluptates ea vitae similique error consequuntur consectetur, nemo minus. Eius, possimus.</p>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title"><%= item.name %></h5>
+              <p class="card-text">
+                <b>Address:</b> <%= item.address[:street] %> <%= item.address[:house_number] %>,
+                 <%= item.address[:zip_code] %> <%= item.address[:city] %>,
+                <small><b>added by:</b> <%= link_to item.user.login, user_path(item.user) %></small>
+              </p>
+              <p class="card-text">
+                
+                <%= link_to "Show", item, class: "btn btn-info" %>
+                <% if is_owner_or_admin?(current_user, item) %>
+                  <%= link_to "Edit", edit_item_path(item), class: "btn btn-warning" %>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>    
+  </section>
+  <aside class="col-md-3">
+    
+  </aside>
+
+</div>

@@ -1,2 +1,109 @@
-<h1>Items#new</h1>
-<p>Find me in app/views/items/new.html.erb</p>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h1>New item</h1>
+    <%= form_for @item do |f| %>
+
+      <% if @item.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <ul>
+            <% @item.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      
+      <div class="form-group">
+        <div class="custom-file">
+          <%= f.label :image, class: "custom-file-label" %>
+          <%= f.file_field :image, class: "custom-file-input" %>
+        </div>        
+      </div>
+
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, class: "form-control" %>
+      </div>
+      
+      <%= f.fields_for :size do |size_form| %>
+        <div class="row">
+          <h6 class="col-md-12">Quantity</h6>
+          <div class="form-group col-md-2">
+            <%= size_form.label :xs, "xs" %>
+            <%= size_form.select(:xs) do %>
+              <% (0..99).each do |c| %>
+                <%= content_tag(:option, c) %>
+              <% end %>
+            <% end %>
+          </div>  
+          
+          <div class="form-group col-md-2">
+            <%= size_form.label :sml, "s" %>
+            <%= size_form.select(:sml) do %>
+              <% (0..99).each do |c| %>
+                <%= content_tag(:option, c) %>
+              <% end %>
+            <% end %>
+          </div>
+  
+          <div class="form-group col-md-2">
+            <%= size_form.label :med, "m" %>
+            <%= size_form.select(:med) do %>
+              <% (0..99).each do |c| %>
+                <%= content_tag(:option, c) %>
+              <% end %>
+            <% end %>
+          </div>
+          
+          <div class="form-group col-md-2">
+            <%= size_form.label :lrg, "l" %>
+            <%= size_form.select(:lrg) do %>
+              <% (0..99).each do |c| %>
+                <%= content_tag(:option, c) %>
+              <% end %>
+            <% end %>
+          </div>
+          
+          <div class="form-group col-md-2">
+            <%= size_form.label :x_lrg, "xl" %>
+            <%= size_form.select(:x_lrg) do %>
+              <% (0..99).each do |c| %>
+                <%= content_tag(:option, c) %>
+              <% end %>
+            <% end %>
+          </div>
+          
+          <div class="form-group col-md-2">
+            <%= size_form.label :xx_lrg, "xxl" %>
+            <%= size_form.select(:xx_lrg) do %>
+              <% (0..99).each do |c| %>
+                <%= content_tag(:option, c) %>
+              <% end %>
+            <% end %>
+          </div>          
+        </div>
+
+      <% end %>
+      
+      <div class="row">
+        <div class="form-group col-md-6">
+          <%= f.label :price, "Price (PLN)" %>
+          <%= f.number_field :price, in: 0.01..9999.99, step: 0.01, class: "form-control" %>
+        </div>
+        
+        <div class="form-group col-md-6">
+          <%= f.label :store_item_id, "Item_id" %>
+          <%= f.number_field :store_item_id, in: 220301..320300, step: 1, placeholder: "220301-320300" ,class: "form-control" %>
+        </div>
+      </div>
+
+      <%= f.submit "Create", class: "btn btn-success btn-wide" %>        
+
+    <% end %>
+  </div>
+</div>

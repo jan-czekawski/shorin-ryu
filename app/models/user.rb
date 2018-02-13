@@ -2,7 +2,8 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
-
+  attr_accessor :image, :image_cache 
+  mount_uploader :image, ImageUploader
  
   # include ActiveModel::Validations
   # Include default devise modules. Others available are:
@@ -23,8 +24,7 @@ class User
   field :admin,              type: Boolean, default: false
   field :image,              type: String, default: ""
   
-  attr_accessor :image, :image_cache 
-  mount_uploader :image, ImageUploader
+
   
   ## Recoverable
   field :reset_password_token,   type: String

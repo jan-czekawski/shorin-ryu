@@ -49,10 +49,9 @@ class EventsController < ApplicationController
   end
   
   def event_params
-    params.require(:event).permit(:name, :user_id,  address: [:city,
-                                                              :street,
-                                                              :house_number,
-                                                              :zip_code])
+    params.require(:event).permit(:name, :user_id, address: [:city, :street,
+                                                             :house_number,
+                                                             :zip_code])
   end
   
   def require_same_user
