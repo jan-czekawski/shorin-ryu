@@ -30,7 +30,7 @@
       <% if user_signed_in? %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#!" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= "Signed in as #{extract_name(current_user)}#{current_user.admin? ? ' (Admin)': ''}" %>
+            <%= "Signed in as #{current_user.login}#{current_user.admin? ? ' (Admin)': ''}" %>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <%= link_to "Edit", edit_user_registration_path, class: "dropdown-item" %>
