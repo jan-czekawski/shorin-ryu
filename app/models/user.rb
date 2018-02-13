@@ -1,7 +1,9 @@
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
-  
+
+
+ 
   # include ActiveModel::Validations
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -19,7 +21,11 @@ class User
   field :email,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
   field :admin,              type: Boolean, default: false
-
+  field :image,              type: String, default: ""
+  
+  attr_accessor :image, :image_cache 
+  mount_uploader :image, ImageUploader
+  
   ## Recoverable
   field :reset_password_token,   type: String
   field :reset_password_sent_at, type: Time

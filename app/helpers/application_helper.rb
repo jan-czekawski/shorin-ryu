@@ -1,5 +1,6 @@
 module ApplicationHelper
   def show_avatar(user, size = 100)
+    return image_tag(user.image, alt: user.email, size: 100, class: "avatar") unless user.image.blank?
     id = Digest::MD5.hexdigest(user.email.downcase)
     path = "https://secure.gravatar.com/avatar/#{id}?s=#{size}&d=mm"
     image_tag(path, alt: user.email, class: "avatar")
