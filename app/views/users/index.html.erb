@@ -6,7 +6,7 @@
 <div class="row">
   <% @users.each do |user| %>
     <div class="col-xl-2 col-lg-3 col-md-6 my-3">
-      <div class="card">
+      <div class="card user-card">
         <%= show_avatar(user) %>
         <div class="card-body">
           <h5 class="card-title"><%= user.login %></h5>
