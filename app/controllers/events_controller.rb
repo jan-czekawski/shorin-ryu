@@ -12,9 +12,12 @@ class EventsController < ApplicationController
   def new
     @user = current_user
     @event = @user.events.new
+    @event.build_address
   end
   
-  def edit; end
+  def edit
+    @event.build_address
+  end
     
   def create
     @user = current_user
@@ -49,9 +52,9 @@ class EventsController < ApplicationController
   end
   
   def event_params
-    params.require(:event).permit(:name, :user_id, address: [:city, :street,
-                                                             :house_number,
-                                                             :zip_code])
+    params.require(:event).permit(:name, :user_id, address_attributes: [:city, :street,
+                                                                        :house_number,
+                                                                        :zip_code])
   end
   
   def require_same_user

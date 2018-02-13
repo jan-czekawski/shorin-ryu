@@ -1,4 +1,7 @@
 FactoryBot.define do
+  factory :address do
+    
+  end
 
   sequence :login do |number|
     "John_#{number}"
@@ -18,7 +21,7 @@ FactoryBot.define do
     name "example_city"
     address({ city: "Example",
               street: "11th street",
-              flat_number: 12,
+              house_number: 12,
               zip_code: 20-192 })
   end
   
@@ -27,7 +30,7 @@ FactoryBot.define do
     description "MyText"
     size {}
     price 1.0
-    item_id 1
-    picture "MyString"
+    store_item_id 32001
+    image "MyString"
   end
 end

@@ -42,9 +42,9 @@ RSpec.describe EventsController, type: :controller do
       sign_in @user
       expect do
         post :create, params: { event: { name: "Home",
-                                         address: { city: "home_city",
+                                         address_attributes: { city: "home_city",
                                                     street: "home street",
-                                                    flat_number: 11,
+                                                    house_number: 11,
                                                     zip_code: 200 } } }
       end.to change(Event, :count).by(1)
       expect(response).to redirect_to(events_path)
@@ -56,9 +56,9 @@ RSpec.describe EventsController, type: :controller do
       sign_in @user
       expect do
         post :create, params: { event: { name: nil,
-                                        address: { city: "home_city",
+                                        address_attributes: { city: "home_city",
                                                     street: "home street",
-                                                    flat_number: 11,
+                                                    house_number: 11,
                                                     zip_code: 200 } } }
       end.not_to change(Event, :count)
       expect(response).to render_template("new")
@@ -90,9 +90,9 @@ RSpec.describe EventsController, type: :controller do
       sign_in @user
       put :update, params: { id: @example_event.id,
                              event: { name: "change_example",
-                                      address: { city: "changed_city",
+                                      address_attributes: { city: "changed_city",
                                                  street: "changed_street",
-                                                 flat_number: 666,
+                                                 house_number: 666,
                                                  zip_code: 999 } } }
       @example_event.reload
       expect(@example_event.name).to eq("change_example")
