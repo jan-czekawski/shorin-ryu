@@ -8,6 +8,7 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
+    @item.build_size
   end
 
   def create
@@ -31,7 +32,7 @@ class ItemsController < ApplicationController
   
   def item_params
     params.require(:item).permit(:name, :image, :store_item_id, :price,
-                                 :description, size: [:xs, :sml, :med,
-                                                      :lrg, :x_lrg, :xx_lrg])
+                                 :description, size_attributes: [:xs, :sml, :med,
+                                                                 :lrg, :x_lrg, :xx_lrg])
   end
 end

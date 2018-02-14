@@ -5,10 +5,11 @@ class Item
   
   field :name, type: String
   field :description, type: String
-  field :size, type: Hash
   field :price, type: Float
   field :store_item_id, type: Integer
   field :image, type: String
+  embeds_one :size
   
-
+  accepts_nested_attributes_for :size
+  validates_associated :size
 end

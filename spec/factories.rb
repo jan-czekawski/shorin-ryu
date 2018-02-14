@@ -1,4 +1,7 @@
 FactoryBot.define do
+  factory :size do
+    
+  end
   factory :address do
     
   end
