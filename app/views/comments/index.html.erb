@@ -1,0 +1,6 @@
+<h1>COMMENTS</h1>
+<% @comments.each do |comment| %>
+  <h1><%= User.find(comment.user).login %></h1>
+  <h2><%= comment.commentable_type == "Item" ? Item.find(comment.commentable_id).name : Event.find(comment.commentable_id).name %></h2>
+  <p><%= comment.content %></p>
+<% end %>
