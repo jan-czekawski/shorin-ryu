@@ -1,4 +1,7 @@
 class ItemsController < ApplicationController
+  
+  before_action :set_item, only: [:show, :edit, :update, :delete]
+  
   def index
     @items = Item.all
   end
@@ -25,6 +28,12 @@ class ItemsController < ApplicationController
   end
 
   def update
+    if @item.update(item_params)
+      flash[:info] = "Item has been updated."
+      redirect_to @item
+    else
+      render "edit"
+    end
   end
 
   def delete
@@ -34,5 +43,9 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:name, :image, :store_item_id, :price,
                                  :description, size_attributes: [:xs, :sml, :med,
                                                                  :lrg, :x_lrg, :xx_lrg])
+  end
+  
+  def set_item
+    @item = Item.find(params[:id])
   end
 end
