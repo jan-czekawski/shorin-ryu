@@ -11,16 +11,19 @@
     <% @events.each do |event| %>
       <div class="card my-3">
         <div class="row">
-          <div class="col-md-4">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ducimus totam non odio, ipsam officia nisi numquam excepturi eos voluptates ea vitae similique error consequuntur consectetur, nemo minus. Eius, possimus.</p>
+          <div class="col-md-3 col-xl-2 image">
+            <%= image_tag(event.image, size: 150, class: "avatar") %>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-9 col-xl-10">
             <div class="card-body">
               <h4 class="card-title"><%= event.name %></h5>
               <p class="card-text">
                 <b>Address:</b> <%= event.address[:street] %> <%= event.address[:house_number] %>,
                  <%= event.address[:zip_code] %> <%= event.address[:city] %>,
                 <small><b>added by:</b> <%= link_to event.user.login, user_path(event.user) %></small>
+              </p>
+              <p class="card-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam debitis minima fugit illum, molestiae, deleniti ex, itaque enim, delectus fuga cupiditate. Ipsum distinctio explicabo veniam soluta optio, ad deserunt ex!
               </p>
               <p class="card-text">
                 
