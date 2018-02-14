@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   
-  before_action :set_item, only: [:show, :edit, :update, :delete]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
   
   def index
     @items = Item.all
@@ -36,7 +36,7 @@ class ItemsController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
     @item.delete
     flash[:danger] = "Item has been deleted"
     redirect_to items_path
