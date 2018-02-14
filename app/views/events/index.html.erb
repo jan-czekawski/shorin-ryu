@@ -5,6 +5,9 @@
 </div>
 <div class="row">
   <section class="col-md-9">
+    <% if user_signed_in? && current_user.admin? %>
+      <%= link_to "New event", new_event_path, class: "btn btn-success btn-wide" %>
+    <% end %>
     <% @events.each do |event| %>
       <div class="card my-3">
         <div class="row">
@@ -24,6 +27,7 @@
                 <%= link_to "Show", event, class: "btn btn-info" %>
                 <% if is_owner_or_admin?(current_user, event) %>
                   <%= link_to "Edit", edit_event_path(event), class: "btn btn-warning" %>
+                  <%= link_to "Delete", event_path(event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
                 <% end %>
               </p>
             </div>
