@@ -6,6 +6,7 @@ class Event
   mount_uploader :image, ImageUploader
   
   belongs_to :user
+  has_many :comments, as: :commentable, dependent: :destroy
   
   field :name,  type: String
   field :image, type: String, default: ""

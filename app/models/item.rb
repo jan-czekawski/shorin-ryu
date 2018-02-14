@@ -9,6 +9,7 @@ class Item
   field :store_item_id, type: Integer
   field :image, type: String
   embeds_one :size
+  has_many :comments, as: :commentable, dependent: :destroy
   
   accepts_nested_attributes_for :size
   validates_associated :size
