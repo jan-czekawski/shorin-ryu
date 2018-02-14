@@ -37,6 +37,9 @@ class ItemsController < ApplicationController
   end
 
   def delete
+    @item.delete
+    flash[:danger] = "Item has been deleted"
+    redirect_to items_path
   end
   
   def item_params
