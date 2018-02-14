@@ -1,10 +1,13 @@
-<div class="row">
+<div class="row justify-content-center">
   <div class="col-md-6">
     <h1>Items</h1>
   </div>
 </div>
 <div class="row">
   <section class="col-md-9">
+    <% if user_signed_in? && current_user.admin? %>
+      <%= link_to "New item", new_item_path, class: "btn btn-success btn-wide" %>
+    <% end %>
     <% @items.each do |item| %>
       <div class="card my-3">
         <div class="row">
@@ -20,6 +23,7 @@
                 <%= link_to "Show", item, class: "btn btn-info" %>
                 <% if current_user.admin? %>
                   <%= link_to "Edit", edit_item_path(item), class: "btn btn-warning" %>
+                  <%= link_to "Delete", item_path(item), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
                 <% end %>
               </p>
             </div>
@@ -31,5 +35,4 @@
   <aside class="col-md-3">
     
   </aside>
-
 </div>
