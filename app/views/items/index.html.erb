@@ -11,10 +11,10 @@
     <% @items.each do |item| %>
       <div class="card my-3">
         <div class="row">
-          <div class="col-md-2 image">
+          <div class="col-md-3 col-xl-2 image">
             <%= image_tag(item.image, size: 150, class: "avatar") %>
           </div>
-          <div class="col-md-10">
+          <div class="col-md-9 col-xl-10">
             <div class="card-body">
               <h4 class="card-title"><%= item.name %></h5>
               <p class="card-text"><%= item.description %></p>
