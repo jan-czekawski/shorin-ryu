@@ -3,7 +3,11 @@ require 'rails_helper'
 RSpec.describe ItemsController, type: :controller do
 
   before(:all) do
-    @item = build(:item)
+    @item = create(:item)
+  end
+  
+  after(:all) do
+    Item.delete_all
   end
 
   describe "GET #index" do
@@ -14,7 +18,7 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe "GET #show" do
-    it "returns http success" do
+    it "returns http success", :new do
       get :show, params: { id: @item.id }
       expect(response).to have_http_status(:success)
     end

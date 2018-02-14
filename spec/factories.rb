@@ -1,10 +1,4 @@
 FactoryBot.define do
-  factory :size do
-    
-  end
-  factory :address do
-    
-  end
 
   sequence :login do |number|
     "John_#{number}"
@@ -35,5 +29,14 @@ FactoryBot.define do
     price 1.0
     store_item_id 32001
     image "MyString"
+  end
+  
+  factory :comment do
+  end
+  
+  factory :size do
+  end
+  
+  factory :address do
   end
 end
