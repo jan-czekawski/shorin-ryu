@@ -27,5 +27,8 @@ module ShorinRyu
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    
+    Mongoid.logger.level = Logger::FATAL
+    # Mongoid.logger.level = Logger::INFO
   end
 end
