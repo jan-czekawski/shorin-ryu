@@ -22,9 +22,9 @@
                  <%= event.address[:zip_code] %> <%= event.address[:city] %>,
                 <small><b>added by:</b> <%= link_to event.user.login, user_path(event.user) %></small>
               </p>
-              <p class="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam debitis minima fugit illum, molestiae, deleniti ex, itaque enim, delectus fuga cupiditate. Ipsum distinctio explicabo veniam soluta optio, ad deserunt ex!
-              </p>
+              <% event.comments.each do |comment| %>
+                <p class="card-text"><%= comment.content %></p>
+              <% end %>
               <p class="card-text">
                 
                 <%= link_to "Show", event, class: "btn btn-info" %>
