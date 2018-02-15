@@ -9,7 +9,14 @@ class CommentsController < ApplicationController
   end
   
   def create
-    @event.comments.create(comment_params)
+    @comment = @event.comments.new(comment_params)
+    if @comment.save
+      flash[:info] = "New comment has been added!"
+      redirect_to events_path
+    else
+      flash[:alert] = "There was an error!" + @comment.errors.full_messages.to_s
+      redirect_to events_path
+    end
   end
   
   def update
@@ -23,7 +30,12 @@ class CommentsController < ApplicationController
   end
   
   def comment_params
-    params.require(:comment).permit(:content, :commentable_type, :commentable_id, :user)
+    params.require(:comment).permit(:content).permit(:user_id, :event_id)
+          
+  end
+  
+  def set_event
+    @event = Event.find(params[:event_id])
   end
 end
 
