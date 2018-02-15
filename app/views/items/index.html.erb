@@ -19,6 +19,9 @@
               <h4 class="card-title"><%= item.name %></h5>
               <p class="card-text"><%= item.description %></p>
               <small><%= item.store_item_id %></small>
+              <% item.comments.each do |comment| %>
+                <p class="card-text"><%= comment.content %></p>
+              <% end %>
               <p class="card-text">
                 <%= link_to "Show", item, class: "btn btn-info" %>
                 <% if user_signed_in? && current_user.admin? %>
