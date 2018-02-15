@@ -35,7 +35,7 @@
               </p>
               <div>
                 <% if user_signed_in? %>
-                  <%= form_for event.comments.new, url: event_comments_url(event), method: :post do |f| %>
+                  <%= form_for event.comments.build, url: event_comments_url(event), method: :post do |f| %>
                     <%= f.label :content %>
                     <%= f.text_area :content %>
                     <%= hidden_field_tag(:user_id, current_user.id)  %>
