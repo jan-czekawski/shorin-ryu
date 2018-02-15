@@ -6,4 +6,5 @@ class Comment
   belongs_to :commentable, polymorphic: true
   
   field "content", type: String
+  validates :content, presence: true
 end
