@@ -42,4 +42,7 @@ FactoryBot.define do
   
   factory :cart do
   end
+  
+  factory :cart_item do
+  end
 end
