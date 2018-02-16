@@ -39,4 +39,7 @@ FactoryBot.define do
   
   factory :address do
   end
+  
+  factory :cart do
+  end
 end
