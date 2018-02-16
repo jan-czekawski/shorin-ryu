@@ -6,13 +6,17 @@
       <div class="card-body">
         <h5 class="card-title">User's login: <%= @user.login %></h5>
         <h5 class="card-title">User created: <%= @user.created_at.strftime("%e-%b-%Y") %></h5>
-        <p class="card-text"><p>
-        <% if current_user?(@user) %>
-          <%= link_to "Edit", edit_user_registration_path(@user), class: "btn btn-warning" %>
-        <% end %>
-        <% if current_user.admin? %>
-          <%= link_to "Delete", user_path(@user), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
-        <% end %>
+        <p class="card-text">
+          <% if current_user?(@user) %>
+            <%= link_to "Edit", edit_user_registration_path(@user), class: "btn btn-warning" %>
+          <% end %>
+          <% if current_user.admin? %>
+            <%= link_to "Delete", user_path(@user), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
+          <% end %>
+        </p>
+        <p class="card-text">
+          <%= @user.cart.items.each { |item| item.name } unless @user.cart.nil? %>
+        </p>
       </div>
     </div>
   </div>
