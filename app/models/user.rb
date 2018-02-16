@@ -13,7 +13,8 @@ class User
          
   has_many :events, dependent: :destroy
   has_many :comments, dependent: :destroy
-
+  has_one :cart, dependent: :destroy
+  
   # VALIDATIONS
   validates :email, format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :login, presence: true, uniqueness: { case_sensitive: false } 
