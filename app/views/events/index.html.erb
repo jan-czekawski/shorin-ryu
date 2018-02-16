@@ -38,7 +38,7 @@
                   <%= form_for event.comments.build, url: event_comments_url(event), method: :post do |f| %>
                     <%= f.label :content %>
                     <%= f.text_area :content %>
-                    <%= hidden_field_tag(:user_id, current_user.id)  %>
+                    <%#= hidden_field_tag(:user_id, current_user.id)  %>
                     <%= f.submit "Add comment", class: "btn btn-success" %>
                   <% end %>  
                 <% end %>
