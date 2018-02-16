@@ -3,6 +3,7 @@ class Cart
   
   belongs_to :user
   
-  embeds_many :items
+  # embedded_in :items
+  has_many :items
   field :sum, type: Float, default: 0.00
 end
