@@ -10,6 +10,7 @@ class Item
   field :image, type: String
   embeds_one :size
   has_many :comments, as: :commentable, dependent: :destroy
+  # embedded_in :cart
   
   accepts_nested_attributes_for :size
   validates_associated :size
