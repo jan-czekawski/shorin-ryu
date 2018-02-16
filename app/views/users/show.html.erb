@@ -14,9 +14,11 @@
             <%= link_to "Delete", user_path(@user), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
           <% end %>
         </p>
-        <p class="card-text">
-          <%= @user.cart.items.each { |item| item.name } unless @user.cart.nil? %>
-        </p>
+        <% unless @user.cart.nil? %>
+          <% @user.cart.cart_items.each do |cart_item| %>
+            <p class="card-text"><%= Item.find(cart_item.item_id).name %></p>    
+          <% end %>
+        <% end %>        
       </div>
     </div>
   </div>
