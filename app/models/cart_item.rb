@@ -3,4 +3,5 @@ class CartItem
 
   belongs_to :cart
   belongs_to :item
+  field :quantity, type: Integer, default: 0
 end
