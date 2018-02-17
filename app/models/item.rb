@@ -8,7 +8,8 @@ class Item
   field :price, type: Float
   field :store_item_id, type: Integer
   field :image, type: String
-  embeds_one :size
+  field :size, type: String
+  # embeds_one :size
   has_many :comments, as: :commentable, dependent: :destroy
   # embedded_in :cart
   
