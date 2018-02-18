@@ -1,0 +1,18 @@
+.row.justify-content-center
+  .col-md-6
+    %h1 Show item
+    .card
+      =image_tag(@item.image, size: 200, class: "avatar")
+      .card-body
+        %h5.card-title= @item.name
+        %p.card-text= @item.description
+        %p.card-text 
+          =@item.size
+          ,
+          =@item.price
+          PLN,
+          %small= @item.store_item_id
+        - if current_user.admin?
+          =link_to "Delete", item_path(@item), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
+          =link_to "Edit", edit_item_path(@item), class: "btn btn-warning"
+          
