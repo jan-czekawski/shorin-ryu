@@ -9,11 +9,13 @@ class Item
   field :store_item_id, type: Integer
   field :image, type: String
   field :size, type: String
-  field :storage_quantity, type: Integer, default: 0
+  field :quantity, type: Integer, default: 0
   # embeds_one :size
   has_many :comments, as: :commentable, dependent: :destroy
   # embedded_in :cart
   
+  validates :name, :description, :price, :size, :quantity,
+            :store_item_id, :image, presence: true
   # accepts_nested_attributes_for :size
   # validates_associated :size
 end
