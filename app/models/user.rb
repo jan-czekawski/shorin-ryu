@@ -26,8 +26,6 @@ class User
   field :admin,              type: Boolean, default: false
   field :image,              type: String, default: ""
   
-
-  
   ## Recoverable
   field :reset_password_token,   type: String
   field :reset_password_sent_at, type: Time
