@@ -9,7 +9,7 @@ class Item
   field :store_item_id, type: Integer
   field :image, type: String
   field :size, type: String
-  field :storage_quantity, type: Integer
+  field :storage_quantity, type: Integer, default: 0
   # embeds_one :size
   has_many :comments, as: :commentable, dependent: :destroy
   # embedded_in :cart
