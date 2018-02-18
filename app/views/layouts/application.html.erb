@@ -12,8 +12,6 @@
     <%= render "shared/navigation" %>
     <div class="<%= @body_class %>">
       <%= render "shared/flash" %>
-      <%= controller.methods.grep(/controller/) %>
-      <%= controller.controller_path %>
       <%= yield %>  
     </div>
   </body>
