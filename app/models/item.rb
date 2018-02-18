@@ -15,7 +15,13 @@ class Item
   # embedded_in :cart
   
   validates :name, :description, :price, :size, :quantity,
-            :store_item_id, :image, presence: true
+            :store_item_id, presence: true
+  validates :name, :store_item_id, uniqueness: true
+  validates :price, numericality: { greater_than_or_equal_to: 0.01 }
+  validates :size, format: { 
+    with: /\A(xs|sml|med|lrg|x_lrg|xx_lrg)\z/, 
+    message: "must be xs, sml, med, lrg, x_lrg or xx_lrg."
+  }
   # accepts_nested_attributes_for :size
   # validates_associated :size
 end
