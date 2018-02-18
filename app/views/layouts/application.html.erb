@@ -8,10 +8,12 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="<%= controller.controller_name %>">
     <%= render "shared/navigation" %>
     <div class="<%= @body_class %>">
       <%= render "shared/flash" %>
+      <%= controller.methods.grep(/controller/) %>
+      <%= controller.controller_path %>
       <%= yield %>  
     </div>
   </body>
