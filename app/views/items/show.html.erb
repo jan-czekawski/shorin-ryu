@@ -9,11 +9,7 @@
           <%= @item.description %>
         <p>
         <p class="card-text">
-          <b>XS:</b> <%= @item.size.xs %> <b>S:</b> <%= @item.size.sml %> <b>M:</b> <%= @item.size.med %>
-          <b>L:</b> <%= @item.size.lrg %> <b>XL:</b> <%= @item.size.x_lrg %> <b>XXL:</b> <%= @item.size.xx_lrg %>
-        <p>
-        <p>
-          <%= @item.price %> PLN, <small><%= @item.store_item_id %></small> 
+          size: <%= @item.size %>, <%= @item.price %> PLN, <small><%= @item.store_item_id %></small> 
         </p>
         <% if current_user.admin? %>
           <%= link_to "Delete", item_path(@item), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
