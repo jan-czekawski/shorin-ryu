@@ -1,0 +1,32 @@
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: http_meth }) do |f|
+  = devise_error_messages!
+  .form-group
+    = f.label :image
+    = f.file_field :image, class: "form-control"
+  .form-group
+    = f.label :email
+    = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+  .form-group
+    = f.label :login
+    = f.text_field :login, autofocus: true, autocomplete: "login", class: "form-control"
+  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+    %div
+      Currently waiting confirmation for: #{resource.unconfirmed_email}
+  .form-group
+    = f.label :password
+    %i (leave blank if you don't want to change it)
+    = f.password_field :password, autocomplete: "off", class: "form-control"
+    - if @minimum_password_length
+      %small.form-text.text-muted
+        = @minimum_password_length
+        characters minimum
+  .form-group
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation, autocomplete: "off", class: "form-control"
+  - if http_meth == :put
+    .form-group
+      = f.label :current_password
+      %i (we need your current password to confirm your changes)
+      = f.password_field :current_password, autocomplete: "off", class: "form-control"
+  .mb-2
+    = f.submit "#{http_meth == :put ? 'Update' : 'Create'}", class: "btn btn-success"
