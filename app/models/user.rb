@@ -16,7 +16,7 @@ class User
   has_one :cart, dependent: :destroy
   
   # VALIDATIONS
-  validates :email, format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, allow_blank: true, format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :login, presence: true, uniqueness: { case_sensitive: false } 
 
   ## Database authenticatable
