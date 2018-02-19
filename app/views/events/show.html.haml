@@ -1,0 +1,23 @@
+.row.justify-content-center
+  .col-md-6
+    %h1= @event.name
+    .card
+      .card-body
+        %h5.card-title
+          %b City:  
+          = @event.address[:city]
+        %p.card-text
+          %b Zip-Code: 
+          = @event.address[:zip_code] 
+        %p.card-text
+          %b Street:
+          = @event.address[:street] + ", "
+          = @event.address[:house_number]          
+        %p.card-text
+          %b= "Added by: "
+          = link_to @event.user.login, user_path(@event.user)
+        %p.card-text
+          %b= "Created: "
+          = @event.created_at.strftime("%e-%b-%Y")
+        = link_to "Edit", edit_event_path(@event), class: "btn btn-warning"
+        = link_to "Delete", event_path(@event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
