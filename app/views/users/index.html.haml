@@ -1,0 +1,15 @@
+.row.justify-content-center
+  .col-md-6
+    %h1 Users
+.row
+  - @users.each do |user|
+    .col-xl-2.col-lg-3.col-md-6.my-3
+      .card.user-card
+        = show_avatar(user)
+        .card-body
+          %h5.card-title= user.login
+          %p.card-text
+          %p
+            - if current_user?(user)
+              = link_to "Edit", edit_user_registration_path, class: "btn btn-warning"
+            = link_to "Show", user_path(user), class: "btn btn-info"

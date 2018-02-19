@@ -1,0 +1,22 @@
+.row.justify-content-center
+  .col-md-6
+    %h1 Profile
+    .card
+      = show_avatar(@user, 200)
+      .card-body
+        %h5.card-title 
+          User's login:
+          = @user.login
+        %h5.card-title
+          User created:
+          = @user.created_at.strftime("%e-%b-%Y")
+        %p.card-text
+          - if current_user?(@user)
+            = link_to "Edit", edit_user_registration_path(@user), class: "btn btn-warning"
+          - if current_user.admin?
+            = link_to "Delete", user_path(@user), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
+        - if @user.cart
+          - @user.cart.cart_items.each do |cart_item|
+            %p.card-text
+              = Item.find(cart_item.item_id).name
+          
