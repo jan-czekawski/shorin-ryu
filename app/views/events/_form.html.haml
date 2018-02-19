@@ -2,11 +2,7 @@
   .col-md-6.col-lg-4
     %h1= type == "new" ? "New event" : "Edit event"
     = form_for event do |f|
-      - if event.errors.any?
-        #error_explanation.alert.alert-danger
-          %ul
-            - event.errors.full_messages.each do |message|
-              %li= message
+      = render "shared/errors", obj: event
       .form-group
         .custom-file
           = f.label :image, class: "custom-file-label"
