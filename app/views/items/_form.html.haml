@@ -1,0 +1,33 @@
+.row.justify-content-center
+  .col-md-6.col-lg-4
+    %h1= type == "new" ? "New item" : "Edit item"
+    = form_for item do |f|
+      = render "shared/errors", obj: item
+      .form-group
+        .custom-file
+          = f.label :image, class: "custom-file-label"
+          = f.file_field :image, class: "custom-file-input"
+      .form-group
+        = f.label :name
+        = f.text_field :name, class: "form-control"
+      .form-group
+        = f.label :description
+        = f.text_area :description, class: "form-control", rows: 10
+      .row
+        .form-group.col-md-2
+          = f.label :size
+          = f.select :size do
+            = content_tag(:option, "xs")
+            = content_tag(:option, "s")
+            = content_tag(:option, "m")
+            = content_tag(:option, "l")
+            = content_tag(:option, "xl")
+            = content_tag(:option, "xxl")
+        .form-group.col-md-5
+          = f.label :price, "Price (PLN)"
+          = f.number_field :price, in: 0.01..9999.99, step: 0.01, class: "form-control"
+        .form-group.col-md-5
+          = f.label :store_item_id, "Item_id"
+          = f.number_field :store_item_id, in: 220301..320300, step: 1, placeholder: "220301-320300", class: "form-control"
+      = f.submit "#{type == 'new' ? 'Create' : 'Update'}", class: "btn btn-success btn-wide"
+      
