@@ -1,0 +1,36 @@
+#carouselExampleIndicators.carousel.slide{"data-ride" => "carousel"}
+  %ol.carousel-indicators
+    %li.active{"data-slide-to" => "0", "data-target" => "#carouselExampleIndicators"}
+    %li{"data-slide-to" => "1", "data-target" => "#carouselExampleIndicators"}
+    %li{"data-slide-to" => "2", "data-target" => "#carouselExampleIndicators"}
+  .carousel-inner
+    .carousel-item.active
+      = image_tag("karate_1.jpg", class: "d-block w-100", alt: "Boy performing kata")
+      .carousel-caption.d-none.d-md-block
+        %h5 PLACEHOLDER 1
+        %p
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero voluptates ipsam
+          quia sequi totam omnis, consequatur sunt deleniti ea quis officia alias adipisci,
+          sed, excepturi corrupti accusantium quasi eligendi aspernatur.
+    .carousel-item
+      = image_tag("karate_2.jpg", class: "d-block w-100", alt: "Girls fighting in safety gear")
+      .carousel-caption.d-none.d-md-block
+        %h5 PLACEHOLDER 2
+        %p
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero voluptates ipsam
+          quia sequi totam omnis, consequatur sunt deleniti ea quis officia alias adipisci,
+          sed, excepturi corrupti accusantium quasi eligendi aspernatur.
+    .carousel-item
+      = image_tag("karate_3.jpg", class: "d-block w-100", alt: "Men training high kicks")
+      .carousel-caption.d-none.d-md-block
+        %h5 PLACEHOLDER 3
+        %p
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero voluptates ipsam
+          quia sequi totam omnis, consequatur sunt deleniti ea quis officia alias adipisci,
+          sed, excepturi corrupti accusantium quasi eligendi aspernatur.
+  %a.carousel-control-prev{"data-slide" => "prev", :href => "#carouselExampleIndicators", :role => "button"}
+    %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+    %span.sr-only Previous
+  %a.carousel-control-next{"data-slide" => "next", :href => "#carouselExampleIndicators", :role => "button"}
+    %span.carousel-control-next-icon{"aria-hidden" => "true"}
+    %span.sr-only Next
