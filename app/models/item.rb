@@ -19,8 +19,8 @@ class Item
   validates :name, :store_item_id, uniqueness: true
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }
   validates :size, format: { 
-    with: /\A(xs|sml|med|lrg|x_lrg|xx_lrg)\z/, 
-    message: "must be xs, sml, med, lrg, x_lrg or xx_lrg."
+    with: /\A(xs|s|m|l|xl|xxl)\z/, 
+    message: "must be xs, s, m, l, xl or xxl."
   }
   # accepts_nested_attributes_for :size
   # validates_associated :size

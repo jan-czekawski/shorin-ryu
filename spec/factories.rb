@@ -25,7 +25,7 @@ FactoryBot.define do
   factory :item do
     name "MyString"
     description "MyText"
-    size {}
+    size "xs"
     price 1.0
     store_item_id 32001
     image "MyString"
