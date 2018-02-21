@@ -3,27 +3,26 @@
     %h1 Items
 .row
   %section.col-md-9
-    - if user_signed_in? && current_user.admin?
+    // - if user_signed_in? && current_user.admin?
+    - if current_user.try(:admin?)
       = link_to "New item", new_item_path, class: "btn btn-success btn-wide"
-    - cache @items do
-      - @items.each do |item|
-        - cache item do
-          .card.my-3
-            .row
-              .col-md-3.col-xl-2.image
-                = image_tag(item.image, size: 150, class: "avatar")
-              .col-md-9.col-xl-10
-                .card-body
-                  %h5.card-title= item.name
-                  %p.card-text= item.description
-                  %small= item.store_item_id
-                  - item.comments.each do |comment|
-                    %p.card-text= comment.content
-                  %p.card-text
-                    = link_to "Show", item, class: "btn btn-info"
-                    - if user_signed_in? && current_user.admin?
-                      = link_to "Edit", edit_item_path(item), class: "btn btn-warning"
-                      = link_to "Delete", item_path(item), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" }
+    - @items.each do |item|
+      .card.my-3
+        .row
+          .col-md-3.col-xl-2.image
+            = image_tag(item.image, size: 150, class: "avatar")
+          .col-md-9.col-xl-10
+            .card-body
+              %h5.card-title= item.name
+              %p.card-text= item.description
+              %small= item.store_item_id
+              - item.comments.each do |comment|
+                %p.card-text= comment.content
+              %p.card-text
+                = link_to "Show", item, class: "btn btn-info"
+                - if user_signed_in? && current_user.admin?
+                  = link_to "Edit", edit_item_path(item), class: "btn btn-warning"
+                  = link_to "Delete", item_path(item), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" }
   %aside.col-md-3            
                       
                       
