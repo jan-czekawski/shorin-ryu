@@ -2,22 +2,23 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  attr_accessor :image, :image_cache 
+  attr_accessor :image, :image_cache
   mount_uploader :image, ImageUploader
- 
+
   # include ActiveModel::Validations
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable#, :confirmable
-         
+         :recoverable, :rememberable, :trackable, :validatable # , :confirmable
+
   has_many :events, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_one :cart, dependent: :destroy
-  
+
   # VALIDATIONS
-  validates :email, allow_blank: true, format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :login, presence: true, uniqueness: { case_sensitive: false } 
+  EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, allow_blank: true, format: EMAIL_FORMAT
+  validates :login, presence: true, uniqueness: { case_sensitive: false }
 
   ## Database authenticatable
   field :login,              type: String, default: ""
@@ -25,7 +26,7 @@ class User
   field :encrypted_password, type: String, default: ""
   field :admin,              type: Boolean, default: false
   field :image,              type: String, default: ""
-  
+
   ## Recoverable
   field :reset_password_token,   type: String
   field :reset_password_sent_at, type: Time
@@ -47,7 +48,9 @@ class User
   # field :unconfirmed_email,    type: String # Only if using reconfirmable
 
   ## Lockable
-  # field :failed_attempts, type: Integer, default: 0 # Only if lock strategy is :failed_attempts
-  # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
+  # field :failed_attempts, type: Integer, default: 0 # Only if lock
+  # strategy is :failed_attempts
+  # field :unlock_token,    type: String # Only if unlock
+  # strategy is :email or :both
   # field :locked_at,       type: Time
 end

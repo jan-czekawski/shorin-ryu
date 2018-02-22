@@ -5,5 +5,5 @@ class Address
   field :street
   field :house_number, type: Integer
   field :zip_code
-  embedded_in :event, :inverse_of => :address
+  embedded_in :event, inverse_of: :address
 end
