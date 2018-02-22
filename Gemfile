@@ -37,6 +37,7 @@ gem 'faker'
 gem 'carrierwave', '~> 1.0'
 gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 gem 'haml', '~> 5.0', '>= 5.0.4'
+gem 'rubocop'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

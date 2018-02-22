@@ -7,7 +7,7 @@ class Item
   field :description, type: String
   field :price, type: Float
   field :store_item_id, type: Integer
-  field :image, type: String
+  field :image, type: String, default: ""
   field :size, type: String
   field :quantity, type: Integer, default: 0
   # embeds_one :size
