@@ -1,0 +1,15 @@
+Style/StringLiterals:  
+  EnforcedStyle: double_quotes
+  Enabled: true
+  
+Documentation:
+  Enabled: false
+
+# Style/EndOfLine:
+#   EnforcedStyle: lf
+
+# Metrics/ClassLength:
+#   Enabled: false
+
+# Metrics/BlockLength:
+#   Enabled: false

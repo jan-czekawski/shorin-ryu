@@ -1,13 +1,11 @@
 class ItemsController < ApplicationController
-  
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_item, only: %i[show edit update destroy]
+
   def index
     @items = Item.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @item = Item.new
@@ -23,8 +21,7 @@ class ItemsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @item.update(item_params)
@@ -40,12 +37,12 @@ class ItemsController < ApplicationController
     flash[:danger] = "Item has been deleted"
     redirect_to items_path
   end
-  
+
   def item_params
     params.require(:item).permit(:name, :image, :store_item_id, :price,
                                  :description, :size)
   end
-  
+
   def set_item
     @item = Item.find(params[:id])
   end
