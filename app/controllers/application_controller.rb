@@ -26,6 +26,13 @@ class ApplicationController < ActionController::Base
     flash[:alert] = "You must be an admin to do that!"
     redirect_to root_path
   end
+  
+  def require_owner_or_admin
+    same_user = Comment.find(params[:id]).user == current_user
+    return if same_user || current_user.admin?
+    flash[:alert] = "You must be an owner or an admin to do that!"
+    redirect_to root_path
+  end
 
   def set_class
     @body_class = "container-fluid"

@@ -29,7 +29,7 @@
                 = link_to "Comments: "+ event.comments.count.to_s, event
               %p.card-text
                 = link_to "Show", event, class: "btn btn-info"
-                - if is_owner_or_admin?(current_user, event)
+                - if owner_or_admin?(current_user, event)
                   = link_to "Edit", edit_event_path(event), class: "btn btn-warning"
                   = link_to "Delete", event_path(event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
   %aside.col-md-3

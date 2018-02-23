@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:destroy]
-  before_action :require_user, only: [:create]
-  # before_action :set_event, only: [:create]
+  before_action :require_user, only: %i[create destroy]
+  before_action :require_owner_or_admin, only: [:destroy]
 
   def index
     @comments = Comment.all
@@ -23,7 +23,9 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    
+    @comment.delete
+    flash[:danger] = "Comment has been deleted."
+    redirect_to find_commentable
   end
 
   def find_commentable
@@ -33,7 +35,7 @@ class CommentsController < ApplicationController
   end
 
   def set_comment
-    @comment = params[:id]
+    @comment = Comment.find(params[:id])
   end
 
   def comment_params
