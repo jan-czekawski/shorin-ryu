@@ -3,10 +3,6 @@ class CommentsController < ApplicationController
   before_action :require_user, only: %i[create destroy]
   before_action :require_owner_or_admin, only: [:destroy]
 
-  def index
-    @comments = Comment.all
-  end
-
   def create
     @commentable = find_commentable
     @comment = @commentable.comments.build(comment_params)
@@ -27,6 +23,8 @@ class CommentsController < ApplicationController
     flash[:danger] = "Comment has been deleted."
     redirect_to find_commentable
   end
+
+  private
 
   def find_commentable
     params.each do |name, value|
