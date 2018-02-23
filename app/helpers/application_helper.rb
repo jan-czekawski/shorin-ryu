@@ -20,5 +20,4 @@ module ApplicationHelper
     return false unless user_signed_in?
     user.admin? || (resource.user_id == user._id)
   end
-
 end
