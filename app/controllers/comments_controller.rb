@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
-  # before_action :require_user
-  before_action :set_comment, only: [:destroy] # ,:create, :update, ]
+  before_action :set_comment, only: [:destroy] # ,:create, ]
   before_action :require_user, only: [:create]
   # before_action :set_event, only: [:create]
 
@@ -23,9 +22,9 @@ class CommentsController < ApplicationController
     redirect_to @commentable
   end
 
-  def update; end
-
-  def destroy; end
+  def destroy
+    
+  end
 
   def find_commentable
     params.each do |name, value|

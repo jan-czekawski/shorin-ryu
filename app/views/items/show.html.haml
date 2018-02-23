@@ -13,6 +13,15 @@
           PLN,
           %small= @item.store_item_id
         - if current_user.admin?
-          =link_to "Delete", item_path(@item), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
-          =link_to "Edit", edit_item_path(@item), class: "btn btn-warning"
-          
+          =link_to "Delete item", item_path(@item), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
+          =link_to "Edit item", edit_item_path(@item), class: "btn btn-warning"
+        - @item.comments.each do |comment|
+          %p.card-text 
+            = comment.content
+            %small= " added by " + comment.user.login
+        - if user_signed_in?
+          = form_for @item.comments.build, url: item_comments_url(@item), method: :post do |f|
+            .form-group
+              = f.label :content
+              = f.text_area :content, class: "form-control"
+              = f.submit "Add comment", class: "btn btn-success btn-wide"
