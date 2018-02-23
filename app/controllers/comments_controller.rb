@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:destroy] # ,:create, ]
+  before_action :set_comment, only: [:destroy]
   before_action :require_user, only: [:create]
   # before_action :set_event, only: [:create]
 

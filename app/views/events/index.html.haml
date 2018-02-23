@@ -25,17 +25,11 @@
                 %small
                   %b added by:
                   = link_to event.user.login, user_path(event.user)
-              - event.comments.each do |comment|
-                %p.card-text= comment.content
+              %p.card-text
+                = link_to "Comments: "+ event.comments.count.to_s, event
               %p.card-text
                 = link_to "Show", event, class: "btn btn-info"
                 - if is_owner_or_admin?(current_user, event)
                   = link_to "Edit", edit_event_path(event), class: "btn btn-warning"
                   = link_to "Delete", event_path(event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
-              // %div
-              //   - if user_signed_in?
-              //     = form_for event.comments.build, url: event_comments_url(event), method: :post do |f|
-              //       = f.label :content
-              //       = f.text_area :content
-              //       = f.submit "Add comment", class: "btn btn-success"
   %aside.col-md-3

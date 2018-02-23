@@ -19,6 +19,8 @@
           %p.card-text 
             = comment.content
             %small= " added by " + comment.user.login
+            - if is_owner_or_admin?(current_user, comment)
+              =link_to "Delete", item_comment_path(@item, comment), data: { confirm: "Are you sure?" }, method: :delete
         - if user_signed_in?
           = form_for @item.comments.build, url: item_comments_url(@item), method: :post do |f|
             .form-group
