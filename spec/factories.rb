@@ -14,12 +14,20 @@ FactoryBot.define do
     end
   end
   
+  factory :address do
+    city "home"
+    street "random street"
+    house_number 22
+    zip_code "10-444"
+  end
+  
   factory :event do
     name "example_city"
     address({ city: "Example",
               street: "11th street",
               house_number: 12,
               zip_code: 20-192 })
+    user
   end
   
   factory :item do
@@ -32,12 +40,9 @@ FactoryBot.define do
   end
   
   factory :comment do
-  end
-  
-  factory :size do
-  end
-  
-  factory :address do
+    content "random text"
+    item
+    user
   end
   
   factory :cart do

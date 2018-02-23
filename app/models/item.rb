@@ -1,5 +1,6 @@
 class Item
   include Mongoid::Document
+  include Mongoid::Timestamps
   attr_accessor :image, :image_cache
   mount_uploader :image, ImageUploader
 
