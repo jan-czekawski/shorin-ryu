@@ -8,7 +8,6 @@ FactoryBot.define do
     login
     email { "#{login}@gmail.com" }
     password "password"
-    
     factory :admin do
       admin true
     end
@@ -41,8 +40,8 @@ FactoryBot.define do
   
   factory :comment do
     content "random text"
-    item
-    user
+    # user
+    # item
   end
   
   factory :cart do
