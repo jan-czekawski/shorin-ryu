@@ -22,11 +22,8 @@ FactoryBot.define do
   
   factory :event do
     name "example_city"
-    address({ city: "Example",
-              street: "11th street",
-              house_number: 12,
-              zip_code: 20-192 })
-    user
+    association :address, strategy: :build
+    association :user, strategy: :build
   end
   
   factory :item do
@@ -40,8 +37,15 @@ FactoryBot.define do
   
   factory :comment do
     content "random text"
-    # user
-    # item
+    association :user, strategy: :build
+    
+    factory :items_comment do
+      association :commentable, factory: :item, strategy: :build
+    end
+    
+    factory :events_comment do
+      association :commentable, factory: :event, strategy: :build
+    end
   end
   
   factory :cart do
