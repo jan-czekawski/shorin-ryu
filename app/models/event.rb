@@ -14,7 +14,6 @@ class Event
   embeds_one :address
   accepts_nested_attributes_for :address
 
-  validates :name, presence: true
-  # validates :address, presence: true
+  validates :name, :address, presence: true
   validates_associated :address
 end
