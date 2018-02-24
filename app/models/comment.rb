@@ -6,7 +6,8 @@ class Comment
   belongs_to :commentable, polymorphic: true
 
   field "content", type: String
-  validates :content, presence: true
+  validates :content, :commentable_type, presence: true
+
   
   def get_commentable_type
     type = commentable_type.constantize
