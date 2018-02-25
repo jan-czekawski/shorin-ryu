@@ -1,11 +1,9 @@
 FactoryBot.define do
 
-  sequence :login do |number|
-    "John_#{number}"
-  end
+  # sequence :login { |number| "John_#{number}" }
 
   factory :user do
-    login
+    sequence :login { |number| "John_#{number}" }
     email { "#{login}@gmail.com" }
     password "password"
     factory :admin do
