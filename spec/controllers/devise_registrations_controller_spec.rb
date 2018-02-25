@@ -10,6 +10,10 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
   
+  before(:all) do
+    @user = create(:user)
+  end
+  
   describe "RegistrationsController#new" do
     context "when user not logged in" do
       it "assigns new user to @user" do
@@ -25,7 +29,7 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
     
     context "when user logged in" do
       it "redirects to root url" do
-        sign_in create(:user)
+        sign_in @user
         get :new
         expect(response).to redirect_to(root_url)
       end
@@ -33,6 +37,26 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
   end
   
   describe "RegistrationsController#edit" do
+    context "when user not logged in" do
+      it "redirects to sign in url" do
+        get :edit
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
+    context "when user logged in" do
+      it "assigns logged in user to @user" do
+        sign_in @user
+        get :edit
+        expect(assigns(:user)).to eq(@user)
+      end
+      
+      it "renders edit template" do
+        sign_in @user
+        get :edit
+        expect(response).to render_template :edit
+      end
+    end
   end
   
   describe "RegistrationsController#create" do
