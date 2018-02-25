@@ -15,6 +15,7 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
       expect do
         post :create, params: { user: attributes_for(:user) }
       end.to change(User, :count).by(1)
+      expect(response).to redirect_to(root_url)
     end
     
     it "doesn't create new user and redirects if invalid info is provided" do
