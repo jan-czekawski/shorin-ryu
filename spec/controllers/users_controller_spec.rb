@@ -24,7 +24,7 @@ RSpec.describe UsersController, type: :controller do
       it "populates array of all users" do
         sign_in @james
         get :index
-        expect(assigns(:users)).to eq([@james, @phil, @admin])
+        expect(assigns(:users)).to match_array([@phil, @james, @admin])
       end
       
       it "renders index template" do

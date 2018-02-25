@@ -12,13 +12,27 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
   
   describe "RegistrationsController#new" do
     context "when user not logged in" do
+      it "assigns new user to @user" do
+        get :new
+        expect(assigns(:user)).to be_a_new(User)
+      end
+      
+      it "renders new user show template" do
+        get :new
+        expect(response).to render_template :new
+      end
     end
     
     context "when user logged in" do
       it "redirects to root url" do
         sign_in create(:user)
+        get :new
+        expect(response).to redirect_to(root_url)
       end
     end
+  end
+  
+  describe "RegistrationsController#edit" do
   end
   
   describe "RegistrationsController#create" do
