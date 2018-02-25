@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   
   before(:all) do
-    @user = create(:user, email: "controller@email.com", login: "first_controller")
-    @second_user = create(:user, email: "second_controller@email.com", login: "second_controller")
+    @james = create(:user, email: "james@email.com", login: "james")
+    @phil = create(:user, email: "phil@email.com", login: "phil")
     @admin = create(:admin, email: "admin@email.com", login: "admin_controller")
   end
   
@@ -13,54 +13,73 @@ RSpec.describe UsersController, type: :controller do
   end
   
   describe "Users#index" do
-    
-    it "redirects to root unless user's logged in" do
-      get :index
-      expect(response).to redirect_to(root_path)
+    context "when user not logged in" do
+      it "redirects to root" do
+        get :index
+        expect(response).to redirect_to(root_path)
+      end
     end
     
-    it "renders index template if user's logged in" do
-      sign_in @user
-      get :index
-      # expect(response.status).to eq(200)
-      expect(response).to render_template("index")
+    context "when user logged in" do
+      it "populates array of all users" do
+        sign_in @james
+        get :index
+        expect(assigns(:users)).to eq([@james, @phil, @admin])
+      end
+      
+      it "renders index template" do
+        sign_in @james
+        get :index
+        expect(response).to render_template :index
+      end
     end
   end
   
   describe "Users#show" do
+    it "assigns requested user to @user" do
+      get :show, params: { id: @james.id }
+      expect(assigns(:user)).to eq(@james)
+    end
+    
     it "renders show template" do
-      get :show, params: { id: @user.id }
-      expect(response).to render_template("show")
+      get :show, params: { id: @james.id }
+      expect(response).to render_template :show
     end
   end
   
   describe "Users#destroy" do
-    it "redirects to root unless user's logged_in" do
-      expect do
-        delete :destroy, params: { id: @user.id }
-      end.not_to change(User, :count)
-
-      expect(response).to redirect_to(root_path)
+    context "when user not logged in" do
+      it "redirects to root" do
+        expect do
+          delete :destroy, params: { id: @james.id }
+        end.not_to change(User, :count)
+  
+        expect(response).to redirect_to(root_path)
+      end
     end
     
-    it "redirects to root unless user's admin" do
-      sign_in @second_user
-      
-      expect do
-        delete :destroy, params: { id: @user.id }
-      end.not_to change(User, :count)
-      
-      expect(response).to redirect_to(root_path)
+    context "when user logged in, but not admin" do
+      it "redirects to root" do
+        sign_in @phil
+        
+        expect do
+          delete :destroy, params: { id: @james.id }
+        end.not_to change(User, :count)
+        
+        expect(response).to redirect_to(root_path)
+      end
     end
     
-    it "deletes other user if logged user's admin" do
-      sign_in @admin
-      
-      expect do
-        delete :destroy, params: { id: @user.id }
-      end.to change(User, :count).by(-1)
-      
-      expect(response).to redirect_to(users_path)
+    context "when user logged in and admin" do
+      it "deletes other user" do
+        sign_in @admin
+        
+        expect do
+          delete :destroy, params: { id: @james.id }
+        end.to change(User, :count).by(-1)
+        
+        expect(response).to redirect_to(users_path)
+      end
     end
   end
 end
