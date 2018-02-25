@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe EventsController, type: :controller do
   
   before(:all) do
-    @user = create(:user, email: "test@event.com", login: "first_event_controller")
-    @second_user = create(:user, email: "second_test@event.com", login: "second_event_controller")
+    @john = create(:user, email: "john@event.com", login: "john")
+    @paul = create(:user, email: "paul@event.com", login: "paul")
     @admin = create(:admin, email: "admin@event.com", login: "admin_event_controller")
-    @example_event = create(:event, user_id: @user.id)
-    @second_event = create(:event, user_id: @second_user.id)
+    @osaka = create(:event, user_id: @john.id)
+    @kyoto = create(:event, user_id: @paul.id)
   end
   
   after(:all) do
@@ -24,14 +24,14 @@ RSpec.describe EventsController, type: :controller do
 
   describe "GET show" do
     it "returns http success" do
-      get :show, params: { id: @example_event.id }
+      get :show, params: { id: @osaka.id }
       expect(response).to have_http_status(:success)
     end
   end
   
   describe "GET new" do
     it "returns http success" do
-      sign_in @user
+      sign_in @john
       get :new
       expect(response).to have_http_status(:success)
     end
@@ -39,10 +39,10 @@ RSpec.describe EventsController, type: :controller do
   
   describe "POST create" do
     it "creates new event if all info is provided" do
-      sign_in @user
+      sign_in @john
       expect do
         post :create, params: { event: { name: "Home",
-                                         address_attributes: { city: "home_city",
+                                        address_attributes: { city: "home_city",
                                                     street: "home street",
                                                     house_number: 11,
                                                     zip_code: 200 } } }
@@ -53,7 +53,7 @@ RSpec.describe EventsController, type: :controller do
     
     
     it "creates no event if all info is not provided" do
-      sign_in @user
+      sign_in @john
       expect do
         post :create, params: { event: { name: nil,
                                         address_attributes: { city: "home_city",
@@ -67,65 +67,65 @@ RSpec.describe EventsController, type: :controller do
   
   describe "GET edit" do
     it "returns http success if user created that event" do
-      sign_in @user
-      get :edit, params: { id: @example_event.id }
+      sign_in @john
+      get :edit, params: { id: @osaka.id }
       expect(response).to have_http_status(:success)
     end
     
     it "redirects to events_path if another user created event" do
-      sign_in @second_user
-      get :edit, params: { id: @example_event.id }
+      sign_in @paul
+      get :edit, params: { id: @osaka.id }
       expect(response).to redirect_to(events_path)
     end
     
     it "returns http success if user is admin" do
       sign_in @admin
-      get :edit, params: { id: @example_event.id }
+      get :edit, params: { id: @osaka.id }
       expect(response).to have_http_status(:success)
     end
   end
   
   describe "PUT update" do
     it "updates info and redirects if correct info is provided" do
-      sign_in @user
-      put :update, params: { id: @example_event.id,
+      sign_in @john
+      put :update, params: { id: @osaka.id,
                              event: { name: "change_example",
                                       address_attributes: { city: "changed_city",
                                                  street: "changed_street",
                                                  house_number: 666,
                                                  zip_code: 999 } } }
-      @example_event.reload
-      expect(@example_event.name).to eq("change_example")
-      expect(@example_event.address[:city]).to eq("changed_city")
+      @osaka.reload
+      expect(@osaka.name).to eq("change_example")
+      expect(@osaka.address[:city]).to eq("changed_city")
     end
   end
 
   describe "DELETE destroy" do
     it "doesn't delete event unless user's logged in" do
-      sign_out @user if @user
+      sign_out @john if @john
       expect do
-        delete :destroy, params: { id: @example_event.id }
+        delete :destroy, params: { id: @osaka.id }
       end.not_to change(Event, :count)
     end
 
     it "doesn't delete event if user didn't create that event" do
-      sign_in @second_user
+      sign_in @paul
       expect do
-        delete :destroy, params: { id: @example_event.id }
+        delete :destroy, params: { id: @osaka.id }
       end.not_to change(Event, :count)
     end
     
     it "deletes event if user created that event" do
-      sign_in @user
+      sign_in @john
       expect do
-        delete :destroy, params: { id: @example_event.id }
+        delete :destroy, params: { id: @osaka.id }
       end.to change(Event, :count).by(-1)
     end
     
     it "deletes event if user's logged in and is admin" do
       sign_in @admin
       expect do
-        delete :destroy, params: { id: @second_event.id }
+        delete :destroy, params: { id: @kyoto.id }
       end.to change(Event, :count).by(-1)
     end
   end
