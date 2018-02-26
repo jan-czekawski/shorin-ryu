@@ -31,7 +31,7 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
       it "redirects to root url" do
         sign_in @user
         get :new
-        expect(response).to redirect_to(root_url)
+        expect(response).to redirect_to root_url
       end
     end
   end
