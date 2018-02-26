@@ -87,7 +87,7 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
     end
   end
   
-  describe "#update", :new do
+  describe "#update" do
     context "when user not logged in" do
       it "redirects to sign in url" do
         patch :update, params: { user: { email: @user.email,
@@ -128,6 +128,40 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
                                            current_password: "invalid" } }
           expect(response).to render_template :edit
         end
+      end
+    end
+  end
+  
+  describe "#destroy" do
+    context "when user not logged in" do
+      it "doesn't change User count" do
+        expect { delete :destroy }.not_to change(User, :count)
+      end
+      
+      it "redirects to login page after failed delete" do
+        delete :destroy
+        expect(response).to require_login
+      end
+    end
+    
+    context "when user logged in" do
+      it "decreases User count by 1" do
+        sign_in @user
+        expect { delete :destroy }.to change(User, :count).by(-1)
+      end
+      
+      it "redirects to root page after delete" do
+        @user = create(:user)
+        sign_in @user
+        delete :destroy
+        expect(response).to redirect_to root_url
+      end
+      
+      it "logs out the deleted user" do
+        @user = create(:user)
+        sign_in @user
+        delete :destroy
+        expect(session["warden.user.user.key"]).to be_nil
       end
     end
   end
