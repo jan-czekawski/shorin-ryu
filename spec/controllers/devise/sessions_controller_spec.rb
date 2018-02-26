@@ -76,7 +76,7 @@ RSpec.describe Devise::SessionsController, type: :controller do
     end
   end
   
-  describe "#destroy", :new do
+  describe "#destroy" do
     context "when user not logged in" do
       it "redirects to root url after failed logging out" do
         delete :destroy
