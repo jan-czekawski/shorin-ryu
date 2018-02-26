@@ -35,7 +35,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
     end
   end
   
-  describe "#create", :new do
+  describe "#create" do
     context "when user logged in" do
       it "redirects to root url" do
         sign_in @user
@@ -67,6 +67,34 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         post :create, params: { user: { email: @user.email } }
         sent_at = @user.reload.reset_password_sent_at
         expect(sent_at).to be_within(1.second).of Time.now
+      end
+    end
+  end
+  
+  describe "#edit", :new do
+    context "when user logged in" do
+      it "redirects to root url" do
+        sign_in @user
+        @user.reset_password_token = "random_token"
+        get :edit, params: { reset_password_token: @user.reset_password_token }
+        expect(response).to redirect_to root_url
+      end
+    end
+    
+    context "when user not logged in" do
+      before(:all) do
+        @user.reset_password_token = "random_token"
+        @token = @user.reset_password_token
+      end
+
+      it "renders edit template" do
+        get :edit, params: { reset_password_token: @token }
+        expect(response).to render_template :edit
+      end
+      
+      it "assigns new instance of User to @user" do
+        get :edit, params: { reset_password_token: @token }
+        expect(assigns(:user)).to be_a_new(User)
       end
     end
   end
