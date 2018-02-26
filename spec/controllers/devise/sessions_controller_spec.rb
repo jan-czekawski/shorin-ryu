@@ -75,4 +75,27 @@ RSpec.describe Devise::SessionsController, type: :controller do
       end
     end
   end
+  
+  describe "#destroy", :new do
+    context "when user not logged in" do
+      it "redirects to root url after failed logging out" do
+        delete :destroy
+        expect(response).to redirect_to root_url
+      end
+    end
+    
+    context "when user logged in" do
+      it "redirects to root url after logging out" do
+        sign_in @user
+        delete :destroy
+        expect(response).to redirect_to root_url
+      end
+      
+      it "signs user out" do
+        sign_in @user
+        delete :destroy
+        expect(session["warden.user.user.key"]).to be_nil
+      end
+    end
+  end
 end
