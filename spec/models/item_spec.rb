@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   describe Item, ".new" do
-    
     after(:all) do
       Item.delete_all
     end
@@ -59,13 +58,15 @@ RSpec.describe Item, type: :model do
     
     it "requires unique name" do
       item = create(:item)
-      second_item = build(:item)
+      second_item = build(:item, name: item.name)
       expect(second_item).not_to be_valid
     end
     
     it "requires unique store_item_id" do
-      item = create(:item, store_item_id: 100, name: "random")
-      second_item = build(:item, store_item_id: 100, name: "another")
+      item = create(:item, name: "random")
+      second_item = build(:item,
+                          store_item_id: item.store_item_id,
+                          name: "another")
       expect(second_item).not_to be_valid
     end
   end

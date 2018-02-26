@@ -1,22 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  
+
   before(:all) do
     @james = create(:user, email: "james@email.com", login: "james")
     @phil = create(:user, email: "phil@email.com", login: "phil")
     @admin = create(:admin, email: "admin@email.com", login: "admin_controller")
   end
   
-  after(:all) do
-    User.delete_all
-  end
-  
   describe "Users#index" do
     context "when user not logged in" do
       it "redirects to root" do
         get :index
-        expect(response).to redirect_to(root_path)
+        expect(response).to require_login
       end
     end
     
@@ -54,7 +50,7 @@ RSpec.describe UsersController, type: :controller do
           delete :destroy, params: { id: @james.id }
         end.not_to change(User, :count)
   
-        expect(response).to redirect_to(root_path)
+        expect(response).to require_login
       end
     end
     
@@ -66,7 +62,7 @@ RSpec.describe UsersController, type: :controller do
           delete :destroy, params: { id: @james.id }
         end.not_to change(User, :count)
         
-        expect(response).to redirect_to(root_path)
+        expect(response).to require_admin
       end
     end
     

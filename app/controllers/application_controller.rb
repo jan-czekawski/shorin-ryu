@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   def require_user
     return if user_signed_in?
     flash[:alert] = "You must be logged in to do that!"
-    redirect_to root_path
+    redirect_to new_user_session_url
   end
 
   def require_admin

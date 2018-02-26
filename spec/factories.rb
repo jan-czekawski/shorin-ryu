@@ -25,11 +25,11 @@ FactoryBot.define do
   end
   
   factory :item do
-    name "MyString"
+    sequence :store_item_id { |num| num }
+    name { "item#{store_item_id}" }
     description "MyText"
     size "xs"
     price 1.0
-    store_item_id 32001
     image "MyString"
   end
   
