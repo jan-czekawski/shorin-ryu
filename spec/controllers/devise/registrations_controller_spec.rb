@@ -86,4 +86,49 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
       end
     end
   end
+  
+  describe "#update", :new do
+    context "when user not logged in" do
+      it "redirects to sign in url" do
+        patch :update, params: { user: { email: @user.email,
+                                         current_password: @user.password } }
+        expect(response).to require_login
+      end
+    end
+    
+    context "when user logged in" do
+      before(:each) do
+        sign_in @user
+        @another_user = build(:user)        
+      end
+      
+      describe "with valid information" do
+        it "updates user's attributes" do
+          patch :update, params: { user: { email: @another_user.email,
+                                           current_password: @user.password } }
+          expect(@user.reload.email).to eq @another_user.email
+        end
+        
+        it "redirects to root page after updating" do
+          patch :update, params: { user: { email: @another_user.email,
+                                           current_password: @user.password } }
+          expect(response).to redirect_to root_url
+        end
+      end
+      
+      describe "with invalid information" do
+        it "doesn't update user's attributes" do
+          patch :update, params: { user: { email: @another_user.email,
+                                           current_password: "invalid" } }
+          expect(@user.reload.email).not_to eq @another_user.email
+        end
+        
+        it "renders edit template after failed update" do
+          patch :update, params: { user: { email: @another_user.email,
+                                           current_password: "invalid" } }
+          expect(response).to render_template :edit
+        end
+      end
+    end
+  end
 end
