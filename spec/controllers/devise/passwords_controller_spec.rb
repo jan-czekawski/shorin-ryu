@@ -100,7 +100,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
     end
   end
   
-  describe "#update", :new do
+  describe "#update" do
     context "when user logged in" do
       it "redirects to root url" do
         sign_in @user
