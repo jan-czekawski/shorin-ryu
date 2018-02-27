@@ -12,9 +12,10 @@ RSpec.describe CommentsController, type: :controller do
     User.delete_all
     Item.delete_all
     Event.delete_all
+    Comment.delete_all
   end
 
-  describe "#post", :new do
+  describe "#post" do
     
     context "when user logged in" do
       before(:each) do
@@ -30,8 +31,8 @@ RSpec.describe CommentsController, type: :controller do
         end
         
         it "redirects to event page after comment creation" do
-          post :create, params: { event_id: @event.id,
-                                  comment: { content: "random" } }
+          post :create, params: { event_id: @event.id, 
+                                comment: { content: "random" } }
           expect(response).to redirect_to event_path(@event)
         end
       end
@@ -70,4 +71,66 @@ RSpec.describe CommentsController, type: :controller do
     
   end
   
+  describe "#destroy" do
+
+    context "when user not logged in" do
+      it "doesn't change comment count" do
+        comment = Comment.last
+        expect do
+          delete :destroy, params: { id: comment.id,
+                                    event_id: @event.id }
+        end.not_to change(Comment, :count)
+      end
+      
+      it "redirects to login page" do
+        comment = Comment.last
+        delete :destroy, params: { id: comment.id,
+                                  event_id: @event.id }
+        expect(response).to require_login
+      end
+    end
+    
+    context "when user logged in" do
+      
+      before(:each) do
+        sign_in @user
+      end
+      
+      describe "with valid event information" do
+        it "decreases comment count by 1" do
+          # TODO: check comment_id vs event_id and .. vs item_id
+          comment = Comment.last
+          expect do
+            delete :destroy, params: { id: comment.id,
+                                      event_id: @event.id }
+          end.to change(Comment, :count).by(-1)
+        end
+        
+        it "redirects to event page after comment is deleted" do
+          comment = Comment.last
+          delete :destroy, params: { id: comment.id,
+                                     event_id: @event.id }
+          expect(response).to redirect_to event_path(@event)
+        end
+      end
+      
+      describe "with valid item information" do
+        it "decreases comment count by 1" do
+          comment = Comment.last
+          expect do
+            delete :destroy, params: { id: comment.id,
+                                      item_id: @item.id }
+          end.to change(Comment, :count).by(-1)
+        end
+        
+        it "redirects to item page after comment is deleted" do
+          comment = Comment.last
+          delete :destroy, params: { id: comment.id,
+                                     item_id: @item.id }
+          expect(response).to redirect_to item_path(@item)
+        end
+      end
+    end
+
+  end
 end
