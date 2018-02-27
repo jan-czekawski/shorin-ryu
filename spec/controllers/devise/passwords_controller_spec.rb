@@ -71,7 +71,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
     end
   end
   
-  describe "#edit", :new do
+  describe "#edit" do
     context "when user logged in" do
       it "redirects to root url" do
         sign_in @user
@@ -95,6 +95,51 @@ RSpec.describe Devise::PasswordsController, type: :controller do
       it "assigns new instance of User to @user" do
         get :edit, params: { reset_password_token: @token }
         expect(assigns(:user)).to be_a_new(User)
+      end
+    end
+  end
+  
+  describe "#update", :new do
+    context "when user logged in" do
+      it "redirects to root url" do
+        sign_in @user
+        @token = @user.send_reset_password_instructions
+        put :update, params: { reset_password_token: @token,
+                                 user: { password: "new_pass",
+                                         password_confirmation: "new_pass" } }
+        expect(response).to redirect_to root_url
+      end
+    end
+    
+    context "when user not logged in" do
+      describe "with valid information" do
+        it "updates users password" do
+          @token = @user.send_reset_password_instructions
+          put :update, params: { user: { reset_password_token: @token,
+                                         password: "new_pass",
+                                         password_confirmation: "new_pass" } }
+          # expect(@user.reload.password).to eq "new_pass"
+        end
+        
+        it "redirects to root after password reset" do
+          @token = @user.send_reset_password_instructions
+          put :update, params: { user: { reset_password_token: @token,
+                                         password: "new_pass",
+                                         password_confirmation: "new_pass" } }
+          expect(response).to redirect_to root_url
+        end
+        
+        it "signs user in after password reset" do
+          @token = @user.send_reset_password_instructions
+          put :update, params: { user: { reset_password_token: @token,
+                                         password: "new_pass",
+                                         password_confirmation: "new_pass" } }
+          expect(session["warden.user.user.key"]).not_to be_nil
+        end
+      end
+      
+      describe "with invalid information" do
+        
       end
     end
   end
