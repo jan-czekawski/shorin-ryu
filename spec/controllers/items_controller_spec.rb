@@ -152,7 +152,7 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
-  describe "#edit", :new do
+  describe "#edit" do
     context "when user logged in" do
       describe "and admin" do
         
@@ -178,6 +178,13 @@ RSpec.describe ItemsController, type: :controller do
         end
       end
     end
+    
+    context "when user not logged in" do
+      it "redirects to login page" do
+        get :edit, params: { id: @item.id }
+        expect(response).to require_login
+      end
+    end
   end
 
   # describe "#update" do
@@ -187,11 +194,53 @@ RSpec.describe ItemsController, type: :controller do
   #   end
   # end
 
-  # describe "#delete" do
-  #   it "returns http success" do
-  #     get :delete
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
+  describe "#delete" do
+    context "when user not logged in" do
+      it "doesn't change item count" do
+        expect do
+          delete :destroy, params: { id: @item.id }
+        end.not_to change(Item, :count)
+      end
+      
+      it "redirects to login page" do
+        delete :destroy, params: { id: @item.id }
+        expect(response).to require_login
+      end
+    end
+    
+    context "when user logged in" do
+      describe "and not admin" do
+        before(:each) { sign_in @user }
+        
+        it "doestn't change item count" do
+          expect do
+            delete :destroy, params: { id: @item.id }
+          end.not_to change(Item, :count)
+        end
+        
+        it "redirects to root url" do
+          delete :destroy, params: { id: @item.id }
+          expect(response).to redirect_to root_url
+        end
+      end
+      
+      describe "and admin" do
+        before(:each) { sign_in @admin }
+        
+        it "decreases item count by 1" do
+          expect do
+            delete :destroy, params: { id: @item.id }
+          end.to change(Item, :count).by(-1)
+        end
+        
+        it "redirects to items path" do
+          item = create(:item)
+          delete :destroy, params: { id: item.id }
+          expect(response).to redirect_to items_path
+        end
+      end
+    end
+    
+  end
 
 end
