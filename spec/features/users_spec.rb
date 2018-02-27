@@ -38,8 +38,9 @@ feature "User management", type: :feature do
     within "h1" do
       expect(page).to have_content "Users"
     end
-    User.all.each do |user|
+    User.each do |user|
       expect(page).to have_content user.login
+      expect(page).to have_content user.image
     end
   end
   
