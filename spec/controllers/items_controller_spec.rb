@@ -32,7 +32,7 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
-  describe "#new", :new do
+  describe "#new" do
     context "when user logged in" do
       describe "and admin" do
         before(:each) do
@@ -72,7 +72,7 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
-  describe "#create", :new do
+  describe "#create" do
     context "when user logged in" do
       describe "and admin" do
         before(:each) do
@@ -152,10 +152,31 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
-  describe "#edit" do
-    it "returns http success" do
-      # get :edit, params: { id: @item.id }
-      # expect(response).to have_http_status(:success)
+  describe "#edit", :new do
+    context "when user logged in" do
+      describe "and admin" do
+        
+        before(:each) { sign_in @admin }
+        
+        it "renders edit template" do
+          get :edit, params: { id: @item.id }
+          expect(response).to render_template :edit
+        end
+        
+        it "assigns item to @item" do
+          get :edit, params: { id: @item.id }
+          expect(assigns(:item)).to eq @item
+        end
+      end
+      
+      describe "and not admin" do
+        before(:each) { sign_in @user }
+        
+        it "redirects to root url" do
+          get :edit, params: { id: @item.id }
+          expect(response).to redirect_to root_url
+        end
+      end
     end
   end
 
