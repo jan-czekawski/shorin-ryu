@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show destroy]
-  before_action :require_user, only: %i[index destroy]
+  before_action :require_user, only: %i[index show destroy]
   before_action :require_admin, only: [:destroy]
   rescue_from Mongoid::Errors::DocumentNotFound, with: :wrong_user
 
