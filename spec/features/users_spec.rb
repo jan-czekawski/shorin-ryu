@@ -5,6 +5,10 @@ feature "User management", :new do
     User.delete_all
   end
   
+  before(:all) do
+    @user = create(:user)
+  end
+  
   scenario "adds a new user" do
     user = build(:user)
     
@@ -22,5 +26,17 @@ feature "User management", :new do
     within "li.nav-item.dropdown" do
       "Signed in as #{user.login}"
     end
+  end
+  
+  scenario "log in user" do
+    login_as(@user)
+  end
+  
+  def login_as(user)
+    visit root_path
+    click_link "Sign in"
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log in"
   end
 end
