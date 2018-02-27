@@ -11,7 +11,6 @@ feature "User management", :new do
   
   scenario "adds a new user" do
     user = build(:user)
-    
     visit root_path
     click_link "Sign up"
     expect{
@@ -24,16 +23,28 @@ feature "User management", :new do
     expect(current_path).to eq root_path
     expect(page).to have_content "You have signed up successfully."
     within "li.nav-item.dropdown" do
-      "Signed in as #{user.login}"
+      expect(page).to have_content "Signed in as #{user.login}"
     end
   end
   
-  scenario "log in user" do
-    login_as(@user)
+  scenario "logs in a user" do
+    login_as(@user.email, @user.password)
   end
   
-  scenario "update a user" do
-    login_as(@user)
+  scenario "displays all users" do
+    login_as(@user.email, @user.password)
+    click_link "Users"
+    expect(current_path).to eq users_path
+    within "h1" do
+      expect(page).to have_content "Users"
+    end
+    User.all.each do |user|
+      expect(page).to have_content user.login
+    end
+  end
+  
+  scenario "updates a user" do
+    login_as(@user.email, @user.password)
     click_link "Edit"
     expect(current_path).to eq edit_user_registration_path
     fill_in "Email", with: "another@email.com"
@@ -45,9 +56,8 @@ feature "User management", :new do
     expect(page).to have_content "Your account has been updated"
   end
   
-  scenario "delete a user" do
-    user = create(:user)
-    login_as(user)
+  scenario "deletes a user" do
+    login_as("another@email.com", "new_password")
     click_link "Edit"
     expect {
       click_button "Cancel my account"
@@ -56,11 +66,11 @@ feature "User management", :new do
     expect(page).to have_content "Your account has been successfully cancelled."
   end
   
-  def login_as(user)
+  def login_as(email, password)
     visit root_path
     click_link "Sign in"
-    fill_in "Email", with: user.email
-    fill_in "Password", with: user.password
+    fill_in "Email", with: email
+    fill_in "Password", with: password
     click_button "Log in"
     expect(current_path).to eq root_path
   end
