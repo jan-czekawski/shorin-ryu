@@ -3,8 +3,7 @@
     %h1 Events
 .row
   %section.col-md-9
-    // - if user_signed_in? && current_user.admin?
-    - if current_user.try(:admin?)
+    - if user_signed_in?
       = link_to "New event", new_event_path, class: "btn btn-success btn-wide"
     - @events.each do |event|
       .card.my-3

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User management", :new do
+feature "User management", type: :feature do
   after(:all) do
     User.delete_all
   end
@@ -77,14 +77,5 @@ feature "User management", :new do
     }.to change(User, :count).by(-1)
     expect(current_path).to eq root_path
     expect(page).to have_content "Your account has been successfully cancelled."
-  end
-  
-  def login_as(email, password)
-    visit root_path
-    click_link "Sign in"
-    fill_in "Email", with: email
-    fill_in "Password", with: password
-    click_button "Log in"
-    expect(current_path).to eq root_path
   end
 end

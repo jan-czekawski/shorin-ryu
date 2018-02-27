@@ -32,14 +32,25 @@ RSpec.describe UsersController, type: :controller do
   end
   
   describe "Users#show" do
-    it "assigns requested user to @user" do
-      get :show, params: { id: @james.id }
-      expect(assigns(:user)).to eq(@james)
+    context "when user not logged in" do
+      it "redirects to login page" do
+        get :show, params: { id: @james.id }
+        expect(response).to redirect_to new_user_session_url
+      end
     end
     
-    it "renders show template" do
-      get :show, params: { id: @james.id }
-      expect(response).to render_template :show
+    context "when user logged in" do
+      it "assigns requested user to @user" do
+        sign_in @james
+        get :show, params: { id: @james.id }
+        expect(assigns(:user)).to eq(@james)
+      end
+      
+      it "renders show template" do
+        sign_in @james
+        get :show, params: { id: @james.id }
+        expect(response).to render_template :show
+      end
     end
   end
   
