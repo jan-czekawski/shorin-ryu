@@ -10,7 +10,7 @@ feature "Events handling", type: :feature do
     @user = create(:user)
   end
   
-  scenario "add new event" do
+  scenario "add an event" do
     event = build(:event)
     login_as(@user.email, @user.password)
     click_link "Events"
@@ -27,5 +27,29 @@ feature "Events handling", type: :feature do
     }.to change(Event, :count).by(1)
     expect(current_path).to eq events_path
     expect(page).to have_content "New event was created!"
+  end
+  
+  scenario "display all events" do
+    first_event = Event.first
+    visit root_path
+    click_link "Events"
+    expect(current_path).to eq events_path
+    Event.each do |event|
+      check_content(event)
+    end
+    click_link "Show", href: event_path(first_event)
+    check_content(first_event)
+    expect(page).to have_content first_event.comments if first_event.comments.any? 
+    expect(page).to have_content first_event.user.login
+    expect(page).to have_content first_event.created_at.strftime("%e-%b-%Y")
+  end
+  
+  def check_content(event)
+    expect(page).to have_content event.image
+    expect(page).to have_content event.name
+    expect(page).to have_content event.address[:street]
+    expect(page).to have_content event.address[:city]
+    expect(page).to have_content event.address[:house_number]
+    expect(page).to have_content event.address[:zip_code]
   end
 end
