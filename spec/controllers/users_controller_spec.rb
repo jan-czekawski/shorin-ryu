@@ -8,7 +8,7 @@ RSpec.describe UsersController, type: :controller do
     @admin = create(:admin, email: "admin@email.com", login: "admin_controller")
   end
   
-  describe "Users#index" do
+  describe "#index" do
     context "when user not logged in" do
       it "redirects to root" do
         get :index
@@ -31,7 +31,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
   
-  describe "Users#show" do
+  describe "#show" do
     context "when user not logged in" do
       it "redirects to login page" do
         get :show, params: { id: @james.id }
@@ -54,7 +54,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
   
-  describe "Users#destroy" do
+  describe "#destroy" do
     context "when user not logged in" do
       it "redirects to root" do
         expect do
