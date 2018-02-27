@@ -10,49 +10,49 @@ RSpec.describe ItemsController, type: :controller do
     Item.delete_all
   end
 
-  describe "GET #index" do
+  describe "#index" do
     it "returns http success" do
       get :index
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET #show" do
+  describe "#show" do
     it "returns http success" do
       get :show, params: { id: @item.id }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET #new" do
+  describe "#new" do
     it "returns http success" do
       get :new
       expect(response).to have_http_status(:success)
     end
   end
 
-  # describe "GET #create" do
+  # describe "#create" do
   #   it "returns http success" do
   #     get :create
   #     expect(response).to have_http_status(:success)
   #   end
   # end
 
-  describe "GET #edit" do
+  describe "#edit" do
     it "returns http success" do
       get :edit, params: { id: @item.id }
       expect(response).to have_http_status(:success)
     end
   end
 
-  # describe "GET #update" do
+  # describe "#update" do
   #   it "returns http success" do
   #     get :update
   #     expect(response).to have_http_status(:success)
   #   end
   # end
 
-  # describe "GET #delete" do
+  # describe "#delete" do
   #   it "returns http success" do
   #     get :delete
   #     expect(response).to have_http_status(:success)

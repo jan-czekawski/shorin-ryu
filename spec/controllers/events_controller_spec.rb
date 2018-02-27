@@ -15,21 +15,21 @@ RSpec.describe EventsController, type: :controller do
     Event.delete_all
   end
 
-  describe "GET index" do
+  describe "#index" do
     it "returns http success" do
       get :index
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET show" do
+  describe "#show" do
     it "returns http success" do
       get :show, params: { id: @osaka.id }
       expect(response).to have_http_status(:success)
     end
   end
-  
-  describe "GET new" do
+
+  describe "#new" do
     it "returns http success" do
       sign_in @john
       get :new
@@ -37,7 +37,7 @@ RSpec.describe EventsController, type: :controller do
     end
   end
   
-  describe "POST create" do
+  describe "#create" do
     it "creates new event if all info is provided" do
       sign_in @john
       expect do
@@ -65,7 +65,7 @@ RSpec.describe EventsController, type: :controller do
     end
   end
   
-  describe "GET edit" do
+  describe "#edit" do
     it "returns http success if user created that event" do
       sign_in @john
       get :edit, params: { id: @osaka.id }
@@ -85,7 +85,7 @@ RSpec.describe EventsController, type: :controller do
     end
   end
   
-  describe "PUT update" do
+  describe "#update" do
     it "updates info and redirects if correct info is provided" do
       sign_in @john
       put :update, params: { id: @osaka.id,
@@ -100,7 +100,7 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
-  describe "DELETE destroy" do
+  describe "#destroy" do
     it "doesn't delete event unless user's logged in" do
       sign_out @john if @john
       expect do
