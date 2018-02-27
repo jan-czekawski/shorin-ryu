@@ -140,12 +140,42 @@ RSpec.describe Devise::PasswordsController, type: :controller do
       end
       
       describe "with invalid information" do
-        it "doesn't update user's password" do
-          @token = @user.send_reset_password_instructions
-          put :update, params: { user: { reset_password_token: nil,
-                                         password: "new_pass5",
-                                         password_confirmation: "new_pass5" } }
-          expect(password_changed?(@user, "new_pass5")).not_to be true
+        context "when password token is invalid" do
+          it "doesn't update user's password" do
+            @token = @user.send_reset_password_instructions
+            put :update, params: { user: { reset_password_token: nil,
+                                           password: "new_pass5",
+                                           password_confirmation: "new_pass5" } }
+            expect(password_changed?(@user, "new_pass5")).not_to be true
+          end
+          
+          it "renders edit template" do
+            @token = @user.send_reset_password_instructions
+            put :update, params: { user: { reset_password_token: nil,
+                                           password: "new_pass6",
+                                           password_confirmation: "new_pass6" } }
+            expect(response).to render_template :edit
+          end
+        end
+        
+        context "when password token is outdated" do
+          it "doesn't update user's password" do
+            @token = @user.send_reset_password_instructions
+            @user.update_attribute(:reset_password_sent_at, 7.hours.ago)
+            put :update, params: { user: { reset_password_token: @token,
+                                           password: "new_pass7",
+                                           password_confirmation: "new_pass7" } }
+            expect(password_changed?(@user, "new_pass7")).not_to be true
+          end
+          
+          it "renders edit template" do
+            @token = @user.send_reset_password_instructions
+            @user.update_attribute(:reset_password_sent_at, 7.hours.ago)
+            put :update, params: { user: { reset_password_token: @token,
+                                           password: "new_pass8",
+                                           password_confirmation: "new_pass8" } }
+            expect(response).to render_template :edit
+          end
         end
       end
     end
