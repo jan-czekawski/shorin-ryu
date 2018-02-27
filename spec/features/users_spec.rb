@@ -32,6 +32,20 @@ feature "User management", :new do
     login_as(@user)
   end
   
+  scenario "update a user" do
+    login_as(@user)
+    expect(current_path).to eq root_path
+    click_link "Edit"
+    expect(current_path).to eq edit_user_registration_path
+    fill_in "Email", with: "another@email.com"
+    fill_in "Password", with: "new_password"
+    fill_in "Password confirmation", with: "new_password"
+    fill_in "Current password", with: @user.password
+    click_button "Update"
+    expect(current_path).to eq root_path
+    expect(page).to have_content "Your account has been updated"
+  end
+  
   def login_as(user)
     visit root_path
     click_link "Sign in"
