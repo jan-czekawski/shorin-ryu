@@ -99,7 +99,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
     end
   end
   
-  describe "#update", :new do
+  describe "#update" do
     context "when user logged in" do
       it "redirects to root url" do
         sign_in @user
@@ -113,12 +113,13 @@ RSpec.describe Devise::PasswordsController, type: :controller do
     
     context "when user not logged in" do
       describe "with valid information" do
-        it "updates users password" do
+        it "updates users password", :new do
+          old_password = @user.encrypted_password
           @token = @user.send_reset_password_instructions
           put :update, params: { user: { reset_password_token: @token,
                                          password: "new_pass",
                                          password_confirmation: "new_pass" } }
-          # expect(@user.reload.password).to eq "new_pass"
+          expect(@user.reload.encrypted_password).not_to eq old_password
         end
         
         it "redirects to root after password reset" do
