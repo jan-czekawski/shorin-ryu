@@ -43,6 +43,19 @@ feature "User management", :new do
     end
   end
   
+  scenario "display single user" do
+    login_as(@user.email, @user.password)
+    click_link "Users"
+    click_link "Show", href: user_path(@user)
+    within "h1" do
+      expect(page).to have_content "Profile"
+    end
+    within ".card" do
+      expect(page).to have_content @user.login
+      expect(page).to have_content @user.created_at.strftime("%e-%b-%Y")
+    end
+  end
+  
   scenario "updates a user" do
     login_as(@user.email, @user.password)
     click_link "Edit"
