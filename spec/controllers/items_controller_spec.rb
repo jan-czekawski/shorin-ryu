@@ -187,12 +187,52 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
-  # describe "#update" do
-  #   it "returns http success" do
-  #     get :update
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
+  describe "#update" do
+    context "when user not logged in" do
+      it "redirects to login page" do
+        patch :update, params: { id: @item.id, item: attributes_for(:item) }
+        expect(response).to require_login
+      end
+      
+      it "doesn't update item's attributes" do
+        old_item = @item
+        patch :update, params: { id: old_item.id, item: attributes_for(:item) }
+        expect(old_item.store_item_id).to eq @item.reload.store_item_id
+      end
+    end
+    
+    context "when user logged in" do
+      describe "and not admin" do
+        before(:each) { sign_in @user }
+        
+        it "redirects to root page" do
+          patch :update, params: { id: @item.id, item: attributes_for(:item) }
+          expect(response).to redirect_to root_url
+        end
+        
+        it "doesn't update item's attributes" do
+          old_item = @item
+          patch :update, params: { id: old_item.id, item: attributes_for(:item) }
+          expect(old_item.store_item_id).to eq @item.reload.store_item_id
+        end
+      end
+      
+      describe "and admin" do
+        before(:each) { sign_in @admin }
+        
+        it "redirects to item path" do
+          patch :update, params: { id: @item.id, item: attributes_for(:item) }
+          expect(response).to redirect_to item_path(@item)
+        end
+        
+        it "updates items attributes" do
+          attributes = attributes_for(:item, store_item_id: 100)
+          patch :update, params: { id: @item.id, item: attributes }
+          expect(@item.reload.store_item_id).to eq 100 
+        end
+      end
+    end
+  end
 
   describe "#delete" do
     context "when user not logged in" do
