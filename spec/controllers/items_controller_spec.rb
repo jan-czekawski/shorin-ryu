@@ -58,11 +58,50 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
-  describe "#create" do
+  describe "#create", :new do
     context "when user logged in" do
-      it "returns http success" do
-        # get :create
-        # expect(response).to have_http_status(:success)
+      
+      before(:each) do
+        sign_in @user
+      end
+      
+      describe "with valid information" do
+        it "increases item count by 1" do
+          expect do
+            post :create, params: { item: attributes_for(:item) }
+          end.to change(Item, :count).by(1)
+        end
+        
+        it "redirects to items path" do
+          post :create, params: { item: attributes_for(:item) }
+          expect(response).to redirect_to items_url
+        end
+      end
+      
+      describe "with invalid information" do
+        it "doesnt' change item count" do
+          expect do
+            post :create, params: { item: attributes_for(:item, name: nil) }
+          end.not_to change(Item, :count)
+        end
+        
+        it "renders new item template" do
+          post :create, params: { item: attributes_for(:item, name: nil) }
+          expect(response).to render_template :new
+        end
+      end
+    end
+    
+    context "when user not logged in" do
+      it "doesn't change item count" do
+        expect do
+          post :create, params: { item: attributes_for(:item) }
+        end.not_to change(Item, :count)
+      end
+      
+      it "redirects to login page" do
+        post :create, params: { item: attributes_for(:item) }
+        expect(response).to require_login
       end
     end
   end
