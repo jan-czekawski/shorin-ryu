@@ -11,7 +11,7 @@ feature "Items handling", type: :feature do
     @item = create(:item)
   end
   
-  scenario "add a item" do
+  scenario "add an item" do
     item = build(:item)
     visit root_path
     login_as(@admin.email, @admin.password)
@@ -29,5 +29,17 @@ feature "Items handling", type: :feature do
     }.to change(Item, :count).by(1)
     expect(current_path).to eq items_path
     expect(page).to have_content "New item has been created."
+  end
+  
+  scenario "visit items_path" do
+    visit root_path
+    login_as(@admin.email, @admin.password)
+    click_link "Shop"
+    Item.each do |item|
+      expect(page).to have_content item.image
+      expect(page).to have_content item.name
+      expect(page).to have_content item.description
+      expect(page).to have_content item.store_item_id
+    end
   end
 end
