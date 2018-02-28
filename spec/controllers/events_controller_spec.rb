@@ -27,6 +27,18 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+  describe "#show" do
+    it "assigns picked event to @event" do
+      get :show, params: { id: @osaka.id }
+      expect(assigns(:event)).to eq @osaka
+    end
+    
+    it "renders show template" do
+      get :show, params: { id: @osaka.id }
+      expect(response).to render_template :show
+    end
+  end
+
   describe "#new" do
     it "returns http success" do
       sign_in @john
