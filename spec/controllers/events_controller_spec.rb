@@ -41,9 +41,7 @@ RSpec.describe EventsController, type: :controller do
 
   describe "#new" do
     context "when user logged in" do
-      before(:each) do
-        sign_in @john
-      end
+      before(:each) { sign_in @john }
       
       it "renders new template" do
         get :new
@@ -65,30 +63,60 @@ RSpec.describe EventsController, type: :controller do
   end
   
   describe "#create" do
-    it "creates new event if all info is provided" do
-      sign_in @john
-      expect do
-        post :create, params: { event: { name: "Home",
-                                        address_attributes: { city: "home_city",
-                                                    street: "home street",
-                                                    house_number: 11,
-                                                    zip_code: 200 } } }
-      end.to change(Event, :count).by(1)
-      expect(response).to redirect_to(events_path)
+    context "when user logged in" do
+      before(:each) { sign_in @john }
+      
+      describe "with valid information" do
+        it "creates new event" do
+          address = attributes_for(:address)
+          expect do
+            post :create, params: { event: { name: "Home",
+                                            address_attributes: address } }
+          end.to change(Event, :count).by(1)
+        end
+        
+        it "redirects to events path after creation" do
+          address = attributes_for(:address)
+          post :create, params: { event: { name: "Home",
+                                           address_attributes: address } }
+          expect(response).to redirect_to events_path
+        end
+      end
+      
+      
+      describe "with invalid information" do
+        it "doesn't create a new event" do
+          address = attributes_for(:address)
+          expect do
+            post :create, params: { event: { name: nil,
+                                            address_attributes: address } }
+          end.not_to change(Event, :count)
+        end
+        
+        it "renders new template after failed creation" do
+          address = attributes_for(:address)
+          post :create, params: { event: { name: nil,
+                                          address_attributes: address } }
+          expect(response).to render_template("new")
+        end
+      end
     end
     
-    
-    
-    it "creates no event if all info is not provided" do
-      sign_in @john
-      expect do
-        post :create, params: { event: { name: nil,
-                                        address_attributes: { city: "home_city",
-                                                    street: "home street",
-                                                    house_number: 11,
-                                                    zip_code: 200 } } }
-      end.not_to change(Event, :count)
-      expect(response).to render_template("new")
+    context "when user not logged in" do
+      it "doesn't create a new event" do
+        address = attributes_for(:address)
+        expect do
+          post :create, params: { event: { name: "random name",
+                                          address_attributes: address } }
+        end.not_to change(Event, :count)
+      end
+      
+      it "redirects to login page" do
+        address = attributes_for(:address)
+        post :create, params: { event: { name: "random_name",
+                                        address_attributes: address } }
+        expect(response).to require_login
+      end
     end
   end
   
