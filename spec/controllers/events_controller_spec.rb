@@ -40,10 +40,27 @@ RSpec.describe EventsController, type: :controller do
   end
 
   describe "#new" do
-    it "returns http success" do
-      sign_in @john
-      get :new
-      expect(response).to have_http_status(:success)
+    context "when user logged in" do
+      before(:each) do
+        sign_in @john
+      end
+      
+      it "renders new template" do
+        get :new
+        expect(response).to render_template :new
+      end
+      
+      it "assigns new instance of Event to @event" do
+        get :new
+        expect(assigns(:event)).to be_a_new Event
+      end
+    end
+    
+    context "when user not logged in" do
+      it "redirects to login page" do
+        get :new
+        expect(response).to require_login
+      end
     end
   end
   
