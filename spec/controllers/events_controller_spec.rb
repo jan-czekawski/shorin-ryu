@@ -120,7 +120,7 @@ RSpec.describe EventsController, type: :controller do
     end
   end
   
-  describe "#edit", :new do
+  describe "#edit" do
     context "when user logged in" do
       describe "and admin" do
         it "renders edit template" do
@@ -168,18 +168,118 @@ RSpec.describe EventsController, type: :controller do
   end
   
   describe "#update" do
-    it "updates info and redirects if correct info is provided" do
-      sign_in @john
-      put :update, params: { id: @johns_event.id,
-                             event: { name: "change_example",
-                                      address_attributes: { city: "changed_city",
-                                                 street: "changed_street",
-                                                 house_number: 666,
-                                                 zip_code: 999 } } }
-      @johns_event.reload
-      expect(@johns_event.name).to eq("change_example")
-      expect(@johns_event.address[:city]).to eq("changed_city")
+    context "when user logged in" do
+      describe "and event's creator" do
+        context "with valid information" do
+          it "updates events information" do
+            sign_in @john
+            address = attributes_for(:address, city: "changed_city")
+            put :update, params: { id: @johns_event.id,
+                                   event: { name: "change_example",
+                                            address_attributes: address } }
+            @johns_event.reload
+            expect(@johns_event.name).to eq("change_example")
+            expect(@johns_event.address[:city]).to eq("changed_city")
+          end
+  
+          it "redirects to updated event page" do
+            sign_in @john
+            address = attributes_for(:address, city: "changed_back")
+            put :update, params: { id: @johns_event.id,
+                                   event: { name: "change_back",
+                                            address_attributes: address } }
+            expect(response).to redirect_to event_path(@johns_event)
+          end
+        end
+
+        context "with invalid information" do
+          it "doesn't update event's information" do
+            sign_in @john
+            address = attributes_for(:address, city: "changed_city")
+            put :update, params: { id: @johns_event.id,
+                                   event: { name: nil,
+                                            address_attributes: address } }
+            @johns_event.reload
+            expect(@johns_event.name).not_to eq("change_example")
+            expect(@johns_event.address[:city]).not_to eq("changed_city")
+          end
+  
+          it "renders edit template" do
+            sign_in @john
+            address = attributes_for(:address, city: "changed_city")
+            put :update, params: { id: @johns_event.id,
+                                   event: { name: nil,
+                                            address_attributes: address } }
+            expect(response).to render_template :edit
+          end
+        end
+      end
+      
+      describe "and admin" do
+        it "updates events information" do
+          sign_in @admin
+          address = attributes_for(:address, city: "changed_city")
+          put :update, params: { id: @johns_event.id,
+                                 event: { name: "change_example",
+                                          address_attributes: address } }
+          @johns_event.reload
+          expect(@johns_event.name).to eq("change_example")
+          expect(@johns_event.address[:city]).to eq("changed_city")
+        end
+
+        it "updates events information" do
+          sign_in @admin
+          address = attributes_for(:address, city: "changed_back")
+          put :update, params: { id: @johns_event.id,
+                                 event: { name: "change_back",
+                                          address_attributes: address } }
+          expect(response).to redirect_to event_path(@johns_event)
+        end
+      end
+      
+      describe "and not admin nor event's creator" do
+        it "doesn't update event's information" do
+          sign_in @paul
+          address = attributes_for(:address, city: "city")
+          put :update, params: { id: @johns_event.id,
+                                 event: { name: "name",
+                                          address_attributes: address } }
+          @johns_event.reload
+          expect(@johns_event.name).not_to eq("name")
+          expect(@johns_event.address[:city]).not_to eq("city")
+        end
+  
+        it "redirects to events_path" do
+          sign_in @paul
+          address = attributes_for(:address, city: "city")
+          put :update, params: { id: @johns_event.id,
+                                 event: { name: "name",
+                                          address_attributes: address } }
+          expect(response).to redirect_to events_path
+        end
+      end
     end
+    
+    context "when user not logged in" do
+      it "doesn't update event's information" do
+        address = attributes_for(:address, city: "city")
+        put :update, params: { id: @johns_event.id,
+                               event: { name: "name",
+                                        address_attributes: address } }
+        @johns_event.reload
+        expect(@johns_event.name).not_to eq("name")
+        expect(@johns_event.address[:city]).not_to eq("city")
+      end
+
+      it "redirects to login page" do
+        address = attributes_for(:address, city: "city")
+        put :update, params: { id: @johns_event.id,
+                               event: { name: "name",
+                                        address_attributes: address } }
+        expect(response).to require_login
+      end
+    end
+
   end
 
   describe "#destroy" do
