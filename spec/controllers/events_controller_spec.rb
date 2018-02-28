@@ -16,16 +16,14 @@ RSpec.describe EventsController, type: :controller do
   end
 
   describe "#index" do
-    it "returns http success" do
+    it "assigns array of all events to @events" do
       get :index
-      expect(response).to have_http_status(:success)
+      expect(assigns(:events)).to match_array([@osaka, @kyoto])
     end
-  end
-
-  describe "#show" do
-    it "returns http success" do
-      get :show, params: { id: @osaka.id }
-      expect(response).to have_http_status(:success)
+    
+    it "renders index template" do
+      get :index
+      expect(response).to render_template :index
     end
   end
 
