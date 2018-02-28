@@ -62,7 +62,7 @@ RSpec.describe EventsController, type: :controller do
     end
   end
   
-  describe "#create" do
+  describe "#create", :new do
     context "when user logged in" do
       before(:each) { sign_in @john }
       
@@ -282,33 +282,69 @@ RSpec.describe EventsController, type: :controller do
 
   end
 
-  describe "#destroy" do
-    it "doesn't delete event unless user's logged in" do
-      sign_out @john if @john
-      expect do
-        delete :destroy, params: { id: @johns_event.id }
-      end.not_to change(Event, :count)
-    end
+  describe "#destroy", :new do
+    context "when user not logged in" do
+      it "doesn't change event count" do
+        expect do
+          delete :destroy, params: { id: @johns_event.id }
+        end.not_to change(Event, :count)    
+      end
 
-    it "doesn't delete event if user didn't create that event" do
-      sign_in @paul
-      expect do
+      it "redirects to login page" do
         delete :destroy, params: { id: @johns_event.id }
-      end.not_to change(Event, :count)
+        expect(response).to require_login
+      end
     end
     
-    it "deletes event if user created that event" do
-      sign_in @john
-      expect do
-        delete :destroy, params: { id: @johns_event.id }
-      end.to change(Event, :count).by(-1)
-    end
-    
-    it "deletes event if user's logged in and is admin" do
-      sign_in @admin
-      expect do
-        delete :destroy, params: { id: @pauls_event.id }
-      end.to change(Event, :count).by(-1)
+    context "when user logged in" do
+      describe "and not admin nor event's creator" do
+        it "doesn't change event count" do
+          sign_in @paul
+          expect do
+            delete :destroy, params: { id: @johns_event.id }
+          end.not_to change(Event, :count)    
+        end
+  
+        it "redirects to events_path" do
+          sign_in @paul
+          delete :destroy, params: { id: @johns_event.id }
+          expect(response).to redirect_to events_path
+        end
+      end
+      
+      describe "and admin" do
+        it "deletes an event" do
+          sign_in @admin
+          event = Event.last
+          expect do
+            delete :destroy, params: { id: event.id }
+          end.to change(Event, :count).by(-1)    
+        end
+  
+        it "redirects to events_path" do
+          sign_in @admin
+          event = Event.last
+          delete :destroy, params: { id: event.id }
+          expect(response).to redirect_to events_path
+        end
+      end
+      
+      describe "and event's creator" do
+        it "deletes an event" do
+          sign_in @paul
+          expect do
+            delete :destroy, params: { id: @pauls_event.id }
+          end.to change(Event, :count).by(-1)    
+        end
+  
+        it "redirects to events_path" do
+          sign_in @john
+          event = Event.last
+          delete :destroy, params: { id: event.id }
+          expect(response).to redirect_to events_path
+        end
+      end
+      
     end
   end
 end
