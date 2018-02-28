@@ -62,7 +62,7 @@ RSpec.describe EventsController, type: :controller do
     end
   end
   
-  describe "#create", :new do
+  describe "#create" do
     context "when user logged in" do
       before(:each) { sign_in @john }
       
@@ -282,7 +282,7 @@ RSpec.describe EventsController, type: :controller do
 
   end
 
-  describe "#destroy", :new do
+  describe "#destroy" do
     context "when user not logged in" do
       it "doesn't change event count" do
         expect do
