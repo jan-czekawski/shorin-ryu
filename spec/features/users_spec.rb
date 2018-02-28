@@ -28,11 +28,11 @@ feature "User management", type: :feature do
   end
   
   scenario "logs in a user" do
-    login_as(@user.email, @user.password)
+    login_as(@user.email)
   end
   
   scenario "displays all users" do
-    login_as(@user.email, @user.password)
+    login_as(@user.email)
     click_link "Users"
     expect(current_path).to eq users_path
     within "h1" do
@@ -45,7 +45,7 @@ feature "User management", type: :feature do
   end
   
   scenario "display single user" do
-    login_as(@user.email, @user.password)
+    login_as(@user.email)
     click_link "Users"
     click_link "Show", href: user_path(@user)
     within "h1" do
@@ -58,7 +58,7 @@ feature "User management", type: :feature do
   end
   
   scenario "updates a user" do
-    login_as(@user.email, @user.password)
+    login_as(@user.email)
     click_link "Edit"
     expect(current_path).to eq edit_user_registration_path
     fill_in "Email", with: "another@email.com"
