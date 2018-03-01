@@ -1,36 +1,32 @@
 require "rails_helper"
 
 feature "User management", type: :feature do
-  after(:all) do
-    User.delete_all
-  end
-  
-  before(:all) do
-    @user = create(:user)
-  end
-  
+  after(:all) { User.delete_all }
+
+  before(:all) { @user = create(:user) }
+
   scenario "adds a new user" do
     user = build(:user)
     visit root_path
     click_link "Sign up"
-    expect{
-      fill_in "Email", with: user.email 
-      fill_in "Login", with: user.login 
+    expect do
+      fill_in "Email", with: user.email
+      fill_in "Login", with: user.login
       fill_in "Password", with: user.password
       fill_in "Password confirmation", with: user.password
       click_button "Create"
-    }.to change(User, :count).by(1)
+    end.to change(User, :count).by(1)
     expect(current_path).to eq root_path
     expect(page).to have_content "You have signed up successfully."
     within "li.nav-item.dropdown" do
       expect(page).to have_content "Signed in as #{user.login}"
     end
   end
-  
+
   scenario "logs in a user" do
     login_as(@user.email)
   end
-  
+
   scenario "displays all users" do
     login_as(@user.email)
     click_link "Users"
@@ -43,7 +39,7 @@ feature "User management", type: :feature do
       expect(page).to have_content user.image
     end
   end
-  
+
   scenario "display single user" do
     login_as(@user.email)
     click_link "Users"
@@ -56,7 +52,7 @@ feature "User management", type: :feature do
       expect(page).to have_content @user.created_at.strftime("%e-%b-%Y")
     end
   end
-  
+
   scenario "updates a user" do
     login_as(@user.email)
     click_link "Edit"
@@ -69,13 +65,13 @@ feature "User management", type: :feature do
     expect(current_path).to eq root_path
     expect(page).to have_content "Your account has been updated"
   end
-  
+
   scenario "deletes a user" do
     login_as("another@email.com", "new_password")
     click_link "Edit"
-    expect {
+    expect do
       click_button "Cancel my account"
-    }.to change(User, :count).by(-1)
+    end.to change(User, :count).by(-1)
     expect(current_path).to eq root_path
     expect(page).to have_content "Your account has been successfully cancelled."
   end

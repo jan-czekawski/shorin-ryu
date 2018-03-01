@@ -6,14 +6,14 @@ feature "Cart management", type: :feature do
     @ticket = create(:item, name: "ticket")
     @kimono = create(:item, name: "kimono", price: 10)
   end
-  
+
   after(:all) do
     User.delete_all
     Item.delete_all
     Cart.delete_all
     CartItem.delete_all
   end
-  
+
   scenario "add item to a cart" do
     login_as(@user.email)
     click_link "Shop"
