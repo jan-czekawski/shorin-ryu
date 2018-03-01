@@ -47,8 +47,12 @@ FactoryBot.define do
   end
   
   factory :cart do
+    association :user, strategy: :build
   end
   
   factory :cart_item do
+    association :cart, strategy: :build
+    association :item, strategy: :build
+    quantity 1
   end
 end

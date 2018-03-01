@@ -24,7 +24,7 @@
         - if user_signed_in?
           = form_for @cart.cart_items.build, url: cart_cart_items_url(@cart)  do |f|
             .form-group
-              = hidden_field_tag @cart.id
+              = hidden_field_tag item_id: @item.id
               = f.label :quantity
               = f.number_field :quantity, min: 1, step: 1, class: "form-control"
               = f.submit "Add to cart", class: "btn btn-info"

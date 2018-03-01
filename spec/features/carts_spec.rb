@@ -20,8 +20,9 @@ feature "Cart management", type: :feature do
     login_as(@user.email)
     click_link "Shop"
     click_link "Show", href: item_path(@ticket)
+    fill_in "Quantity", with: 1
     click_button "Add to cart"
-    # expect(current_path).to eq cart_path(@user)
+    expect(current_path).to eq cart_path(@user.reload.cart)
     # expect(page).to have_content "Item has been added to your cart."
     # expect(page).to have_content @ticket.name
     # expect(page).to have_content @ticket.description

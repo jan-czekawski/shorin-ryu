@@ -29,7 +29,7 @@ class ItemsController < ApplicationController
   def update
     if @item.update(item_params)
       flash[:info] = "Item has been updated."
-      redirect_to @item
+      redirect_to item_path(@item)
     else
       render "edit"
     end

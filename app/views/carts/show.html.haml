@@ -1,0 +1,8 @@
+%h1 
+  Cart
+  %p Items in the cart:
+  - @cart.cart_items.each do |c_item|
+    %strong= c_item.item.name
+    %p= c_item.item.description
+    %p= c_item.item.price
+  
