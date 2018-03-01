@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative "boot"
 
 require "rails"
 # Pick the frameworks you want:
@@ -13,7 +13,7 @@ require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+# you"ve limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module ShorinRyu
@@ -21,15 +21,16 @@ module ShorinRyu
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
-    # Settings in config/environments/* take precedence over those specified here.
+    # Settings in config/environments/* take precedence over
+    # those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Don't generate system test files.
+    # Don"t generate system test files.
     config.generators.system_tests = nil
 
-    config.autoload_paths += %W(#{config.root}/lib)
-    
+    config.autoload_paths += %W[#{config.root}/lib]
+
     Mongoid.logger.level = Logger::FATAL
     # Mongoid.logger.level = Logger::INFO
   end
