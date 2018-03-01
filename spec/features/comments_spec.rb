@@ -42,7 +42,8 @@ feature "Adding and deleting comments", type: :feature do
 
   def handle_delete(resource)
     type = resource.class.name.downcase
-    path = eval("#{type}_path(resource)")
+    # path = eval("#{type}_path(resource)")
+    path = ActionDispatch::Routing.public_send("#{type}_path", resource)
     comment_href = eval("#{type}_comment_path(resource, resource.comments.last)")
     last_comment = Comment.last
     expect do

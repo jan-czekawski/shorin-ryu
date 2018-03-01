@@ -1,18 +1,12 @@
 require "rails_helper"
 
 RSpec.describe Devise::PasswordsController, type: :controller do
-  after(:all) do
-    User.delete_all
-  end
-  
-  before(:all) do
-    @user = create(:user)
-  end
-  
-  before(:each) do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-  end
-  
+  after(:all) { User.delete_all }
+
+  before(:all) { @user = create(:user) }
+
+  before(:each) { @request.env["devise.mapping"] = Devise.mappings[:user] }
+
   describe "#new" do
     context "when user logged in" do
       it "redirects to root url" do
@@ -21,20 +15,20 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         expect(response).to redirect_to root_url
       end
     end
-    
+
     context "when user not logged in" do
       it "renders new template" do
         get :new
         expect(response).to render_template :new
       end
-      
+
       it "assigns new user to @user" do
         get :new
         expect(assigns(:user)).to be_a_new(User)
       end
     end
   end
-  
+
   describe "#create" do
     context "when user logged in" do
       it "redirects to root url" do
@@ -43,18 +37,18 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         expect(response).to redirect_to root_url
       end
     end
-    
+
     context "when user not logged in" do
       it "redirects to login url after password reset" do
         post :create, params: { user: { email: @user.email } }
         expect(response).to require_login
       end
-      
+
       it "assigns new password token to @user" do
         post :create, params: { user: { email: @user.email } }
         expect(@user.reload.reset_password_token).not_to be_nil
       end
-      
+
       it "assigns unique password token to @user" do
         post :create, params: { user: { email: @user.email } }
         first_reset_token = @user.reload.reset_password_token
@@ -63,7 +57,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         expect(second_reset_token).not_to be eq first_reset_token
         # TODO: fix unique password token
       end
-      
+
       it "assigns current time to password reset sent at of @user" do
         post :create, params: { user: { email: @user.email } }
         sent_at = @user.reload.reset_password_sent_at
@@ -71,7 +65,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
       end
     end
   end
-  
+
   describe "#edit" do
     context "when user logged in" do
       it "redirects to root url" do
@@ -81,7 +75,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         expect(response).to redirect_to root_url
       end
     end
-    
+
     context "when user not logged in" do
       before(:all) do
         @user.reset_password_token = "random_token"
@@ -92,26 +86,26 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         get :edit, params: { reset_password_token: @token }
         expect(response).to render_template :edit
       end
-      
+
       it "assigns new instance of User to @user" do
         get :edit, params: { reset_password_token: @token }
         expect(assigns(:user)).to be_a_new(User)
       end
     end
   end
-  
+
   describe "#update" do
     context "when user logged in" do
       it "redirects to root url" do
         sign_in @user
         @token = @user.send_reset_password_instructions
         put :update, params: { reset_password_token: @token,
-                                 user: { password: "new_pass1",
-                                         password_confirmation: "new_pass1" } }
+                               user: { password: "new_pass1",
+                                       password_confirmation: "new_pass1" } }
         expect(response).to redirect_to root_url
       end
     end
-    
+
     context "when user not logged in" do
       describe "with valid information" do
         it "updates users password" do
@@ -121,7 +115,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
                                          password_confirmation: "new_pass2" } }
           expect(password_changed?(@user, "new_pass2")).to be true
         end
-        
+
         it "redirects to root after password reset" do
           @token = @user.send_reset_password_instructions
           put :update, params: { user: { reset_password_token: @token,
@@ -129,7 +123,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
                                          password_confirmation: "new_pass3" } }
           expect(response).to redirect_to root_url
         end
-        
+
         it "signs user in after password reset" do
           @token = @user.send_reset_password_instructions
           put :update, params: { user: { reset_password_token: @token,
@@ -138,49 +132,53 @@ RSpec.describe Devise::PasswordsController, type: :controller do
           expect(session["warden.user.user.key"]).not_to be_nil
         end
       end
-      
+
       describe "with invalid information" do
         context "when password token is invalid" do
           it "doesn't update user's password" do
             @token = @user.send_reset_password_instructions
-            put :update, params: { user: { reset_password_token: nil,
-                                           password: "new_pass5",
-                                           password_confirmation: "new_pass5" } }
+            put :update,
+                params: { user: { reset_password_token: nil,
+                                  password: "new_pass5",
+                                  password_confirmation: "new_pass5" } }
             expect(password_changed?(@user, "new_pass5")).not_to be true
           end
-          
+
           it "renders edit template" do
             @token = @user.send_reset_password_instructions
-            put :update, params: { user: { reset_password_token: nil,
-                                           password: "new_pass6",
-                                           password_confirmation: "new_pass6" } }
+            put :update,
+                params: { user: { reset_password_token: nil,
+                                  password: "new_pass6",
+                                  password_confirmation: "new_pass6" } }
             expect(response).to render_template :edit
           end
         end
-        
+
         context "when password token is outdated" do
           it "doesn't update user's password" do
             @token = @user.send_reset_password_instructions
             @user.update_attribute(:reset_password_sent_at, 7.hours.ago)
-            put :update, params: { user: { reset_password_token: @token,
-                                           password: "new_pass7",
-                                           password_confirmation: "new_pass7" } }
+            put :update,
+                params: { user: { reset_password_token: @token,
+                                  password: "new_pass7",
+                                  password_confirmation: "new_pass7" } }
             expect(password_changed?(@user, "new_pass7")).not_to be true
           end
-          
+
           it "renders edit template" do
             @token = @user.send_reset_password_instructions
             @user.update_attribute(:reset_password_sent_at, 7.hours.ago)
-            put :update, params: { user: { reset_password_token: @token,
-                                           password: "new_pass8",
-                                           password_confirmation: "new_pass8" } }
+            put :update,
+                params: { user: { reset_password_token: @token,
+                                  password: "new_pass8",
+                                  password_confirmation: "new_pass8" } }
             expect(response).to render_template :edit
           end
         end
       end
     end
   end
-  
+
   def password_changed?(user, password)
     Devise::Encryptor.compare(User, user.reload.encrypted_password, password)
   end
