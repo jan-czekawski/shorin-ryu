@@ -2,7 +2,8 @@ class ItemsController < ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
   before_action :require_user, only: %i[new create edit update destroy]
   before_action :require_admin, only: %i[new create edit update destroy]
-
+  before_action :set_cart, only: %i[show]
+  
   def index
     @items = Item.all
   end

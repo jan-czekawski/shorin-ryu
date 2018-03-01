@@ -22,6 +22,12 @@
             - if owner_or_admin?(current_user, comment)
               =link_to "Delete", item_comment_path(@item, comment), data: { confirm: "Are you sure?" }, method: :delete
         - if user_signed_in?
+          = form_for @cart.cart_items.build, url: cart_cart_items_url(@cart)  do |f|
+            .form-group
+              = hidden_field_tag @cart.id
+              = f.label :quantity
+              = f.number_field :quantity, min: 1, step: 1, class: "form-control"
+              = f.submit "Add to cart", class: "btn btn-info"
           = form_for @item.comments.build, url: item_comments_url(@item), method: :post do |f|
             .form-group
               = f.label :content

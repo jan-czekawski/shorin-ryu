@@ -42,4 +42,9 @@ class ApplicationController < ActionController::Base
     @flash_row = "row justify-content-center"
     @flash_col = "col-10 absolute"
   end
+  
+  def set_cart
+    return nil unless user_signed_in?
+    @cart = current_user.create_cart unless current_user.cart
+  end
 end
