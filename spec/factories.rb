@@ -29,7 +29,7 @@ FactoryBot.define do
     name { "item#{store_item_id}" }
     description "MyText"
     size "xs"
-    price 1.0
+    price 75
     image "MyString"
   end
   
