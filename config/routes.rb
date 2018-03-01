@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources "carts", only: [:show] do
+    resources "cart_items", only: [:create, :destroy]
+  end
+    
   devise_for :users
   resources "users", only: [:index, :show, :destroy]
   resources "events", "items" do
