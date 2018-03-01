@@ -1,5 +1,5 @@
 class CartsController < ApplicationController
-  before_action :set_cart, only: [:show, :edit, :update, :destroy]
+  before_action :set_cart, only: %i[show edit update destroy]
 
   # GET /carts
   # GET /carts.json
@@ -9,8 +9,7 @@ class CartsController < ApplicationController
 
   # GET /carts/1
   # GET /carts/1.json
-  def show
-  end
+  def show; end
 
   # # GET /carts/new
   # def new
@@ -29,6 +28,7 @@ class CartsController < ApplicationController
     if @cart.save
       flash[:success] = "Item has been added to your cart."
     else
+      flash[:danger] = "There's been an error."
     end
   end
 
@@ -37,7 +37,7 @@ class CartsController < ApplicationController
   def update
     respond_to do |format|
       if @cart.update(cart_params)
-        format.html { redirect_to @cart, notice: 'Cart was successfully updated.' }
+        format.html { redirect_to @cart, notice: "Cart was successfully updated." }
         format.json { render :show, status: :ok, location: @cart }
       else
         format.html { render :edit }
@@ -51,19 +51,24 @@ class CartsController < ApplicationController
   def destroy
     @cart.destroy
     respond_to do |format|
-      format.html { redirect_to carts_url, notice: 'Cart was successfully destroyed.' }
+      format.html do
+        redirect_to carts_url
+        flash[:notice] = "Cart was successfully destroyed."
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cart
-      @cart = Cart.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def cart_params
-      params.require(:cart).permit(:quantity)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_cart
+    @cart = Cart.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet,
+  # only allow the white list through.
+  def cart_params
+    params.require(:cart).permit(:quantity)
+  end
 end

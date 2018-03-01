@@ -9,9 +9,9 @@ class CartItemsController < ApplicationController
     end
     redirect_to cart_path(@cart)
   end
-  
+
   private
-  
+
   def cart_items_params
     params.require(:cart_item).permit(:quantity, :item_id)
   end
