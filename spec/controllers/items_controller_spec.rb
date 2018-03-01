@@ -48,9 +48,8 @@ RSpec.describe ItemsController, type: :controller do
       end
 
       describe "and not admin" do
-        before(:each) { sign_in @user }
-
         it "redirect_to root url" do
+          sign_in @user
           get :new
           expect(response).to redirect_to root_url
         end
@@ -68,9 +67,7 @@ RSpec.describe ItemsController, type: :controller do
   describe "#create" do
     context "when user logged in" do
       describe "and admin" do
-        before(:each) do
-          sign_in @admin
-        end
+        before(:each) { sign_in @admin }
 
         context "with valid information" do
           it "increases item count by 1" do

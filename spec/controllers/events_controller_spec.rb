@@ -121,28 +121,28 @@ RSpec.describe EventsController, type: :controller do
   describe "#edit" do
     context "when user logged in" do
       describe "and admin" do
+        before(:each) { sign_in @admin } 
+
         it "renders edit template" do
-          sign_in @admin
           get :edit, params: { id: @johns_event.id }
           expect(response).to render_template :edit
         end
 
         it "assigns picked event to @event" do
-          sign_in @admin
           get :edit, params: { id: @johns_event.id }
           expect(assigns(:event)).to eq @johns_event
         end
       end
 
       describe "and event's creator" do
+        before(:each) { sign_in @john }
+
         it "renders edit template" do
-          sign_in @john
           get :edit, params: { id: @johns_event.id }
           expect(response).to render_template :edit
         end
 
         it "assigns picked event to @event" do
-          sign_in @john
           get :edit, params: { id: @johns_event.id }
           expect(assigns(:event)).to eq @johns_event
         end
@@ -293,23 +293,24 @@ RSpec.describe EventsController, type: :controller do
 
     context "when user logged in" do
       describe "and not admin nor event's creator" do
+        before(:each) { sign_in @paul }
+
         it "doesn't change event count" do
-          sign_in @paul
           expect do
             delete :destroy, params: { id: @johns_event.id }
           end.not_to change(Event, :count)
         end
 
         it "redirects to events_path" do
-          sign_in @paul
           delete :destroy, params: { id: @johns_event.id }
           expect(response).to redirect_to events_path
         end
       end
 
       describe "and admin" do
+        before(:each) { sign_in @admin }
+
         it "deletes an event" do
-          sign_in @admin
           event = Event.last
           expect do
             delete :destroy, params: { id: event.id }
@@ -317,7 +318,6 @@ RSpec.describe EventsController, type: :controller do
         end
 
         it "redirects to events_path" do
-          sign_in @admin
           event = Event.last
           delete :destroy, params: { id: event.id }
           expect(response).to redirect_to events_path
