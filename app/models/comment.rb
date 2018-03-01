@@ -7,9 +7,4 @@ class Comment
 
   field "content", type: String
   validates :content, :commentable_type, presence: true
-
-  def find_commentable_type
-    type = commentable_type.constantize
-    type.find(commentable_id)
-  end
 end

@@ -3,6 +3,8 @@ class CommentsController < ApplicationController
   before_action :require_user, only: %i[create destroy]
   before_action :require_owner_or_admin, only: [:destroy]
 
+  include Commentable
+
   def create
     @commentable = find_commentable
     @comment = @commentable.comments.build(comment_params)
@@ -26,12 +28,12 @@ class CommentsController < ApplicationController
 
   private
 
-  def find_commentable
-    params.each do |name, value|
-      # return $1.classify.constantize.find(value) if name =~ /(.+)_id/
-      return Object.const_get($1.capitalize).find(value) if name =~ /(.+)_id/
-    end
-  end
+  # def find_commentable
+  #   params.each do |name, value|
+  #     # return $1.classify.constantize.find(value) if name =~ /(.+)_id/
+  #     return Object.const_get($1.capitalize).find(value) if name =~ /(.+)_id/
+  #   end
+  # end
 
   def set_comment
     @comment = Comment.find(params[:id])
