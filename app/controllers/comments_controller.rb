@@ -7,15 +7,17 @@ class CommentsController < ApplicationController
 
   def create
     @commentable = find_commentable
+    path = @commentable.is_a?(Event) ? event_path(@commentable) : item_path(@commentable)
     @comment = @commentable.comments.build(comment_params)
     @comment.user_id = current_user.id
+    
     if @comment.save
-      flash[:info] = "New comment has been added!"
-      # TODO: change it
-      # redirect_to @commentable
+      flash[:success] = "New comment has been added!"
     else
-      flash[:alert] = "There was an error!" + @comment.errors.full_messages.to_s
-      # TODO: change it
+      flash[:alert] = "There is an error. "
+      @comment.errors.full_messages.each do |message|
+        flash[:alert] += message + "."
+      end
     end
     redirect_to @commentable
   end
@@ -27,13 +29,6 @@ class CommentsController < ApplicationController
   end
 
   private
-
-  # def find_commentable
-  #   params.each do |name, value|
-  #     # return $1.classify.constantize.find(value) if name =~ /(.+)_id/
-  #     return Object.const_get($1.capitalize).find(value) if name =~ /(.+)_id/
-  #   end
-  # end
 
   def set_comment
     @comment = Comment.find(params[:id])

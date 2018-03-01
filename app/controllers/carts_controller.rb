@@ -26,37 +26,30 @@ class CartsController < ApplicationController
     @cart.cart_items.build(cart_params)
     @cart.user_id = current_user.id
     if @cart.save
-      flash[:success] = "Item has been added to your cart."
+      flash[:success] = "Cart has been created."
+      redirect_to cart_path(@cart)
     else
-      flash[:danger] = "There's been an error."
+      render :new
     end
   end
 
   # PATCH/PUT /carts/1
   # PATCH/PUT /carts/1.json
   def update
-    respond_to do |format|
-      if @cart.update(cart_params)
-        format.html { redirect_to @cart, notice: "Cart was successfully updated." }
-        format.json { render :show, status: :ok, location: @cart }
-      else
-        format.html { render :edit }
-        format.json { render json: @cart.errors, status: :unprocessable_entity }
-      end
+    if @cart.update(cart_params)
+      redirect_to @cart
+      flash[:notice] = "Cart was successfully updated."
+    else
+      render :edit
     end
   end
 
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy
-    @cart.destroy
-    respond_to do |format|
-      format.html do
-        redirect_to carts_url
-        flash[:notice] = "Cart was successfully destroyed."
-      end
-      format.json { head :no_content }
-    end
+    @cart.delete
+    flash[:notice] = "Cart was successfully destroyed."
+    redirect_to carts_url
   end
 
   private

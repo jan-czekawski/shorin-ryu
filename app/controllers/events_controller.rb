@@ -10,8 +10,7 @@ class EventsController < ApplicationController
   def show; end
 
   def new
-    @user = current_user
-    @event = @user.events.new
+    @event = current_user.events.new
     @event.build_address
   end
 
@@ -20,8 +19,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @user = current_user
-    @event = @user.events.new(event_params)
+    @event = current_user.events.new(event_params)
     if @event.save
       flash[:info] = "New event was created!"
       redirect_to events_path
@@ -55,11 +53,5 @@ class EventsController < ApplicationController
     params.require(:event).permit(:name, :user_id, :image,
                                   address_attributes: %i[city street
                                                          house_number zip_code])
-  end
-
-  def require_same_user
-    return if current_user.events.include?(@event) || current_user.admin?
-    flash[:alert] = "You can only delete events you've created."
-    redirect_to events_path
   end
 end

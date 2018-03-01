@@ -20,6 +20,6 @@ module ApplicationHelper
 
   def owner_or_admin?(user, resource)
     return false unless user_signed_in?
-    user.admin? || (resource.user_id == user._id)
+    user.admin? || resource.user_id == user._id
   end
 end

@@ -42,13 +42,15 @@ feature "Adding and deleting comments", type: :feature do
   
   def handle_delete(resource)
     type = resource.class.name.downcase
+    path = eval("#{type}_path(resource)")
     comment_href = eval("#{type}_comment_path(resource, resource.comments.last)")
+    last_comment = Comment.last
     expect {
       click_link "Delete", href: comment_href
     }.to change(Comment, :count).by(-1)
-    path = eval("#{type}_path(resource)")  
     expect(current_path).to eq path
     expect(page).to have_content "Comment has been deleted."
+    expect(page).not_to have_content last_comment.content
   end
   
   def handle_create(resource)
@@ -58,7 +60,11 @@ feature "Adding and deleting comments", type: :feature do
       fill_in "Content", with: "Some random event comment"
       click_button "Add comment"
     }.to change(Comment, :count).by(1)
+    last_comment = Comment.last
     expect(current_path).to eq path
     expect(page).to have_content "New comment has been added!"
+    expect(page).to have_content last_comment.content
+    path_of_comment = eval("#{type}_comment_path(resource, last_comment)")
+    expect(page).to have_link "Delete", href: path_of_comment
   end
 end
