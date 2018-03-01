@@ -4,5 +4,6 @@
   - @cart.cart_items.each do |c_item|
     %strong= c_item.item.name
     %p= c_item.item.description
-    %p= c_item.item.price
-  
+    %p= c_item.item.price.to_s + " PLN"
+    %p= "Qty: " + c_item.quantity.to_s
+    %p= "Total price:"

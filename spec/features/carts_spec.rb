@@ -23,11 +23,11 @@ feature "Cart management", type: :feature do
     fill_in "Quantity", with: 1
     click_button "Add to cart"
     expect(current_path).to eq cart_path(@user.reload.cart)
-    # expect(page).to have_content "Item has been added to your cart."
-    # expect(page).to have_content @ticket.name
-    # expect(page).to have_content @ticket.description
-    # expect(page).to have_content @ticket.price
-    # expect(page).to have_content "Qty"
-    # expect(page).to have_content "Total price:"
+    expect(page).to have_content "Item has been added to your cart."
+    expect(page).to have_content @ticket.name
+    expect(page).to have_content @ticket.description
+    expect(page).to have_content @ticket.price
+    expect(page).to have_content "Qty:"
+    expect(page).to have_content "Total price:"
   end
 end
