@@ -20,7 +20,8 @@ feature "Cart management", type: :feature do
     click_link "Show", href: item_path(@ticket)
     fill_in "Quantity", with: 3
     click_button "Add to cart"
-    cart = @user.reload.cart
+    @p user.cart
+    # cart = @user.cart
     expect(current_path).to eq cart_path(cart)
     expect(page).to have_content "Item has been added to your cart."
     expect(page).to have_content @ticket.name
@@ -32,7 +33,7 @@ feature "Cart management", type: :feature do
     click_link "Show", href: item_path(@kimono)
     fill_in "Quantity", with: 3
     click_button "Add to cart"
-    cart = @user.reload.cart
+    cart = @user.cart
     expect(current_path).to eq cart_path(cart)
     expect(page).to have_content "Item has been added to your cart."
     expect(page).to have_content @kimono.name
