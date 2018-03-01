@@ -6,6 +6,7 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.all
+    p self.class.superclass.superclass.superclass.superclass
   end
 
   def show; end
