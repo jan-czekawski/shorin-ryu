@@ -32,6 +32,14 @@ feature "Cart management", type: :feature do
     end.to change(CartItem, :count).by(1)
     expect(page).to have_content "Item has been added to your cart."
     check_cart_content(@user)
+    click_link "Shop"
+    click_link "Show", href: item_path(@kimono)
+    expect do
+      fill_in "Quantity", with: 100
+      click_button "Add to cart"
+    end.not_to change(CartItem, :count)
+    expect(page).to have_content "Item's quantity in the cart has been updated."
+    check_cart_content(@user)
   end
   
   scenario "delete item from cart" do

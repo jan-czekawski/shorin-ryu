@@ -2,12 +2,22 @@ class CartItemsController < ApplicationController
   def create
     @cart = Cart.find(params[:cart_id])
     @cart_item = @cart.cart_items.build(cart_items_params)
-    # item_in_cart = Cart.find(params[:cart_id]).cart_items.any? do |c_item|
-    #                 c_item.item.id == @cart_item.item.id
-    #               end
-    item_in_cart = false
-    if item_in_cart
+    
+    persisted_cart = Cart.find(params[:cart_id])
+    already_in_cart = persisted_cart.cart_items.any? do |c_item|
+                        c_item.item.id == @cart_item.item.id
+                      end
+                      
+    if already_in_cart
+      persisted_cart.cart_items.each do |c_item_to|
+        if c_item_to.item.id == @cart_item.item.id
+          c_item_to.quantity += @cart_item.quantity 
+          CartItem.find(c_item_to.id).update(quantity: c_item_to.quantity)
+        end
+      end
       
+      flash[:success] = "Item's quantity in the cart has been updated."
+      redirect_to cart_path(@cart)
     else
       if @cart_item.save
         flash[:success] = "Item has been added to your cart."
