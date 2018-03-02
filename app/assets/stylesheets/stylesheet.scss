@@ -87,3 +87,16 @@ body {
 textarea {
   resize: none;
 }
+
+.cart_item {
+  text-align: center;
+  .cart_quantity {
+    max-width: 3em;
+    max-width: 5em;
+    text-align: center;
+  }
+  i {
+    margin-left: .35em;
+    margin-right: .35em;
+  }
+}
