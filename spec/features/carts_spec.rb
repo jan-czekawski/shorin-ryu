@@ -20,27 +20,24 @@ feature "Cart management", type: :feature do
     click_link "Show", href: item_path(@ticket)
     fill_in "Quantity", with: 3
     click_button "Add to cart"
-    # p @user.cart
-    cart = @user.reload.cart
-    expect(current_path).to eq cart_path(cart)
-    expect(page).to have_content "Item has been added to your cart."
-    expect(page).to have_content @ticket.name
-    expect(page).to have_content @ticket.description
-    expect(page).to have_content @ticket.price
-    expect(page).to have_content "Qty:"
-    expect(page).to have_content "Total price:"
+    check_cart_content(@ticket)
+    expect(@cart.sum_price).to eq @ticket.price * 3
     click_link "Shop"
     click_link "Show", href: item_path(@kimono)
     fill_in "Quantity", with: 3
     click_button "Add to cart"
-    cart = @user.reload.cart
-    expect(current_path).to eq cart_path(cart)
+    check_cart_content(@kimono)
+    expect(@cart.sum_price).to eq @ticket.price * 3 + @kimono.price * 3
+  end
+  
+  def check_cart_content(item)
+    @cart = @user.reload.cart
+    expect(current_path).to eq cart_path(@cart)
     expect(page).to have_content "Item has been added to your cart."
-    expect(page).to have_content @kimono.name
-    expect(page).to have_content @kimono.description
-    expect(page).to have_content @kimono.price
+    expect(page).to have_content item.name
+    expect(page).to have_content item.description
+    expect(page).to have_content item.price
     expect(page).to have_content "Qty:"
     expect(page).to have_content "Total price:"
-    # p cart.sum_price
   end
 end
