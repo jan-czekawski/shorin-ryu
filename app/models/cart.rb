@@ -3,5 +3,5 @@ class Cart
   include Price
 
   belongs_to :user
-  has_many :cart_items
+  has_many :cart_items, dependent: :destroy
 end

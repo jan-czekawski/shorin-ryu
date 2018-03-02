@@ -18,14 +18,18 @@ feature "Cart management", type: :feature do
     login_as(@user.email)
     click_link "Shop"
     click_link "Show", href: item_path(@ticket)
-    fill_in "Quantity", with: 3
-    click_button "Add to cart"
+    expect do
+      fill_in "Quantity", with: 3
+      click_button "Add to cart"
+    end.to change(CartItem, :count).by(1)
     expect(page).to have_content "Item has been added to your cart."
     check_cart_content(@user)
     click_link "Shop"
     click_link "Show", href: item_path(@kimono)
-    fill_in "Quantity", with: 7
-    click_button "Add to cart"
+    expect do
+      fill_in "Quantity", with: 7
+      click_button "Add to cart"
+    end.to change(CartItem, :count).by(1)
     expect(page).to have_content "Item has been added to your cart."
     check_cart_content(@user)
   end
@@ -35,6 +39,16 @@ feature "Cart management", type: :feature do
     visit cart_path(@user.cart)
     click_link "Your cart"
     check_cart_content(@user)
+    last_item = @user.cart.cart_items.last
+    path_of_item = cart_item_path(last_item.cart, last_item)
+    expect(page).to have_link "Delete item", href: path_of_item
+    expect do
+      path = cart_item_path(@user.cart, last_item)
+      click_link "Delete item", href: path
+    end.to change(CartItem, :count).by(-1)
+    expect(current_path).to eq cart_path(@user.cart)
+    expect(page).to have_content "Item has been deleted from your cart."
+    expect(page).not_to have_link "Delete item", href: path_of_item
   end
   
   def check_cart_content(user)
