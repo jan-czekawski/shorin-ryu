@@ -4,6 +4,10 @@
     .card
       =image_tag(@item.image, size: 200, class: "avatar")
       .card-body
+        .cart_item
+          - if current_user.try(:admin?)
+            =link_to "Delete item", item_path(@item), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
+            =link_to "Edit item", edit_item_path(@item), class: "btn btn-warning"
         %h5.card-title= @item.name
         %p.card-text= @item.description
         %p.card-text 
@@ -12,9 +16,6 @@
           =@item.price
           PLN,
           %small= @item.store_item_id
-        - if current_user.try(:admin?)
-          =link_to "Delete item", item_path(@item), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
-          =link_to "Edit item", edit_item_path(@item), class: "btn btn-warning"
         - @item.comments.each do |comment|
           %p.card-text 
             = comment.content
@@ -23,10 +24,12 @@
               =link_to "Delete", item_comment_path(@item, comment), data: { confirm: "Are you sure?" }, method: :delete
         - if user_signed_in?
           = form_for @cart.cart_items.build, url: cart_items_url(@cart)  do |f|
-            .form-group
+            .form-inline.cart_item
               = f.hidden_field :item_id, value: @item.id
               = f.label :quantity
-              = f.number_field :quantity, min: 1, step: 1, class: "form-control"
+              = icon("far", "minus-square", id: "decrease_cart_item")
+              = f.number_field :quantity, min: 1, step: 1, value: 1, class: "form-control cart_quantity"
+              = icon("far", "plus-square", id: "increase_cart_item")
               = f.submit "Add to cart", class: "btn btn-info"
           = form_for @item.comments.build, url: item_comments_url(@item), method: :post do |f|
             .form-group

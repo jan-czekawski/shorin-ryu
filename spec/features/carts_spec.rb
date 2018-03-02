@@ -42,9 +42,14 @@ feature "Cart management", type: :feature do
     check_cart_content(@user)
   end
   
+  scenario "increase quantity of item already in cart" do
+    login_as(@user.email)
+    click_link "Your cart"
+    # click_link "#increase_cart_item"
+  end
+  
   scenario "delete item from cart" do
     login_as(@user.email)
-    visit cart_path(@user.cart)
     click_link "Your cart"
     check_cart_content(@user)
     last_item = @user.cart.cart_items.last
@@ -52,6 +57,8 @@ feature "Cart management", type: :feature do
     expect(page).to have_link "Delete item", href: path_of_item
     expect do
       path = cart_item_path(@user.cart, last_item)
+      # TODO: delete items quantity, check if item still should be in cart
+      # fill_in ""
       click_link "Delete item", href: path
     end.to change(CartItem, :count).by(-1)
     expect(current_path).to eq cart_path(@user.cart)
