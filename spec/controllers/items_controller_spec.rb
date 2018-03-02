@@ -51,7 +51,7 @@ RSpec.describe ItemsController, type: :controller do
         it "redirect_to root url" do
           sign_in @user
           get :new
-          expect(response).to redirect_to root_url
+          expect(response).to require_admin
         end
       end
     end
@@ -107,7 +107,7 @@ RSpec.describe ItemsController, type: :controller do
 
         it "redirects to root url" do
           post :create, params: { item: attributes_for(:item) }
-          expect(response).to redirect_to root_url
+          expect(response).to require_admin
         end
       end
     end
@@ -160,7 +160,7 @@ RSpec.describe ItemsController, type: :controller do
 
         it "redirects to root url" do
           get :edit, params: { id: @item.id }
-          expect(response).to redirect_to root_url
+          expect(response).to require_admin
         end
       end
     end
@@ -193,7 +193,7 @@ RSpec.describe ItemsController, type: :controller do
 
         it "redirects to root page" do
           patch :update, params: { id: @item.id, item: attributes_for(:item) }
-          expect(response).to redirect_to root_url
+          expect(response).to require_admin
         end
 
         it "doesn't update item's attributes" do
@@ -247,7 +247,7 @@ RSpec.describe ItemsController, type: :controller do
 
         it "redirects to root url" do
           delete :destroy, params: { id: @item.id }
-          expect(response).to redirect_to root_url
+          expect(response).to require_admin
         end
       end
 

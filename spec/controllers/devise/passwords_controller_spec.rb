@@ -113,7 +113,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
           put :update, params: { user: { reset_password_token: @token,
                                          password: "new_pass2",
                                          password_confirmation: "new_pass2" } }
-          expect(password_changed?(@user, "new_pass2")).to be true
+          expect(@user.reload).to have_password_set_as "new_pass2"
         end
 
         it "redirects to root after password reset" do
@@ -129,7 +129,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
           put :update, params: { user: { reset_password_token: @token,
                                          password: "new_pass4",
                                          password_confirmation: "new_pass4" } }
-          expect(session["warden.user.user.key"]).not_to be_nil
+          expect(session).to be_logged_in
         end
       end
 
@@ -141,7 +141,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
                 params: { user: { reset_password_token: nil,
                                   password: "new_pass5",
                                   password_confirmation: "new_pass5" } }
-            expect(password_changed?(@user, "new_pass5")).not_to be true
+            expect(@user.reload).not_to have_password_set_as "new_pass5"
           end
 
           it "renders edit template" do
@@ -162,7 +162,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
                 params: { user: { reset_password_token: @token,
                                   password: "new_pass7",
                                   password_confirmation: "new_pass7" } }
-            expect(password_changed?(@user, "new_pass7")).not_to be true
+            expect(@user.reload).not_to have_password_set_as "new_pass7"
           end
 
           it "renders edit template" do
@@ -177,9 +177,5 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         end
       end
     end
-  end
-
-  def password_changed?(user, password)
-    Devise::Encryptor.compare(User, user.reload.encrypted_password, password)
   end
 end

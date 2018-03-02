@@ -47,9 +47,9 @@ RSpec.describe User, type: :model do
       users = []
 
       incorrect_emails.each_with_index do |adr, ix|
-        users << ix = build(:user, email: adr, password: "password")
+        users << build(:user, email: adr, password: "password")
       end
-
+      
       users.each { |usr| expect(usr).not_to be_valid }
     end
 

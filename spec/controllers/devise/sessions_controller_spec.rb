@@ -50,7 +50,7 @@ RSpec.describe Devise::SessionsController, type: :controller do
         it "signs user in" do
           post :create, params: { user: { email: @user.email,
                                           password: @user.password } }
-          expect(session["warden.user.user.key"]).not_to be_nil
+          expect(session).to be_logged_in
         end
       end
 
@@ -64,7 +64,7 @@ RSpec.describe Devise::SessionsController, type: :controller do
         it "doesn't sign user in" do
           post :create, params: { user: { email: @user.email,
                                           password: "invalid" } }
-          expect(session["warden.user.user.key"]).to be_nil
+          expect(session).not_to be_logged_in
         end
       end
     end
@@ -88,7 +88,7 @@ RSpec.describe Devise::SessionsController, type: :controller do
       it "signs user out" do
         sign_in @user
         delete :destroy
-        expect(session["warden.user.user.key"]).to be_nil
+        expect(session).not_to be_logged_in
       end
     end
   end
