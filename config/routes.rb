@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources "carts", only: [:show] do
-    resources "cart_items", only: %i[create destroy]
+    resources "cart_items", only: %i[create destroy], as: :items
   end
 
   devise_for :users

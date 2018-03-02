@@ -1,9 +1,10 @@
 %h1 
   Cart
-  %p Items in the cart:
+%main
+  Items in the cart:
   - @cart.cart_items.each do |c_item|
-    %strong= c_item.item.name
+    %p= c_item.item.name
     %p= c_item.item.description
-    %p= c_item.item.price.to_s + " PLN"
-    %p= "Qty: " + c_item.quantity.to_s
-    %p= "Total price:"
+    %strong= c_item.item.price.to_s + " PLN " + "Qty: " + c_item.quantity.to_s
+    %p= link_to "Delete item", cart_item_path(c_item.cart, c_item), method: :delete, data: { confirm: "Are you sure?" }
+  %strong= "Total price:"

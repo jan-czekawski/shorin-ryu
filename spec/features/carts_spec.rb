@@ -20,24 +20,40 @@ feature "Cart management", type: :feature do
     click_link "Show", href: item_path(@ticket)
     fill_in "Quantity", with: 3
     click_button "Add to cart"
-    check_cart_content(@ticket)
-    expect(@cart.sum_price).to eq @ticket.price * 3
+    expect(page).to have_content "Item has been added to your cart."
+    check_cart_content(@user)
     click_link "Shop"
     click_link "Show", href: item_path(@kimono)
-    fill_in "Quantity", with: 3
+    fill_in "Quantity", with: 7
     click_button "Add to cart"
-    check_cart_content(@kimono)
-    expect(@cart.sum_price).to eq @ticket.price * 3 + @kimono.price * 3
+    expect(page).to have_content "Item has been added to your cart."
+    check_cart_content(@user)
   end
   
-  def check_cart_content(item)
-    @cart = @user.reload.cart
+  scenario "delete item from cart" do
+    login_as(@user.email)
+    visit cart_path(@user.cart)
+    click_link "Your cart"
+    check_cart_content(@user)
+  end
+  
+  def check_cart_content(user)
+    @cart = user.reload.cart
     expect(current_path).to eq cart_path(@cart)
-    expect(page).to have_content "Item has been added to your cart."
-    expect(page).to have_content item.name
-    expect(page).to have_content item.description
-    expect(page).to have_content item.price
-    expect(page).to have_content "Qty:"
+    total_price = 0
+    if @cart.cart_items.any?
+      @cart.cart_items.each do |c_item|
+        expect(page).to have_content c_item.item.name
+        expect(page).to have_content c_item.item.description
+        expect(page).to have_content c_item.item.price
+        expect(page).to have_content "Qty:"
+        expect(page).to have_content c_item.quantity
+        path = cart_item_path(c_item.cart, c_item)
+        expect(page).to have_link "Delete item", href: path
+        total_price += c_item.item.price * c_item.quantity
+      end
+    end
     expect(page).to have_content "Total price:"
+    expect(@cart.sum_price).to eq total_price
   end
 end

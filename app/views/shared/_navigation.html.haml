@@ -24,6 +24,7 @@
           .dropdown-menu{"aria-labelledby" => "navbarDropdownMenuLink"}
             = link_to "Edit", edit_user_registration_path, class: "dropdown-item"
             = link_to "Profile", user_path(current_user), class: "dropdown-item"
+            = link_to "Your cart", cart_path(current_user.cart), class: "dropdown-item"
             = link_to "Log out", destroy_user_session_path, class: "dropdown-item", method: :delete
       - else
         %li.nav-item
