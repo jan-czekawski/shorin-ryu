@@ -38,6 +38,8 @@ gem 'carrierwave', '~> 1.0'
 gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'rubocop'
+gem 'font-awesome-sass', '~> 5.0.6'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
