@@ -53,6 +53,6 @@ FactoryBot.define do
   factory :cart_item do
     association :cart, strategy: :build
     association :item, strategy: :build
-    quantity 1
+    quantity 300
   end
 end
