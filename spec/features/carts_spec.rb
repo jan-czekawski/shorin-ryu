@@ -44,8 +44,16 @@ feature "Cart management", type: :feature do
   
   scenario "increase quantity of item already in cart" do
     login_as(@user.email)
+    @cart = @user.cart
     click_link "Your cart"
-    # click_link "#increase_cart_item"
+    last_item = @cart.cart_items.last
+    # expect(page).to have_content last_item.id
+    within "div##{last_item.item.name}_id" do
+      # expect do
+        # fill_in "Quantity", with: (last_item.quantity + 1)
+      #   click_button "Update cart"
+      # end.to change(@user.reload.cart.cart_items.last, :quantity).by(1)
+    end
   end
   
   scenario "delete item from cart" do
