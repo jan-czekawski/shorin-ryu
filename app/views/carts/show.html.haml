@@ -3,8 +3,19 @@
 %main
   Items in the cart:
   - @cart.cart_items.each do |c_item|
+    %div{id: "#{c_item.item.name}_id"}
     %p= c_item.item.name
     %p= c_item.item.description
+    = form_for c_item  do |f|
+      .form-inline.cart_item
+        = f.hidden_field :item_id, value: c_item.item.id
+        = f.label :quantity
+        %a
+          =icon("far", "minus-square", id: "decrease_cart_item")
+        = f.number_field :quantity, min: 1, step: 1, value: 1, class: "form-control cart_quantity"
+        %a
+          = icon("far", "plus-square", id: "increase_cart_item")
+        = f.submit "Update cart", class: "btn btn-info"
     %strong= c_item.item.price.to_s + " PLN " + "Qty: " + c_item.quantity.to_s
     %p= link_to "Delete item", cart_item_path(c_item.cart, c_item), method: :delete, data: { confirm: "Are you sure?" }
   %strong= "Total price:"
