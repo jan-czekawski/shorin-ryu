@@ -48,7 +48,7 @@ feature "Cart management", type: :feature do
     click_link "Your cart"
     last_item = @cart.cart_items.last
     # expect(page).to have_content last_item.id
-    within "div##{last_item.item.name}_id" do
+    within "##{last_item.item.name}_id" do
       # expect do
         # fill_in "Quantity", with: (last_item.quantity + 1)
       #   click_button "Update cart"

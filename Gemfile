@@ -39,6 +39,7 @@ gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'rubocop'
 gem 'font-awesome-sass', '~> 5.0.6'
+gem 'poltergeist'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
