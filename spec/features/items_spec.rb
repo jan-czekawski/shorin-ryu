@@ -1,11 +1,6 @@
 require "rails_helper"
 
 feature "Items handling", type: :feature do
-  after(:all) do
-    Item.delete_all
-    User.delete_all
-  end
-  
   before(:all) do
     @admin = create(:admin)
     @item = create(:item)

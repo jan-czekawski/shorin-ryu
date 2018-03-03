@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Devise::SessionsController, type: :controller do
-  after(:all) { User.delete_all }
-
   before(:all) { @user = create(:user) }
 
   before(:each) { @request.env["devise.mapping"] = Devise.mappings[:user] }

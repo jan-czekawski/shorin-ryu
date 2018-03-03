@@ -7,15 +7,10 @@ RSpec.describe ItemsController, type: :controller do
     @item = create(:item)
   end
 
-  after(:all) do
-    User.delete_all
-    Item.delete_all
-  end
-
   describe "#index" do
     it "assigns array of all items to @items" do
       get :index
-      expect(assigns(:items)).to match_array([@item])
+      expect(assigns(:items)).to include(@item)
     end
 
     it "renders index template" do

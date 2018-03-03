@@ -1,8 +1,6 @@
 require "rails_helper"
 
 feature "User management", type: :feature do
-  after(:all) { User.delete_all }
-
   before(:all) { @user = create(:user) }
 
   scenario "adds a new user" do

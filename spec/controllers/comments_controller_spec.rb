@@ -7,13 +7,6 @@ RSpec.describe CommentsController, type: :controller do
     @event = create(:event)
   end
 
-  after(:all) do
-    User.delete_all
-    Item.delete_all
-    Event.delete_all
-    Comment.delete_all
-  end
-
   describe "#post" do
     context "when user logged in" do
       before(:each) { sign_in @user }

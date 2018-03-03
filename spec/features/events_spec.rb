@@ -1,11 +1,6 @@
 require "rails_helper"
 
 feature "Events handling", type: :feature do
-  after(:all) do
-    Event.delete_all
-    User.delete_all
-  end
-  
   before(:all) do
     @admin = create(:admin)
     @event = create(:event)

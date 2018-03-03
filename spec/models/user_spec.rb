@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe User, ".new" do
-    after(:all) { User.delete_all }
 
     # let(:build_correct_user) do
     #   user = User.new(email: "user@email.com", password: "password")

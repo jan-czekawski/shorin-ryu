@@ -7,13 +7,6 @@ feature "Adding and deleting comments", type: :feature do
     @event = create(:event)
   end
 
-  after(:all) do
-    User.delete_all
-    Item.delete_all
-    Event.delete_all
-    Comment.delete_all
-  end
-
   scenario "add a comment" do
     login_as(@user.email)
     visit_events(@event)

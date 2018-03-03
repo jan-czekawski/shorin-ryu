@@ -9,15 +9,10 @@ RSpec.describe EventsController, type: :controller do
     @pauls_event = create(:event, user_id: @paul.id)
   end
 
-  after(:all) do
-    User.delete_all
-    Event.delete_all
-  end
-
   describe "#index" do
     it "assigns array of all events to @events" do
       get :index
-      expect(assigns(:events)).to match_array([@johns_event, @pauls_event])
+      expect(assigns(:events)).to include(@johns_event, @pauls_event)
     end
 
     it "renders index template" do

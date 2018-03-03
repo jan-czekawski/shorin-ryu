@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Devise::RegistrationsController, type: :controller do
-  after(:all) { User.delete_all }
-
   before(:each) { @request.env["devise.mapping"] = Devise.mappings[:user] }
 
   before(:all) { @user = create(:user) }

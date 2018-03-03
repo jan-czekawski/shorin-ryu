@@ -54,6 +54,17 @@ RSpec.configure do |config|
   config.filter_run_when_matching :focus
   config.before(:each) { GC.disable }
   config.after(:each) { GC.enable }
+
+  config.before(:suite) do
+    # DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  # config.around(:each) do |example|
+  #   DatabaseCleaner.cleaning do
+  #     example.run
+  #   end
+  # end
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin

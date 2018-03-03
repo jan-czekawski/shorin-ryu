@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe CartItem, type: :model do
   describe CartItem, ".new" do
-    after(:all) { CartItem.delete_all }
-    
     it "creates valid cart_item if all info is provided" do
       cart_item = build(:cart_item)
       expect(cart_item).to be_valid

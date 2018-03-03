@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   describe Item, ".new" do
-    after(:all) { Item.delete_all }
-
     it "creates valid item if all info is provided" do
       item = build(:item)
       expect(item).to be_valid
