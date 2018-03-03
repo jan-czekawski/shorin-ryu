@@ -20,6 +20,7 @@ feature "Adding and deleting comments", type: :feature do
     handle_create(@event)
     visit_items(@item)
     handle_create(@item)
+
   end
 
   scenario "delete a comment" do
@@ -67,5 +68,11 @@ feature "Adding and deleting comments", type: :feature do
     expect(page).to have_content last_comment.content
     path_of_comment = "/#{type}s/#{resource.id}/comments/#{last_comment.id}"
     expect(page).to have_link "Delete", href: path_of_comment
+    visit path
+    expect do
+      fill_in "Content", with: nil
+      click_button "Add comment"
+    end.not_to change(Comment, :count)
+    expect(page).to have_content "Content can't be blank"
   end
 end

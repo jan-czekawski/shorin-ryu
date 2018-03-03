@@ -41,7 +41,7 @@ RSpec.describe UsersController, type: :controller do
     context "when user logged in" do
       before(:each) { sign_in @james }
 
-      it "assigns requested user to @user" do  
+      it "assigns requested user to @user" do
         get :show, params: { id: @james.id }
         expect(assigns(:user)).to eq(@james)
       end
