@@ -35,6 +35,7 @@ feature "Cart management", type: :feature do
     check_cart_content(@user)
   end
   
+  # scenario "increase quantity of item already in cart", js: true do
   scenario "increase quantity of item already in cart" do
     login_as(@user.email)
     @cart = @user.cart

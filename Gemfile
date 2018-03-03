@@ -39,7 +39,7 @@ gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'rubocop'
 gem 'font-awesome-sass', '~> 5.0.6'
-gem 'poltergeist'
+
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -52,12 +52,14 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'guard-rspec', '~> 4.7', '>= 4.7.3'
   gem 'spring-commands-rspec'
+  gem 'capybara-webkit', '~> 1.15'
 end
 
 group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'poltergeist'
 end
 
 group :development do
