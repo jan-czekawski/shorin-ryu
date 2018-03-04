@@ -23,10 +23,7 @@ class CartItemsController < ApplicationController
         flash[:success] = "Item has been added to your cart."
         redirect_to cart_path(@cart)
       else
-        flash[:alert] = "There's been an error. "
-        @cart_item.errors.full_messages.each do |msg|
-          flash[:alert] += msg + ". "
-        end
+        flash[:alert] = @cart_item.display_errors
         redirect_back fallback_location: items_path
       end
     end

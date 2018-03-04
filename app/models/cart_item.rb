@@ -1,6 +1,7 @@
 class CartItem
   include Mongoid::Document
-
+  include HandleErrors
+  
   belongs_to :item
   belongs_to :cart
   field :quantity, type: Integer
