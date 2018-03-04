@@ -1,5 +1,5 @@
 module LoginMacros
-  def login_as(email, password = "password")
+  def login_user(email, password = "password")
     visit root_path
     click_link "Sign in"
     fill_in "Email", with: email
