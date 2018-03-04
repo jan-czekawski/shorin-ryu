@@ -89,7 +89,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it "redirects to users index" do
-        delete :destroy, params: { id: @james.id }
+        delete :destroy, params: { id: @phil.id }
         expect(response).to redirect_to users_path
       end
     end

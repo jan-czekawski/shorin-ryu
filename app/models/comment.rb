@@ -10,7 +10,7 @@ class Comment
 
   def display_errors
     error = "There is an error. "
-    errors.full_messages.each { |msg| error += msg + "." }
+    errors.full_messages.each { |msg| error << msg + ". " }
     error
   end
 end

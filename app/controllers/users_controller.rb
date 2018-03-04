@@ -3,9 +3,6 @@ class UsersController < ApplicationController
   before_action :require_user, only: %i[index show destroy]
   before_action :require_admin, only: [:destroy]
 
-  include HandleErrors
-  rescue_from Mongoid::Errors::DocumentNotFound, with: :wrong_user
-
   def index
     @users = User.all
   end
