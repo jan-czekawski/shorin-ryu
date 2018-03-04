@@ -1,4 +1,6 @@
 require "rails_helper"
+include Warden::Test::Helpers
+Warden.test_mode!
 
 feature "Cart management", type: :feature do
   before(:all) do
@@ -6,9 +8,10 @@ feature "Cart management", type: :feature do
     @ticket = create(:item, name: "ticket")
     @kimono = create(:item, name: "kimono", price: 10)
   end
-
-  scenario "add item to a cart" do
-    login_as(@user.email)
+  
+  scenario "add item to a cart", :new do
+    login_as(@user)
+    visit root_path
     click_link "Shop"
     click_link "Show", href: item_path(@ticket)
     expect do
@@ -37,7 +40,8 @@ feature "Cart management", type: :feature do
   
   # scenario "increase quantity of item already in cart", js: true do
   scenario "increase quantity of item already in cart" do
-    login_as(@user.email)
+    login_as(@user)
+    visit root_path
     @cart = @user.cart
     click_link "Your cart"
     last_item = @cart.cart_items.last
@@ -51,7 +55,8 @@ feature "Cart management", type: :feature do
   end
   
   scenario "delete item from cart" do
-    login_as(@user.email)
+    login_as(@user)
+    visit root_path
     click_link "Your cart"
     check_cart_content(@user)
     last_item = @user.cart.cart_items.last

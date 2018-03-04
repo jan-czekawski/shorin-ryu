@@ -1,4 +1,6 @@
 require "rails_helper"
+include Warden::Test::Helpers
+Warden.test_mode!
 
 feature "User management", type: :feature do
   before(:all) { @user = create(:user) }
@@ -22,11 +24,17 @@ feature "User management", type: :feature do
   end
 
   scenario "logs in a user" do
-    login_as(@user.email)
+    visit root_path
+    click_link "Sign in"
+    fill_in "Email", with: @user.email
+    fill_in "Password", with: @user.password
+    click_button "Log in"
+    expect(current_path).to eq root_path
   end
 
   scenario "displays all users" do
-    login_as(@user.email)
+    login_as(@user)
+    visit root_path
     click_link "Users"
     expect(current_path).to eq users_path
     within "h1" do
@@ -39,7 +47,8 @@ feature "User management", type: :feature do
   end
 
   scenario "display single user" do
-    login_as(@user.email)
+    login_as(@user)
+    visit root_path
     click_link "Users"
     click_link "Show", href: user_path(@user)
     within "h1" do
@@ -52,7 +61,8 @@ feature "User management", type: :feature do
   end
 
   scenario "updates a user" do
-    login_as(@user.email)
+    login_as(@user)
+    visit root_path
     click_link "Edit"
     expect(current_path).to eq edit_user_registration_path
     fill_in "Email", with: "another@email.com"
@@ -65,7 +75,8 @@ feature "User management", type: :feature do
   end
 
   scenario "deletes a user" do
-    login_as("another@email.com", "new_password")
+    login_as(@user.reload)
+    visit root_path
     click_link "Edit"
     expect do
       click_button "Cancel my account"

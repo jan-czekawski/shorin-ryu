@@ -1,4 +1,6 @@
 require "rails_helper"
+include Warden::Test::Helpers
+Warden.test_mode!
 
 feature "Events handling", type: :feature do
   before(:all) do
@@ -7,8 +9,9 @@ feature "Events handling", type: :feature do
   end
   
   scenario "add an event" do
+    login_as(@admin)
+    visit root_path
     event = build(:event)
-    login_as(@admin.email)
     click_link "Events"
     expect(current_path).to eq events_path
     click_link "New event"
@@ -40,7 +43,8 @@ feature "Events handling", type: :feature do
   end
   
   scenario "update an event" do
-    login_as(@admin.email)
+    login_as(@admin)
+    visit root_path
     click_link "Events"
     click_link "Edit", href: edit_event_path(@event)
     fill_in "Name", with: "New Event Nam"
@@ -54,7 +58,8 @@ feature "Events handling", type: :feature do
   end
   
   scenario "delete an event" do
-    login_as(@admin.email)
+    login_as(@admin)
+    visit root_path
     click_link "Events"
     click_link "Show", href: event_path(@event)
     expect {

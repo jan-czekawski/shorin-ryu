@@ -1,4 +1,6 @@
 require "rails_helper"
+include Warden::Test::Helpers
+Warden.test_mode!
 
 feature "Adding and deleting comments", type: :feature do
   before(:all) do
@@ -8,7 +10,8 @@ feature "Adding and deleting comments", type: :feature do
   end
 
   scenario "add a comment" do
-    login_as(@user.email)
+    login_as(@user)
+    visit root_path
     visit_events(@event)
     handle_create(@event)
     visit_items(@item)
@@ -17,7 +20,8 @@ feature "Adding and deleting comments", type: :feature do
   end
 
   scenario "delete a comment" do
-    login_as(@user.email)
+    login_as(@user)
+    visit root_path
     visit_events(@event)
     handle_delete(@event)
     visit_items(@item)

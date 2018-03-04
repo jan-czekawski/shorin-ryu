@@ -1,4 +1,6 @@
 require "rails_helper"
+include Warden::Test::Helpers
+Warden.test_mode!
 
 feature "Items handling", type: :feature do
   before(:all) do
@@ -8,7 +10,8 @@ feature "Items handling", type: :feature do
   
   scenario "add an item" do
     item = build(:item)
-    login_as(@admin.email)
+    login_as(@admin)
+    visit root_path
     click_link "Shop"
     expect(current_path).to eq items_path
     click_link "New item"
@@ -26,8 +29,8 @@ feature "Items handling", type: :feature do
   end
   
   scenario "visit items_path" do
+    login_as(@admin)
     visit root_path
-    login_as(@admin.email)
     click_link "Shop"
     Item.each do |item|
       check_content(item)
@@ -35,7 +38,8 @@ feature "Items handling", type: :feature do
   end
   
   scenario "update an item" do
-    login_as(@admin.email)
+    login_as(@admin)
+    visit root_path
     click_link "Shop"
     expect(current_path).to eq items_path
     click_link "Show", href: item_path(@item)
@@ -50,7 +54,8 @@ feature "Items handling", type: :feature do
   end
   
   scenario "delete an item" do
-    login_as(@admin.email)
+    login_as(@admin)
+    visit root_path
     click_link "Shop"
     click_link "Show", href: item_path(@item)
     expect {
