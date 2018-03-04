@@ -1,6 +1,7 @@
 class CartItemsController < ApplicationController
+  before_action :set_cart, only: [:create]
+
   def create
-    @cart = Cart.find(params[:cart_id])
     @cart_item = @cart.cart_items.build(cart_items_params)
     
     persisted_cart = Cart.find(params[:cart_id])

@@ -7,7 +7,7 @@ RSpec.describe CommentsController, type: :controller do
     @event = create(:event)
   end
 
-  describe "#post" do
+  describe "#create" do
     context "when user logged in" do
       before(:each) { sign_in @user }
 
