@@ -1,6 +1,9 @@
 module Price
   def sum_price
-    cart_items.map { |c_item| c_item.quantity * c_item.item.price }
-              .inject(&:+)
+    sum = 0
+    cart_items.each do |c_item|
+      sum += c_item.quantity * c_item.item.price
+    end
+    sum
   end
 end

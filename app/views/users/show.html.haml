@@ -18,5 +18,5 @@
         - if @user.cart
           - @user.cart.cart_items.each do |cart_item|
             %p.card-text
-              = Item.find(cart_item.item_id).name
+              = cart_item.item.name
           
