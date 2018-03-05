@@ -1,6 +1,6 @@
 class CartItemsController < ApplicationController
   before_action :set_cart, only: [:create]
-  before_action :set_cart_item, only: %i[update, destroy]
+  before_action :set_cart_item, only: %i[update destroy]
 
   def create
     item = @cart.in_cart_already(cart_items_params[:item_id])
@@ -17,10 +17,11 @@ class CartItemsController < ApplicationController
   
   def update
     if @cart_item.update(cart_items_params)
-      # flash[:success] = "Item's quantity has been updated."
-      # redirect_to cart_path()
+      flash[:success] = "Item's quantity has been updated."
+      redirect_to cart_path()
     else
-      
+      flash[:alert] = @cart_item.display_errors
+      redirect_back fallback_location: cart_path(@cart_item.cart)
     end
   end
 

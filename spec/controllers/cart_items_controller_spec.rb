@@ -60,6 +60,7 @@ RSpec.describe CartItemsController, type: :controller do
       describe "when item already in the cart" do
         it "updates items quantity" do
           last_item = @cart.cart_items.last
+          last_item[:quantity] = 10
           expect do
             patch :update, params: {   cart_id: @cart.id,
                                             id: last_item.id,
