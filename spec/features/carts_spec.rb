@@ -34,7 +34,7 @@ feature "Cart management", type: :feature do
       fill_in "Quantity", with: 100
       click_button "Add to cart"
     end.not_to change(CartItem, :count)
-    expect(page).to have_content "Item's quantity in the cart has been updated."
+    expect(page).to have_content "Item has been added to your cart."
     check_cart_content(@user)
   end
   
