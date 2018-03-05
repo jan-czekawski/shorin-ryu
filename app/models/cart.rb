@@ -5,9 +5,7 @@ class Cart
   belongs_to :user
   has_many :cart_items, dependent: :destroy
   
-  def current_item(id)
-    unless cart_items.empty?
-      cart_items.find_by(item_id: id)
-    end
+  def in_cart_already(id_of_item)
+    cart_items.select { |c_item| c_item.item.id.to_s == id_of_item }.first
   end
 end
