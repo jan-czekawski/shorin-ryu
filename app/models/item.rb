@@ -13,6 +13,7 @@ class Item
   field :quantity, type: Integer, default: 0
   # embeds_one :size
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :cart_items, dependent: :destroy
   # embedded_in :cart
 
   validates :name, :description, :price, :size, :quantity,
