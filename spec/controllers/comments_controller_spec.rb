@@ -67,6 +67,7 @@ RSpec.describe CommentsController, type: :controller do
       end
 
       describe "with valid item information" do
+        # TODO: handle deleting only if user is owner's comment
         it "decreases comment count by 1" do
           comment = create(:items_comment)
           sign_in comment.user

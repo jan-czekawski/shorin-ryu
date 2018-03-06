@@ -1,50 +1,38 @@
 require 'rails_helper'
 
 RSpec.describe ItemsController, type: :controller do
-  before(:all) do
-    @user = create(:user)
-    @admin = create(:admin)
-    @item = create(:item)
-  end
-
   describe "#index" do
-    it "assigns array of all items to @items" do
-      get :index
-      expect(assigns(:items)).to include(@item)
-    end
-
-    it "renders index template" do
+    it "renders index template and assigns array of all items to @items" do
+      item = create(:item)
       get :index
       expect(response).to render_template :index
+      expect(assigns(:items)).to include(item)
     end
   end
 
   describe "#show" do
-    it "renders show template" do
-      get :show, params: { id: @item.id }
+    it "renders show template and assigns selected item to @item" do
+      item = create(:item)
+      get :show, params: { id: item.id }
       expect(response).to render_template :show
+      expect(assigns(:item)).to eq item
     end
   end
 
   describe "#new" do
     context "when user logged in" do
-      describe "and admin" do
-        before(:each) { sign_in @admin }
-
-        it "renders new template" do
+      context "and admin" do
+        it "renders new template and assigns new instance of Item to @item" do
+          sign_in create(:admin)
           get :new
           expect(response).to render_template :new
-        end
-
-        it "assigns new instance of Item to @item" do
-          get :new
           expect(assigns(:item)).to be_a_new Item
         end
       end
 
-      describe "and not admin" do
+      context "and not admin" do
         it "redirect_to root url" do
-          sign_in @user
+          sign_in create(:user)
           get :new
           expect(response).to require_admin
         end
@@ -61,74 +49,44 @@ RSpec.describe ItemsController, type: :controller do
 
   describe "#create" do
     context "when user logged in" do
-      describe "and admin" do
-        before(:each) { sign_in @admin }
-
-        context "with valid information" do
-          it "increases item count by 1" do
+      context "and admin" do
+        describe "with valid information" do
+          it "increases item count by 1 and redirects to items_path" do
+            sign_in create(:admin)
             expect do
               post :create, params: { item: attributes_for(:item) }
             end.to change(Item, :count).by(1)
-          end
-
-          it "redirects to items path" do
-            post :create, params: { item: attributes_for(:item) }
             expect(response).to redirect_to items_url
           end
         end
 
-        context "with invalid information" do
-          it "doesnt' change item count" do
+        describe "with invalid information" do
+          it "doesnt' change item count and renders template 'new'" do
+            sign_in create(:admin)
             expect do
               post :create, params: { item: attributes_for(:item, name: nil) }
             end.not_to change(Item, :count)
-          end
-
-          it "renders new item template" do
-            post :create, params: { item: attributes_for(:item, name: nil) }
             expect(response).to render_template :new
           end
         end
       end
 
-      describe "and not admin" do
-        before(:each) { sign_in @user }
-
-        it "doesn't change item count" do
+      context "and not admin" do
+        it "doesn't change item count and redirects to root url" do
+          sign_in create(:user)
           expect do
             post :create, params: { item: attributes_for(:item) }
           end.not_to change(Item, :count)
-        end
-
-        it "redirects to root url" do
-          post :create, params: { item: attributes_for(:item) }
           expect(response).to require_admin
         end
       end
     end
 
     context "when user not logged in" do
-      it "doesn't change item count" do
+      it "doesn't change item count and redirects to login page" do
         expect do
           post :create, params: { item: attributes_for(:item) }
         end.not_to change(Item, :count)
-      end
-
-      it "redirects to login page" do
-        post :create, params: { item: attributes_for(:item) }
-        expect(response).to require_login
-      end
-    end
-
-    context "when user not logged in" do
-      it "doesn't change item count" do
-        expect do
-          post :create, params: { item: attributes_for(:item) }
-        end.not_to change(Item, :count)
-      end
-
-      it "redirects to login page" do
-        post :create, params: { item: attributes_for(:item) }
         expect(response).to require_login
       end
     end
@@ -136,25 +94,21 @@ RSpec.describe ItemsController, type: :controller do
 
   describe "#edit" do
     context "when user logged in" do
-      describe "and admin" do
-        before(:each) { sign_in @admin }
-
-        it "renders edit template" do
-          get :edit, params: { id: @item.id }
+      context "and admin" do
+        it "renders edit template and assigns selected item to @item" do
+          item = create(:item)
+          sign_in create(:admin)
+          get :edit, params: { id: item.id }
           expect(response).to render_template :edit
-        end
-
-        it "assigns item to @item" do
-          get :edit, params: { id: @item.id }
-          expect(assigns(:item)).to eq @item
+          expect(assigns(:item)).to eq item
         end
       end
 
-      describe "and not admin" do
-        before(:each) { sign_in @user }
-
+      context "and not admin" do
         it "redirects to root url" do
-          get :edit, params: { id: @item.id }
+          item = create(:item)
+          sign_in create(:user)
+          get :edit, params: { id: item.id }
           expect(response).to require_admin
         end
       end
@@ -162,7 +116,8 @@ RSpec.describe ItemsController, type: :controller do
 
     context "when user not logged in" do
       it "redirects to login page" do
-        get :edit, params: { id: @item.id }
+        item = create(:item)
+        get :edit, params: { id: item.id }
         expect(response).to require_login
       end
     end
@@ -170,94 +125,81 @@ RSpec.describe ItemsController, type: :controller do
 
   describe "#update" do
     context "when user not logged in" do
-      it "redirects to login page" do
-        patch :update, params: { id: @item.id, item: attributes_for(:item) }
+      it "doesn't update item's attributes and redirects to login page" do
+        item = create(:item, store_item_id: 100, name: "white_belt")
+        new_attr = attributes_for(:item, store_item_id: 10, name: "black_belt")
+        patch :update, params: { id: item.id,
+                                 item: new_attr }
+        item.reload
+        expect(item.store_item_id).not_to eq 10
+        expect(item.name).not_to eq "black_belt"
         expect(response).to require_login
-      end
-
-      it "doesn't update item's attributes" do
-        old_item = @item
-        patch :update, params: { id: old_item.id, item: attributes_for(:item) }
-        expect(old_item.store_item_id).to eq @item.reload.store_item_id
       end
     end
 
     context "when user logged in" do
-      describe "and not admin" do
-        before(:each) { sign_in @user }
-
-        it "redirects to root page" do
-          patch :update, params: { id: @item.id, item: attributes_for(:item) }
+      context "and not admin" do
+        it "doesn't update item's attributes and redirects to root page" do
+          # TODO: change items names after database cleaner is set up
+          item = create(:item, store_item_id: 200, name: "green_belt")
+          new_attr = attributes_for(:item, store_item_id: 20, name: "blue_belt")
+          sign_in create(:user)
+          patch :update, params: { id: item.id,
+                                   item: new_attr }
+          item.reload
+          expect(item.store_item_id).not_to eq 20
+          expect(item.name).not_to eq "blue_belt"
           expect(response).to require_admin
-        end
-
-        it "doesn't update item's attributes" do
-          old_item = @item
-          patch :update, params: { id: old_item.id,
-                                   item: attributes_for(:item) }
-          expect(old_item.store_item_id).to eq @item.reload.store_item_id
         end
       end
 
       describe "and admin" do
-        before(:each) { sign_in @admin }
-
-        it "redirects to item path" do
-          patch :update, params: { id: @item.id, item: attributes_for(:item) }
-          expect(response).to redirect_to item_path(@item)
-        end
-
-        it "updates items attributes" do
-          attributes = attributes_for(:item, store_item_id: 100)
-          patch :update, params: { id: @item.id, item: attributes }
-          expect(@item.reload.store_item_id).to eq 100
+        it "updates items attributes and redirects to item path" do
+          item = create(:item, store_item_id: 300, name: "brown_belt")
+          new_attr = attributes_for(:item, store_item_id: 30, name: "kimono")
+          sign_in create(:admin)
+          
+          patch :update, params: { id: item.id, item: new_attr }
+          item.reload
+          
+          expect(item.store_item_id).to eq 30
+          expect(item.name).to eq "kimono"
+          expect(response).to redirect_to item_path(item)
         end
       end
     end
   end
 
-  describe "#delete" do
+  describe "#destroy" do
     context "when user not logged in" do
-      it "doesn't change item count" do
+      it "doesn't change item count and redirects to login page" do
+        item = create(:item)
         expect do
-          delete :destroy, params: { id: @item.id }
+          delete :destroy, params: { id: item.id }
         end.not_to change(Item, :count)
-      end
-
-      it "redirects to login page" do
-        delete :destroy, params: { id: @item.id }
         expect(response).to require_login
       end
     end
 
     context "when user logged in" do
-      describe "and not admin" do
-        before(:each) { sign_in @user }
-
-        it "doestn't change item count" do
+      context "and not admin" do
+        it "doestn't change item count and redirects to login page" do
+          item = create(:item)
+          sign_in create(:user)
           expect do
-            delete :destroy, params: { id: @item.id }
+            delete :destroy, params: { id: item.id }
           end.not_to change(Item, :count)
-        end
-
-        it "redirects to root url" do
-          delete :destroy, params: { id: @item.id }
           expect(response).to require_admin
         end
       end
 
-      describe "and admin" do
-        before(:each) { sign_in @admin }
-
-        it "decreases item count by 1" do
-          expect do
-            delete :destroy, params: { id: @item.id }
-          end.to change(Item, :count).by(-1)
-        end
-
-        it "redirects to items path" do
+      context "and admin" do
+        it "decreases item count by 1 and redirects to items path" do
           item = create(:item)
-          delete :destroy, params: { id: item.id }
+          sign_in create(:admin)
+          expect do
+            delete :destroy, params: { id: item.id }
+          end.to change(Item, :count).by(-1)
           expect(response).to redirect_to items_path
         end
       end
