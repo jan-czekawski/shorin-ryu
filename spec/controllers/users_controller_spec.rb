@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  before(:all) do
-    @james = create(:user, email: "james@email.com", login: "james")
-    @phil = create(:user, email: "phil@email.com", login: "phil")
-    @admin = create(:admin, email: "admin@email.com", login: "admin_controller")
-  end
-
   describe "#index" do
     context "when user not logged in" do
       it "redirects to root" do
@@ -16,16 +10,13 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context "when user logged in" do
-      before(:each) { sign_in @james }
-
-      it "populates array of all users" do
-        get :index
-        expect(assigns(:users)).to include(@james, @admin, @phil)
-      end
-
-      it "renders index template" do
+      it "renders index template and populates array of all users" do
+        user = create(:user)
+        another_user = create(:user)
+        sign_in user
         get :index
         expect(response).to render_template :index
+        expect(assigns(:users)).to include(another_user, user)
       end
     end
   end
@@ -33,21 +24,18 @@ RSpec.describe UsersController, type: :controller do
   describe "#show" do
     context "when user not logged in" do
       it "redirects to login page" do
-        get :show, params: { id: @james.id }
-        expect(response).to redirect_to new_user_session_url
+        user = create(:user)
+        get :show, params: { id: user.id }
+        expect(response).to require_login
       end
     end
 
     context "when user logged in" do
-      before(:each) { sign_in @james }
-
-      it "assigns requested user to @user" do
-        get :show, params: { id: @james.id }
-        expect(assigns(:user)).to eq(@james)
-      end
-
-      it "renders show template" do
-        get :show, params: { id: @james.id }
+      it "renders show template and assigns selected user to @user" do
+        user = create(:user)
+        sign_in user
+        get :show, params: { id: user.id }
+        expect(assigns(:user)).to eq(user)
         expect(response).to render_template :show
       end
     end
@@ -56,41 +44,36 @@ RSpec.describe UsersController, type: :controller do
   describe "#destroy" do
     context "when user not logged in" do
       it "redirects to login page" do
+        user = create(:user)
         expect do
-          delete :destroy, params: { id: @james.id }
+          delete :destroy, params: { id: user.id }
         end.not_to change(User, :count)
-
         expect(response).to require_login
       end
     end
 
-    context "when user logged in, but not admin" do
-      before(:each) { sign_in @phil }
-
-      it "doesn't change user count" do
-        expect do
-          delete :destroy, params: { id: @james.id }
-        end.not_to change(User, :count)
+    context "when user logged in" do
+      context "and not admin" do
+        it "doesn't change user count and redirects to root" do
+          user = create(:user)
+          another_user = create(:user)
+          sign_in another_user
+          expect do
+            delete :destroy, params: { id: user.id }
+          end.not_to change(User, :count)
+          expect(response).to require_admin
+        end
       end
-
-      it "redirects to root" do
-        delete :destroy, params: { id: @james.id }
-        expect(response).to require_admin
-      end
-    end
-
-    context "when user logged in and admin" do
-      before(:each) { sign_in @admin }
-
-      it "deletes other user" do
-        expect do
-          delete :destroy, params: { id: @james.id }
-        end.to change(User, :count).by(-1)
-      end
-
-      it "redirects to users index" do
-        delete :destroy, params: { id: @phil.id }
-        expect(response).to redirect_to users_path
+      
+      context "and admin" do
+        it "deletes other user and redirects to users path" do
+          user = create(:user)
+          sign_in create(:admin)
+          expect do
+            delete :destroy, params: { id: user.id }
+          end.to change(User, :count).by(-1)
+          expect(response).to redirect_to users_path
+        end
       end
     end
   end

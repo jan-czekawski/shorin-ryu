@@ -53,14 +53,14 @@ RSpec.describe Item, type: :model do
     end
 
     it "requires unique name" do
-      create(:item, name: "white_bandana", store_item_id: 23)
-      item = build(:item, name: "white_bandana", store_item_id: 34)
+      create(:item, name: "white_bandana", store_item_id: 200300)
+      item = build(:item, name: "white_bandana", store_item_id: 300400)
       expect(item).not_to be_valid
     end
 
     it "requires unique store_item_id" do
-      create(:item, name: "black_bandana", store_item_id: 500)
-      item = build(:item, name: "yellow_bandana", store_item_id: 500)
+      create(:item, name: "black_bandana", store_item_id: 100200300)
+      item = build(:item, name: "yellow_bandana", store_item_id: 100200300)
       expect(item).not_to be_valid
     end
   end
