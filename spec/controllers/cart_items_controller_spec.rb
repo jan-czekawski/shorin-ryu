@@ -1,50 +1,47 @@
 require "rails_helper"
 
 RSpec.describe CartItemsController, type: :controller do
-  before(:all) do
-    @cart = create(:cart)
-    @item = create(:item)
-  end
-  
   describe "#create" do
     context "when user logged in" do
-      before(:each) { sign_in @cart.user }
-      
       describe "with valid item information" do
         context "when item not in the cart" do
-          it "increases cart item count by 1" do
+          it "increases cart item count by 1 and redirects to cart" do
+            item = create(:item)
+            cart = create(:cart)
+            sign_in cart.user
+
             expect do
-              post :create, params: { cart_id: @cart.id,
+              post :create, params: { cart_id: cart.id,
                                       cart_item: { quantity: 3,
-                                                   item_id: @item.id } }
+                                                   item_id: item } }
             end.to change(CartItem, :count).by(1)
-          end
-          
-          it "redirects to cart after creation" do
-            post :create, params: { cart_id: @cart.id,
-                                    cart_item: { quantity: 20,
-                                                 item_id: @item.id } }
-            expect(response).to redirect_to cart_path(@cart)
+            expect(response).to redirect_to cart
           end
         end
         
         context "when item already in the cart" do
-          it "increases items quantity in the cart" do
-            last_item = @cart.cart_items.last
+          it "increases items quantity in the cart and redirects to cart" do
+            cart = create(:cart)
+            cart_item = create(:cart_item, cart: cart)
+            sign_in cart.user
+            last_c_item = cart.cart_items.last
             expect do
-              post :create, params: { cart_id: @cart.id,
+              post :create, params: { cart_id: cart.id,
                                       cart_item: { quantity: 10,
-                                                   item_id: @item.id } }
-              last_item.reload
-            end.to change(last_item, :quantity).by(10)
+                                                   item_id: last_c_item.item.id } }
+              last_c_item.reload
+            end.to change(last_c_item, :quantity).by(10)
+            expect(response).to redirect_to cart
           end
         end
       end
       
       describe "with invalid item information" do
         it "doesn't change cart items count" do
+          cart = create(:cart)
+          sign_in cart.user
           expect do
-            post :create, params: { cart_id: @cart.id,
+            post :create, params: { cart_id: cart.id,
                                     cart_item: { quantity: 10,
                                                  item_id: nil } }
           end.not_to change(CartItem, :count)
@@ -55,48 +52,48 @@ RSpec.describe CartItemsController, type: :controller do
   
   describe "#update" do
     context "when user logged in" do
-      before(:each) { sign_in @cart.user }
-      
-      describe "when item already in the cart" do
-        it "updates items quantity" do
-          last_item = @cart.cart_items.last
-          last_item[:quantity] = 10
+      context "when item already in the cart" do
+        it "updates items quantity and redirects to cart" do
+          cart = create(:cart)
+          c_item = create(:cart_item, cart: cart, quantity: 10)
+          sign_in cart.user
           expect do
-            patch :update, params: {   cart_id: @cart.id,
-                                            id: last_item.id,
+            patch :update, params: {   cart_id: cart.id,
+                                            id: c_item.id,
                                      cart_item: { quantity: 5 } }
-            last_item.reload
-          end.to change(last_item, :quantity).by(-5)  
-        end
-        
-        it "redirects to cart path" do
-          patch :update, params: { cart_id: @cart.id,
-                                   id: @cart.cart_items.last.id,
-                                   cart_item: { quantity: 100 } }
-          expect(response).to redirect_to cart_path(@cart)
+            c_item.reload
+          end.to change(c_item, :quantity).by(-5)  
+          expect(response).to redirect_to cart
         end
       end
       
-      describe "when item is not in your cart" do
-        before(:all) do
-          item = build(:item, name: "Expensive kimono")
-          @kimono_cart_item = create(:cart_item, item: item)
-        end
-        
-        it "doesn't update item's quantity" do
+      context "when item is not in your cart" do
+        it "doesn't update item's quantity and redirects to your cart" do
+          cart = create(:cart)
+          item_in_2nd_cart = create(:cart_item, quantity: 10)
+          sign_in cart.user
           expect do
-            patch :update, params: { cart_id: @cart.id,
-                                     id: @kimono_cart_item.id,
+            patch :update, params: { cart_id: cart.id,
+                                     id: item_in_2nd_cart.id,
                                      cart_item: { quantity: 9 } }
-            @kimono_cart_item.reload
-          end.not_to change(@kimono_cart_item, :quantity)
+            item_in_2nd_cart.reload
+          end.not_to change(item_in_2nd_cart, :quantity)
+          expect(response).to redirect_to cart
         end
-        
-        it "redirects to your cart" do
-          patch :update, params: { cart_id: @kimono_cart_item.cart.id,
-                                   id: @kimono_cart_item.id,
-                                   cart_item: { quantity: 99 } }
-          expect(response).to redirect_to @cart
+      end
+      
+      describe "when accessing not your cart" do
+        it "doesn't update item's quantity and redirects to your cart" do
+          cart = create(:cart)
+          item_in_2nd_cart = create(:cart_item, quantity: 10)
+          sign_in cart.user
+          expect do
+            patch :update, params: { cart_id: item_in_2nd_cart.cart.id,
+                                     id: item_in_2nd_cart.id,
+                                     cart_item: { quantity: 9 } }
+            item_in_2nd_cart.reload  
+          end.not_to change(item_in_2nd_cart, :quantity)
+          expect(response).to redirect_to cart
         end
       end
     end
