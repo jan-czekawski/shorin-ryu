@@ -24,7 +24,7 @@ RSpec.describe CartItemsController, type: :controller do
             post :create, params: { cart_id: @cart.id,
                                     cart_item: { quantity: 20,
                                                  item_id: @item.id } }
-            expect(response).to redirect_to @cart
+            expect(response).to redirect_to cart_path(@cart)
           end
         end
         
@@ -66,7 +66,37 @@ RSpec.describe CartItemsController, type: :controller do
                                             id: last_item.id,
                                      cart_item: { quantity: 5 } }
             last_item.reload
-          end.to change(last_item, :quantity).by(-5)
+          end.to change(last_item, :quantity).by(-5)  
+        end
+        
+        it "redirects to cart path" do
+          patch :update, params: { cart_id: @cart.id,
+                                   id: @cart.cart_items.last.id,
+                                   cart_item: { quantity: 100 } }
+          expect(response).to redirect_to cart_path(@cart)
+        end
+      end
+      
+      describe "when item is not in your cart" do
+        before(:all) do
+          item = build(:item, name: "Expensive kimono")
+          @kimono_cart_item = create(:cart_item, item: item)
+        end
+        
+        it "doesn't update item's quantity" do
+          expect do
+            patch :update, params: { cart_id: @cart.id,
+                                     id: @kimono_cart_item.id,
+                                     cart_item: { quantity: 9 } }
+            @kimono_cart_item.reload
+          end.not_to change(@kimono_cart_item, :quantity)
+        end
+        
+        it "redirects to your cart" do
+          patch :update, params: { cart_id: @kimono_cart_item.cart.id,
+                                   id: @kimono_cart_item.id,
+                                   cart_item: { quantity: 99 } }
+          expect(response).to redirect_to @cart
         end
       end
     end
