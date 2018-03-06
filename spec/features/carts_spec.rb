@@ -58,7 +58,7 @@ feature "Cart management", type: :feature do
   scenario "delete item from cart" do
     user = create(:user)
     cart = create(:cart, user: user)
-    list = create_list(:cart_item, 10, cart_id: cart)
+    list = create(:cart_item, cart_id: cart)
     login_as(user)
     visit root_path
     click_link "Your cart"
