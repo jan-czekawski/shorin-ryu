@@ -6,7 +6,7 @@ feature "Cart management", type: :feature do
   before(:all) do
     @user = create(:user)
     @ticket = create(:item, name: "ticket")
-    @kimono = create(:item, name: "kimono", price: 10)
+    @kimono = create(:item, price: 10)
   end
   
   scenario "add item to a cart", :new do
