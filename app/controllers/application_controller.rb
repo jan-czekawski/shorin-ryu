@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_class, except: [:home]
   before_action :set_flash, only: [:home]
-  before_action :set_cart
+  before_action :set_cart_for_user
 
   def home; end
 
@@ -26,9 +26,9 @@ class ApplicationController < ActionController::Base
     @flash_row = "row justify-content-center"
     @flash_col = "col-10 absolute"
   end
-
-  def set_cart
+  
+  def set_cart_for_user
     return nil unless user_signed_in?
-    @cart = current_user.cart? ? current_user.cart : current_user.create_cart
+    @cart ||= current_user.cart? ? current_user.cart : current_user.create_cart
   end
 end
