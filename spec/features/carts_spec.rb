@@ -55,13 +55,12 @@ feature "Cart management", type: :feature do
       expect(current_path).to eq cart_path(cart)
       expect(page).to have_content "Item's quantity has been updated."
       within "#edit_cart_item_#{cart_item.id}" do
-      #   expect do
-          # byebug
-          # find(".decrease_cart_item").click
-      #     # fill_in "Quantity", with: (cart_item.quantity + 1)
-      #     click_button "Update cart"
-      #     cart_item.reload
-      #   end.to change(cart_item, :quantity).by(-1)
+        expect do
+          # page.evaluate_script('"click" in document.querySelector(".decrease_cart_item")')
+          find(".decrease_cart_item").click
+          click_button "Update cart"
+          cart_item.reload
+        end.to change(cart_item, :quantity).by(-1)
       end
     end
   end
@@ -107,4 +106,5 @@ feature "Cart management", type: :feature do
     expect(page).to have_content "Total price:"
     expect(cart.sum_price).to eq total_price
   end
+
 end
