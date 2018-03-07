@@ -52,7 +52,9 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'guard-rspec', '~> 4.7', '>= 4.7.3'
   gem 'spring-commands-rspec'
-  gem 'capybara-webkit', '~> 1.15'
+  # gem 'capybara-webkit', '~> 1.15'
+  gem "chromedriver-helper"
+  gem 'selenium-webdriver', '~> 3.10'
 end
 
 group :test do
@@ -60,6 +62,7 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'poltergeist'
+  gem 'capybara-selenium'
 end
 
 group :development do
