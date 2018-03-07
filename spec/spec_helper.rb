@@ -62,17 +62,19 @@ RSpec.configure do |config|
   # config.after(:all) do
   #   DeferredGarbageCollection.reconsider
   # end
-
-  config.before(:suite) do
+  
+  config.order = :random
+  
+  config.before(:each) do
     # DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  # config.around(:each) do |example|
-  #   DatabaseCleaner.cleaning do
-  #     example.run
-  #   end
-  # end
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin

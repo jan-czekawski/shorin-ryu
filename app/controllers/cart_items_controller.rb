@@ -6,14 +6,14 @@ class CartItemsController < ApplicationController
   before_action :require_item_in_cart, only: %i[update destroy]
 
   def create
-    item = @cart.in_cart_already(cart_items_params[:item_id])
-    item = CartItem.add_to_cart(item, cart_items_params, @cart)
+    cart_item = CartItem.check_if_in_cart(@cart, cart_items_params[:item_id])
+    cart_item = CartItem.add_to_cart(@cart, cart_item, cart_items_params)
     
-    if item.save
+    if cart_item.save
       flash[:success] = "Item has been added to your cart."
       redirect_to cart_path(@cart)
     else
-      flash[:alert] = item.display_errors
+      flash[:alert] = cart_item.display_errors
       redirect_back fallback_location: items_path
     end
   end
@@ -37,24 +37,5 @@ class CartItemsController < ApplicationController
   
   private
 
-  def set_cart_and_cart_item
-    @cart_params = Cart.find(params[:cart_id])
-    @cart_item = CartItem.find(params[:id])
-  end
-
-  def cart_items_params
-    params.require(:cart_item).permit(:quantity, :item_id)
-  end
-  
-  def require_same_cart
-    return if current_user.cart == @cart_params
-    flash[:alert] = "You can only access your own cart."
-    redirect_to current_user.cart
-  end
-  
-  def require_item_in_cart
-    return if current_user.cart.cart_items.include?(@cart_item)
-    flash[:alert] = "Item wasn't in your cart."
-    redirect_to current_user.cart
-  end
+  include CartRequirements
 end
