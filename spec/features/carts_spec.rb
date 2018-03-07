@@ -3,7 +3,7 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 feature "Cart management", type: :feature do
-  scenario "add item to a cart", :new do
+  scenario "add item to a cart" do
     user = create(:user)
     ticket = create(:item, name: "ticket")
     kimono = create(:item, price: 10)
@@ -36,22 +36,22 @@ feature "Cart management", type: :feature do
     check_cart_content(user)
   end
   
-  # scenario "increase quantity of item already in cart", js: true do
-  scenario "increase quantity of item already in cart" do
-    user = create(:user)
-    cart = create(:cart, user: user)
-    cart_item = create(:cart_item, cart_id: cart)
-    login_as(user)
-    visit root_path
-    cart = user.cart
-    click_link "Your cart"
-    last_item = cart.cart_items.last
-    # expect(page).to have_content last_item.id
-    within "##{last_item.item.name}_id" do
-      # expect do
-        # fill_in "Quantity", with: (last_item.quantity + 1)
-      #   click_button "Update cart"
-      # end.to change(@user.reload.cart.cart_items.last, :quantity).by(1)
+  describe "home", :new do
+    scenario "increase quantity of item already in cart", js: true do
+      user = create(:user)
+      cart = create(:cart, user: user)
+      cart_item = create(:cart_item, cart_id: cart)
+      login_as(user)
+      visit root_path
+      cart = user.cart
+      click_link "Your cart"
+      within "#edit_cart_item_#{cart_item.id}" do
+        expect do
+          fill_in "Quantity", with: (cart_item.quantity + 1)
+          click_button "Update cart"
+          cart_item.reload
+        end.to change(cart_item, :quantity).by(1)
+      end
     end
   end
   
