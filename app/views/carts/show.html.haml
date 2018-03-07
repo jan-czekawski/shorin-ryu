@@ -3,10 +3,10 @@
 %main
   Items in the cart:
   - @cart.cart_items.each do |c_item|
-    %div{id: "#{c_item.item.name}_id"}
+    // %div{id: "#{c_item.item.name}_id"}
     %p= c_item.item.name
     %p= c_item.item.description
-    = form_for c_item  do |f|
+    = form_for c_item, url: cart_item_url(c_item.cart.id, c_item.id)  do |f|
       .form-inline.cart_item
         = f.hidden_field :item_id, value: c_item.item.id
         = f.label :quantity
