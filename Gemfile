@@ -55,6 +55,7 @@ group :development, :test do
   # gem 'capybara-webkit', '~> 1.15'
   gem "chromedriver-helper"
   gem 'selenium-webdriver', '~> 3.10'
+  gem 'geckodriver-helper', '~> 0.0.4'
 end
 
 group :test do

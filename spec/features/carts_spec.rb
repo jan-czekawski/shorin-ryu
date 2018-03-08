@@ -37,32 +37,47 @@ feature "Cart management", type: :feature do
   end
   
   describe "home", :new do
-    scenario "increase quantity of item already in cart", js: true do
-      user = create(:user)
-      cart = create(:cart, user: user)
-      cart_item = create(:cart_item, cart_id: cart)
-      login_as(user)
-      visit root_path
-      cart = user.cart
-      click_link "Your cart"
-      within "#edit_cart_item_#{cart_item.id}" do
-        expect do
-          fill_in "Quantity", with: (cart_item.quantity + 1)
-          click_button "Update cart"
-          cart_item.reload
-        end.to change(cart_item, :quantity).by(1)
-      end
-      expect(current_path).to eq cart_path(cart)
-      expect(page).to have_content "Item's quantity has been updated."
-      within "#edit_cart_item_#{cart_item.id}" do
-        expect do
-          # page.evaluate_script('"click" in document.querySelector(".decrease_cart_item")')
-          find(".decrease_cart_item").click
-          click_button "Update cart"
-          cart_item.reload
-        end.to change(cart_item, :quantity).by(-1)
-      end
+    before(:all) do
+      @driver = Selenium::WebDriver.for(:firefox)
+      # @driver = Selenium::WebDriver.for(:chrome)
+      @driver.navigate.to("http://shorin-ryu-michal8888.c9users.io/")
     end
+    
+    # scenario "do it" do
+    #   user = create(:user)
+    #   cart = create(:cart, user: user)
+    #   cart_item = create(:cart_item, cart_id: cart)
+    #   login_as(user)
+    #   visit root_path
+    #   @driver.find_element(:class, "increase_cart_item").click
+    # end
+    
+    # scenario "increase quantity of item already in cart", js: true do
+      # user = create(:user)
+      # cart = create(:cart, user: user)
+      # cart_item = create(:cart_item, cart_id: cart)
+      # login_as(user)
+      # visit root_path
+    #   cart = user.cart
+    #   click_link "Your cart"
+    #   within "#edit_cart_item_#{cart_item.id}" do
+    #     expect do
+    #       fill_in "Quantity", with: (cart_item.quantity + 1)
+    #       click_button "Update cart"
+    #       cart_item.reload
+    #     end.to change(cart_item, :quantity).by(1)
+    #   end
+    #   expect(current_path).to eq cart_path(cart)
+    #   expect(page).to have_content "Item's quantity has been updated."
+    #   within "#edit_cart_item_#{cart_item.id}" do
+    #     expect do
+    #       # page.evaluate_script('"click" in document.querySelector(".decrease_cart_item")')
+    #       find(".increase_cart_item").click
+    #       click_button "Update cart"
+    #       cart_item.reload
+    #     end.to change(cart_item, :quantity).by(-1)
+    #   end
+    # end
   end
   
   scenario "delete item from cart" do
