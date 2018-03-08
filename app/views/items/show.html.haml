@@ -28,10 +28,14 @@
               = f.hidden_field :item_id, value: @item.id
               = f.label :quantity
               %a.decrease_cart_item
-                =icon("far", "minus-square")
+                // %button.btn.btn-dark{type: "button"}
+                //   = "-"
+                =icon("far", "minus-square", class: "fa-2x")
               = f.number_field :quantity, min: 1, step: 1, value: 1, class: "form-control cart_quantity"
               %a.increase_cart_item
-                = icon("far", "plus-square")
+                // %button.btn.btn-dark{type: "button"}
+                //   = "+"
+                = icon("far", "plus-square", class: "fa-2x")
               = f.submit "Add to cart", class: "btn btn-info"
           = form_for @item.comments.build, url: item_comments_url(@item), method: :post do |f|
             .form-group

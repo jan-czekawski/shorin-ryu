@@ -16,6 +16,11 @@ RSpec.describe CartItem, type: :model do
       cart_item = build(:cart_item, cart_id: nil)
       expect(cart_item).not_to be_valid
     end
+    
+    it "requires quantity" do
+      cart_item = build(:cart_item, quantity: nil)
+      expect(cart_item).not_to be_valid
+    end
 
     it "requires quantity to be integer" do
       cart_item = build(:cart_item, quantity: 1.2)

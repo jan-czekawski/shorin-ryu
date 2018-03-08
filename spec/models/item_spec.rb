@@ -27,11 +27,6 @@ RSpec.describe Item, type: :model do
       expect(item).not_to be_valid
     end
 
-    it "requires quantity" do
-      item = build(:item, quantity: nil)
-      expect(item).not_to be_valid
-    end
-
     it "requires store_item_id" do
       item = build(:item, store_item_id: nil)
       expect(item).not_to be_valid

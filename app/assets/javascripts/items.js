@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).on("turbolinks:load", function(){
   $(".decrease_cart_item").on("click", function(){
     if($(this).next()[0].value > 1){
       $(this).next()[0].value--  

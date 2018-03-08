@@ -26,7 +26,6 @@ feature "Cart management", type: :feature do
       fill_in "Quantity", with: 10
       click_button "Add to cart"
     end.to change(CartItem, :count).by(1)
-    # TODO: fix not_nil.jpg error
     # expect(CartItem.last.quantity).to eq 2
     expect(page).to have_content "Item has been added to your cart."
     check_cart_content(user)
@@ -44,7 +43,6 @@ feature "Cart management", type: :feature do
   scenario "increase quantity of items by using +/- buttons", js: true do
     user = create(:user)
     ticket = create(:item, name: "ticket")
-    # kimono = create(:item, price: 10)
     login_as(user)
     visit root_path
     find(".navbar-toggler-icon").click
@@ -52,16 +50,18 @@ feature "Cart management", type: :feature do
     click_link "Show", href: item_path(ticket)
     page.refresh
     find(".increase_cart_item").click
+    find(".increase_cart_item").click
     click_button "Add to cart"
-    expect(CartItem.last.quantity).to eq 2
-    # within "#edit_cart_item_#{cart_item.id}" do
-    #   expect do
-    #     find(".increase_cart_item").click
-    #     find(".increase_cart_item").click
-    #     click_button "Update cart"
-    #     cart_item.reload
-    #   end.to change(cart_item, :quantity).by(2)
-    # end
+    cart_item = CartItem.last
+    expect(cart_item.quantity).to eq 3
+    within "#edit_cart_item_#{cart_item.id}" do
+      expect do
+        find(".decrease_cart_item").click
+        find(".decrease_cart_item").click
+        click_button "Update cart"
+        cart_item.reload
+      end.to change(cart_item, :quantity).by(-2)
+    end
 
   end
   
