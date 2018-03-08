@@ -17,3 +17,16 @@ $(document).ready(function(){
 
 
 
+// function decreaseValue(){
+//   if($(this).next()[0].value > 1){
+//     $(this).next()[0].value--  
+//   }
+// }
+
+// function increaseValue(){
+//   if($(this).prev()[0].value < 1){
+//     $(this).prev()[0].value = 1  
+//   } else {
+//     $(this).prev()[0].value++
+//   }
+// }
