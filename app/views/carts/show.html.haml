@@ -11,14 +11,14 @@
         = f.hidden_field :item_id, value: c_item.item.id
         = f.label :quantity
         %a.decrease_cart_item
-          %button{type: "button"}
-            = "-"
-          // =icon("far", "minus-square")
+          // %button{type: "button"}
+          //   = "-"
+          =icon("far", "minus-square")
         = f.number_field :quantity, min: 1, step: 1, class: "form-control cart_quantity"
         %a.increase_cart_item
-          %button{type: "button"}
-            = "+"
-          // = icon("far", "plus-square")
+          // %button{type: "button"}
+          //   = "+"
+          = icon("far", "plus-square")
         = f.submit "Update cart", class: "btn btn-info"
     %strong= c_item.item.price.to_s + " PLN " + "Qty: " + c_item.quantity.to_s
     %p= link_to "Delete item", cart_item_path(c_item.cart, c_item), method: :delete, data: { confirm: "Are you sure?" }
