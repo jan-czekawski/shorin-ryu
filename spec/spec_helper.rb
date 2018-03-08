@@ -9,6 +9,8 @@ Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
+
+
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
     chromeOptions: { args: %w(headless disable-gpu) }
@@ -49,6 +51,11 @@ Capybara.raise_server_errors = false
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.before(:each, js: true) do
+    Capybara.page.driver.browser.manage.window.maximize
+    # Capybara.page.driver.browser.manage.window.resize_to(1920, 1080)
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

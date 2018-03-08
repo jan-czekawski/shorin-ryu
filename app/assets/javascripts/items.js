@@ -1,6 +1,5 @@
 $(document).ready(function(){
   $(".decrease_cart_item").on("click", function(){
-      // console.log($(this).next()[0].value)
     if($(this).next()[0].value > 1){
       $(this).next()[0].value--  
     }
