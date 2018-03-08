@@ -19,6 +19,15 @@ Capybara.register_driver :headless_chrome do |app|
     desired_capabilities: capabilities
 end
 
+# p Capybara.save_path
+
+Capybara.register_driver :poltergeist_debug do |app|
+  Capybara::Poltergeist::Driver.new(app, :inspector => true)
+end
+
+# Capybara.javascript_driver = :poltergeist
+# Capybara.javascript_driver = :poltergeist_debug
+
 Capybara.javascript_driver = :headless_chrome
 # Capybara.javascript_driver = :poltergeist
 Capybara.raise_server_errors = false
