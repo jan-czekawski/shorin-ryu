@@ -1,19 +1,30 @@
-require 'rspec/expectations'
+module HaveSameEmailAs
+  class HaveSameEmailAs
+    def initialize(original_user)
+      @original_user = original_user
+    end
+    
+    def matches?(changed_user)
+      @changed_user = changed_user
+      @changed_user.email == @original_user.email
+    end
+    
+    def failure_message
+      "#{@original_user.email} expected to have the same email address"\
+      " as #{@changed_user.email}"
+    end
+    
+    def failure_message_when_negated
+      "#{@original_user.email} expected not to have the same email address"\
+      " as #{@changed_user.email}"
+    end
 
-RSpec::Matchers.define :have_same_email_as do |matched|
-  match do |actual| 
-    expect(actual.email).to eq matched.email
+    def description
+      "check if user's email is updated"
+    end
   end
-
-  failure_message do
-    "#{matched.email} expected to have the same email address as #{actual.email}"
-  end
-
-  failure_message_when_negated do
-    "#{matched.email} expected not to have the same email address as #{actual.email}"
-  end
-
-  description do
-    "check if user's email is updated"
+  
+  def have_same_email_as(user)
+    HaveSameEmailAs.new(user)
   end
 end
