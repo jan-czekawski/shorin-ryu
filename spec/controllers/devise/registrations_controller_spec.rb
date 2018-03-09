@@ -42,7 +42,7 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
     end
   end
 
-  describe "#create" do
+  describe "#create", :new do
     # TODO: add context when user logged in
     context "with valid information" do
       it "increases users count by 1 and redirects to root url" do

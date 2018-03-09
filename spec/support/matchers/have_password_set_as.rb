@@ -1,19 +1,28 @@
-require 'rspec/expectations'
-
-RSpec::Matchers.define :have_password_set_as do |password|
-  match do |user| 
-    expect(Devise::Encryptor.compare(User, user.encrypted_password, password)).to be true
+module HavePasswordSetAs
+  class HavePasswordSetAs
+    def initialize(password)
+      @password = password
+    end
+    
+    def matches?(user)
+      @user = user
+      Devise::Encryptor.compare(User, @user.encrypted_password, @password)
+    end
+    
+    def failure_message
+      "User's new password expected to be #{@password}"
+    end
+    
+    def failure_message_when_negated
+      "User's new password expected not to be #{@password}"
+    end
+    
+    def description
+      "check if user's encrypted password holds same value as provided string"
+    end
   end
-
-  failure_message do
-    "User's new password expected to be #{password}"
-  end
-
-  failure_message_when_negated do
-    "User's new password expected not to be #{password}"
-  end
-
-  description do
-    "check if user's encrypted password holds same value as provided string"
+  
+  def have_password_set_as(pass)
+    HavePasswordSetAs.new(pass)
   end
 end
