@@ -1,20 +1,26 @@
-require 'rspec/expectations'
-
-RSpec::Matchers.define :require_login do
-  match do |actual|
-    expect(actual).to redirect_to \
-      Rails.application.routes.url_helpers.new_user_session_path
+module RequireLogin
+  class RequireLogin
+    def initialize
+    end
+    
+    def matches?(page_response)
+      page_response.redirect_url == Rails.application.routes.url_helpers.new_user_session_url(host: "test.host")
+    end
+    
+    def failure_message
+      "expected to require login to access this method"
+    end
+    
+    def failure_message_when_negated
+      "expected not to require login to access this method"
+    end
+    
+    def description
+      "redirect to the login page"
+    end
   end
-
-  failure_message do
-    "expected to require login to access this method"
-  end
-
-  failure_message_when_negated do
-    "expected not to require login to access this method"
-  end
-
-  description do
-    "redirect to the login page"
+  
+  def require_login
+    RequireLogin.new
   end
 end
