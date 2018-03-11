@@ -46,14 +46,13 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         expect(user.reload.reset_password_token).not_to be_nil
       end
 
-      it "assigns unique password token to @user" do
+      it "assigns unique password token to user" do
         user = create(:user)
         post :create, params: { user: { email: user.email } }
-        first_reset_token = user.reload.reset_password_token
-        # post :create, params: { user: { email: @user.email } }
-        second_reset_token = user.reload.reset_password_token
-        expect(second_reset_token).not_to be eq first_reset_token
-        # TODO: fix unique password token
+        original_user_token = user.reload.reset_password_token
+        post :create, params: { user: { email: user.email } }
+        user.reload
+        expect(user).not_to have_reset_token_equal_to(original_user_token)
       end
 
       it "assigns current time to password reset sent at of user" do
