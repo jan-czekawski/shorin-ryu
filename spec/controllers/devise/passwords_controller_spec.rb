@@ -1,7 +1,9 @@
 require "rails_helper"
 
 RSpec.describe Devise::PasswordsController, type: :controller do
-  before(:each) { @request.env["devise.mapping"] = Devise.mappings[:user] }
+  before(:each) do
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+  end
 
   describe "#new" do
     context "when user logged in" do
@@ -124,7 +126,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
         describe "when password token is invalid" do
           it "doesn't update user's password" do
             user = create(:user)
-            token = user.send_reset_password_instructions
+            user.send_reset_password_instructions
             put :update,
                 params: { user: { reset_password_token: nil,
                                   password: "new_password",
@@ -134,7 +136,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
 
           it "renders edit template" do
             user = create(:user)
-            token = user.send_reset_password_instructions
+            user.send_reset_password_instructions
             put :update,
                 params: { user: { reset_password_token: nil,
                                   password: "new_password",

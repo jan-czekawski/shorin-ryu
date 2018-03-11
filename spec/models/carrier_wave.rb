@@ -1,6 +1,6 @@
 require 'carrierwave/test/matchers'
 
-RSpec.describe ImageUploader, type: :model do
+RSpec.describe ImageUploader do
   include CarrierWave::Test::Matchers
 
   describe ImageUploader, ".new" do

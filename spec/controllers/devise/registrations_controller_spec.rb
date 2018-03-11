@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Devise::RegistrationsController, type: :controller do
-  before(:each) { @request.env["devise.mapping"] = Devise.mappings[:user] }
-
-  # before(:all) { @user = create(:user) }
+  before(:each) do 
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+  end
 
   describe "#new" do
     context "when user not logged in" do
@@ -42,23 +42,34 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
     end
   end
 
-  describe "#create", :new do
-    # TODO: add context when user logged in
-    context "with valid information" do
-      it "increases users count by 1 and redirects to root url" do
+  describe "#create" do
+    context "when user logged in" do
+      it "doesn't change users count and redirects to root url" do
+        sign_in create(:user)
         expect do
           post :create, params: { user: attributes_for(:user) }
-        end.to change(User, :count).by(1)
+        end.not_to change(User, :count)
         expect(response).to redirect_to root_url
       end
     end
-
-    context "with invalid information" do
-      it "doesn't change users count and renders template 'new'" do
-        expect do
-          post :create, params: { user: attributes_for(:user, email: nil) }
-        end.not_to change(User, :count)
-        expect(response).to render_template :new
+    
+    context "when user not logged in" do
+      describe "with valid information" do
+        it "increases users count by 1 and redirects to root url" do
+          expect do
+            post :create, params: { user: attributes_for(:user) }
+          end.to change(User, :count).by(1)
+          expect(response).to redirect_to root_url
+        end
+      end
+  
+      describe "with invalid information" do
+        it "doesn't change users count and renders template 'new'" do
+          expect do
+            post :create, params: { user: attributes_for(:user, email: nil) }
+          end.not_to change(User, :count)
+          expect(response).to render_template :new
+        end
       end
     end
   end
@@ -74,11 +85,6 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
     end
 
     context "when user logged in" do
-      # before(:each) do
-      #   sign_in @user
-      #   @another_user = build(:user)        
-      # end
-
       describe "with valid information" do
         it "updates user's attributes and redirects to root url" do
           user = create(:user)
