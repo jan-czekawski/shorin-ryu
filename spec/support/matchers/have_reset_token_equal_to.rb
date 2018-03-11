@@ -1,4 +1,4 @@
-module HaveResetTokenEqualTo
+module CustomMatchers
   class HaveResetTokenEqualTo
     def initialize(original_user_token)
       @original_user_token = original_user_token

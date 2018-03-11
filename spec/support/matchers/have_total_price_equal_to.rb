@@ -1,4 +1,4 @@
-module HaveTotalPriceEqualTo
+module CustomMatchers
   class HaveTotalPriceEqualTo
     def initialize(sum)
       @sum = sum

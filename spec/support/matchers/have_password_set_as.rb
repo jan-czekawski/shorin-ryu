@@ -1,4 +1,4 @@
-module HavePasswordSetAs
+module CustomMatchers
   class HavePasswordSetAs
     def initialize(password)
       @password = password

@@ -1,4 +1,4 @@
-module HaveSameEmailAs
+module CustomMatchers
   class HaveSameEmailAs
     def initialize(original_user)
       @original_user = original_user

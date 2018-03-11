@@ -1,4 +1,4 @@
-module RequireAdmin
+module CustomMatchers
   class RequireAdmin
     def initialize
     end

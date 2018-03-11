@@ -1,4 +1,4 @@
-module BeLoggedInAs
+module CustomMatchers
   class BeLoggedInAs
     def initialize
     end

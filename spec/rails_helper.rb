@@ -13,14 +13,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # Mongo::Logger.logger.level = Logger::DEBUG
 
 RSpec.configure do |config|
-  config.include LoginMacros
-  config.include BeLoggedInAs
-  config.include HavePasswordSetAs
-  config.include HaveSameEmailAs
-  config.include HaveTotalPriceEqualTo
-  config.include RequireAdmin
-  config.include RequireLogin
-  config.include HaveResetTokenEqualTo
+  config.include CustomMatchers
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!

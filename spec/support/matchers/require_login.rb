@@ -1,4 +1,4 @@
-module RequireLogin
+module CustomMatchers
   class RequireLogin
     def initialize
     end
