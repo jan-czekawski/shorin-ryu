@@ -80,7 +80,6 @@ RSpec.describe CommentsController, type: :controller do
       context "and is comment's owner" do
         describe "with valid event information" do
           it "decreases comment count by 1 and redirects to event page" do
-            # TODO: check comment_id vs event_id and .. vs item_id
             comment = create(:events_comment)
             sign_in comment.user
             expect do
@@ -108,11 +107,11 @@ RSpec.describe CommentsController, type: :controller do
             comment = create(:events_comment)
             diff_event = create(:event)
             sign_in comment.user
-            # expect do
-            #   delete :destroy, params: { id: comment.id,
-            #                             event_id: diff_event.id }
-            # end.not_to change(Comment, :count)
-            # expect(response).to redirect_to root_url
+            expect do
+              delete :destroy, params: { id: comment.id,
+                                        event_id: diff_event.id }
+            end.not_to change(Comment, :count)
+            expect(response).to redirect_to root_url
           end
         end
         
@@ -121,11 +120,11 @@ RSpec.describe CommentsController, type: :controller do
             comment = create(:items_comment)
             diff_item = create(:item)
             sign_in comment.user
-            # expect do
-            #   delete :destroy, params: { id: comment.id,
-            #                             item_id: diff_item.id }
-            # end.not_to change(Comment, :count)
-            # expect(response).to redirect_to root_url
+            expect do
+              delete :destroy, params: { id: comment.id,
+                                        item_id: diff_item.id }
+            end.not_to change(Comment, :count)
+            expect(response).to redirect_to root_url
           end
         end
       end

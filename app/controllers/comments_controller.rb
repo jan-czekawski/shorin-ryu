@@ -1,8 +1,9 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:destroy]
+  before_action :require_valid_commentable_id, only: [:destroy]
   before_action :require_user, only: %i[create destroy]
   before_action :require_owner_or_admin, only: [:destroy]
-  
+
   include Commentable
 
   def create
@@ -20,8 +21,8 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.delete
-    flash[:danger] = "Comment has been deleted."
-    redirect_to find_commentable
+    flash[:alert] = "Comment has been deleted."
+    redirect_to @commentable
   end
 
   private

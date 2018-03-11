@@ -10,7 +10,7 @@ class CartItem
                                        greater_than_or_equal_to: 1 }
 
   class << self
-    def check_if_in_cart(cart, id_of_item)
+    def check_if_already_in_cart(cart, id_of_item)
       # TODO: refactor method
       cart.cart_items.select { |c_item| c_item.item.id.to_s == id_of_item }
                      .first || CartItem.new

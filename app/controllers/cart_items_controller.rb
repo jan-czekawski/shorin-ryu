@@ -6,7 +6,7 @@ class CartItemsController < ApplicationController
   before_action :require_item_in_cart, only: %i[update destroy]
 
   def create
-    cart_item = CartItem.check_if_in_cart(@cart, cart_items_params[:item_id])
+    cart_item = CartItem.check_if_already_in_cart(@cart, cart_items_params[:item_id])
     cart_item = CartItem.add_to_cart(@cart, cart_item, cart_items_params)
     
     if cart_item.save
