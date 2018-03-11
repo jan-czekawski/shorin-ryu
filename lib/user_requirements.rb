@@ -5,6 +5,7 @@ module UserRequirements
     redirect_to new_user_session_url
   end
 
+  # TODO: refactor these methods
   def require_same_user
     return if current_user.events.include?(@event) || current_user.admin?
     flash[:alert] = "You can only delete events you've created."
@@ -17,6 +18,7 @@ module UserRequirements
     redirect_to root_path
   end
 
+  # with this method
   def require_owner_or_admin
     same_user = Comment.find(params[:id]).user == current_user
     return if same_user || current_user.admin?
