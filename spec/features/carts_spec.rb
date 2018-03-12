@@ -52,6 +52,8 @@ feature "Cart management", type: :feature do
     find(".increase_cart_item").click
     find(".increase_cart_item").click
     click_button "Add to cart"
+    sleep(1)
+    # TODO: eliminate sleep(1) - delete delay from button
     cart_item = CartItem.last
     expect(cart_item.quantity).to eq 3
     within "#edit_cart_item_#{cart_item.id}" do
@@ -59,6 +61,7 @@ feature "Cart management", type: :feature do
         find(".decrease_cart_item").click
         find(".decrease_cart_item").click
         click_button "Update cart"
+        sleep(1)
         cart_item.reload
       end.to change(cart_item, :quantity).by(-2)
     end

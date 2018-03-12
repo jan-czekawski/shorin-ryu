@@ -9,30 +9,49 @@ class CartItemsController < ApplicationController
     cart_item = CartItem.check_if_already_in_cart(@cart, cart_items_params[:item_id])
     cart_item = CartItem.add_to_cart(@cart, cart_item, cart_items_params)
     
-    if cart_item.save
-      flash[:success] = "Item has been added to your cart."
-      redirect_to cart_path(@cart)
-    else
-      flash[:alert] = cart_item.display_errors
-      redirect_back fallback_location: items_path
+    respond_to do |format|
+      if cart_item.save
+        format.html do
+          flash[:success] = "Item has been added to your cart."
+          redirect_to cart_path(@cart)
+        end
+        # format.js {}
+      else
+        format.html do
+          flash[:alert] = cart_item.display_errors
+          redirect_back fallback_location: items_path
+        end
+      end
     end
   end
   
   def update
-    if @cart_item.update(cart_items_params)
-      flash[:success] = "Item's quantity has been updated."
-      redirect_to cart_path(current_user.cart)
-    else
-      flash[:alert] = @cart_item.display_errors
-      redirect_to root_url
+    respond_to do |format|
+      if @cart_item.update(cart_items_params)
+        format.html do
+          flash[:success] = "Item's quantity has been updated."
+          redirect_to cart_path(current_user.cart)
+        end
+        # format.js {}
+      else
+        format.html do
+          flash[:alert] = @cart_item.display_errors
+          redirect_to root_url
+        end
+      end
     end
     
   end
 
   def destroy
-    @cart_item.delete
-    flash[:success] = "Item has been deleted from your cart."
-    redirect_back fallback_location: items_path
+    respond_to do |format|
+      @cart_item.delete
+      format.html do
+        flash[:success] = "Item has been deleted from your cart."
+        redirect_back fallback_location: items_path
+      end
+      # format.js {}
+    end
   end
   
   private

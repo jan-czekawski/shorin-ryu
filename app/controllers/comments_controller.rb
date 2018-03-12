@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
   include Commentable
 
   def create
+    # TODO: add ajax to comments view, carts view
     @commentable = find_commentable
     @comment = @commentable.comments.build(comment_params)
     @comment.user_id = current_user.id
