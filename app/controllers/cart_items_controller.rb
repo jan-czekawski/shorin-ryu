@@ -50,7 +50,7 @@ class CartItemsController < ApplicationController
         flash[:success] = "Item has been deleted from your cart."
         redirect_back fallback_location: items_path
       end
-      # format.js {}
+      format.js
     end
   end
   

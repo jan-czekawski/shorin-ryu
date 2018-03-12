@@ -52,7 +52,7 @@ feature "Cart management", type: :feature do
     find(".increase_cart_item").click
     find(".increase_cart_item").click
     click_button "Add to cart"
-    sleep(1)
+    sleep(0.5)
     # TODO: eliminate sleep(1) - delete delay from button
     cart_item = CartItem.last
     expect(cart_item.quantity).to eq 3
@@ -61,12 +61,39 @@ feature "Cart management", type: :feature do
         find(".decrease_cart_item").click
         find(".decrease_cart_item").click
         click_button "Update cart"
-        sleep(1)
+        sleep(0.5)
         cart_item.reload
       end.to change(cart_item, :quantity).by(-2)
     end
-
+    within "#edit_cart_item_#{cart_item.id}" do
+      expect do
+        accept_prompt do
+          click_link "Delete item"
+        end
+        sleep(0.5)
+      end.to change(CartItem, :count).by(-1)
+    end      
   end
+  
+  # scenario "delete item from cart using ajax", js: true do
+  #   user = create(:user)
+  #   user.build_cart
+  #   ticket = create(:item, name: "ticket")
+  #   cart_item = create(:cart_item, item: ticket, cart: user.cart)
+  #   login_as(user)
+  #   visit root_path
+  #   find(".navbar-toggler-icon").click
+  #   find(".nav-link.dropdown-toggle").click
+  #   click_link "Your cart"
+  #   within "#edit_cart_item_#{cart_item.id}" do
+  #     expect do
+  #       accept_prompt do
+  #         click_link "Delete item"
+  #       end
+  #       sleep(0.5)
+  #     end.to change(CartItem, :count).by(-1)
+  #   end      
+  # end
   
   scenario "increase quantity of item already in cart" do
     user = create(:user)

@@ -99,7 +99,7 @@ RSpec.describe Devise::PasswordsController, type: :controller do
       end
     end
 
-    context "when user not logged in", :new do
+    context "when user not logged in" do
       describe "with valid information" do
         it "updates users password" do
           user = create(:user)
