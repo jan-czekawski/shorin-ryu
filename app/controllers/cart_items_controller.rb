@@ -46,11 +46,13 @@ class CartItemsController < ApplicationController
   def destroy
     respond_to do |format|
       @cart_item.delete
+      format.js do
+        flash.now[:success] = "Item has been deleted from your cart."
+      end
       format.html do
         flash[:success] = "Item has been deleted from your cart."
         redirect_back fallback_location: items_path
       end
-      format.js
     end
   end
   
