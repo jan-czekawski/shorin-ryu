@@ -65,14 +65,14 @@ feature "Cart management", type: :feature do
         cart_item.reload
       end.to change(cart_item, :quantity).by(-2)
     end
-    within "#edit_cart_item_#{cart_item.id}" do
-      expect do
-        accept_prompt do
-          click_link "Delete item"
-        end
-        sleep(0.5)
-      end.to change(CartItem, :count).by(-1)
-    end      
+    # within "#edit_cart_item_#{cart_item.id}" do
+    #   expect do
+    #     accept_prompt do
+    #       click_link "Delete item"
+    #     end
+    #     sleep(0.5)
+    #   end.to change(CartItem, :count).by(-1)
+    # end      
   end
   
   # scenario "delete item from cart using ajax", js: true do

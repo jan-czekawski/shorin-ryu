@@ -20,7 +20,12 @@
             // = "+"
             = icon("far", "plus-square", class: "fa-2x")
           %div
-            = f.submit "Update cart", class: "btn btn-info"
+            = f.submit "Update cart", class: "btn btn-info", remote: true
             = link_to "Delete item", cart_item_path(c_item.cart, c_item), class: "btn btn-danger" ,method: :delete, data: { confirm: "Are you sure?" }, remote: true
-      %strong= c_item.item.price.to_s + " PLN " + "Qty: " + c_item.quantity.to_s
-  %strong= "Total price:"
+      %strong
+        = c_item.item.price.to_s + " PLN " + "Qty: "
+        %span{id: "quantity_#{c_item.item.id}"}= c_item.quantity
+  %strong
+    = "Total price: "
+    %span#total_price= @cart.sum_price
+  
