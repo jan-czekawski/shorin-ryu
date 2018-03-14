@@ -32,7 +32,9 @@ class CartItemsController < ApplicationController
           flash[:success] = "Item's quantity has been updated."
           redirect_to cart_path(current_user.cart)
         end
-        # format.js {}
+        format.js do
+          # flash.now[:success] = "Item has been deleted from your cart."
+        end
       else
         format.html do
           flash[:alert] = @cart_item.display_errors
