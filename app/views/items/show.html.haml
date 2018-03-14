@@ -1,7 +1,9 @@
 .row.justify-content-center
+  #display_flash
   .col-md-6
     %h1 Show item
-    #display_flash
+.row
+  %section.col-md-8
     .card
       =image_tag(@item.image, size: 200, class: "avatar")
       .card-body
@@ -43,6 +45,5 @@
               = f.label :content
               = f.text_area :content, class: "form-control"
               = f.submit "Add comment", class: "btn btn-success btn-wide", remote: true
-              
-              
-              
+  %aside.col-md-4
+    = render "shared/cart"

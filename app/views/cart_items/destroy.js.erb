@@ -1,3 +1,3 @@
 $(document).ready(function(){
-  $("<%= "##{@cart_item.item.id}" %>").html("<%= (render 'shared/flash').gsub(/\n/, '').gsub(/\"/, '\'').html_safe %>")
+  $("<%= "##{@cart_item.item.id}" %>").html("<%= show_flash(render 'shared/flash') %>")
 });
