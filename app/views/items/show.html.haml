@@ -1,6 +1,7 @@
 .row.justify-content-center
   .col-md-6
     %h1 Show item
+    #display_flash
     .card
       =image_tag(@item.image, size: 200, class: "avatar")
       .card-body
@@ -41,4 +42,7 @@
             .form-group
               = f.label :content
               = f.text_area :content, class: "form-control"
-              = f.submit "Add comment", class: "btn btn-success btn-wide"
+              = f.submit "Add comment", class: "btn btn-success btn-wide", remote: true
+              
+              
+              
