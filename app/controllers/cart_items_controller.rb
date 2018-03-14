@@ -15,7 +15,9 @@ class CartItemsController < ApplicationController
           flash[:success] = "Item has been added to your cart."
           redirect_to cart_path(@cart)
         end
-        # format.js {}
+        format.js do
+          flash.now[:success] = "Item has been added to your cart."
+        end
       else
         format.html do
           flash[:alert] = cart_item.display_errors
