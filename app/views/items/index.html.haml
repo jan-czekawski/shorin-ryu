@@ -7,7 +7,7 @@
     - if current_user.try(:admin?)
       = link_to "New item", new_item_path, class: "btn btn-success btn-wide"
     - @items.each do |item|
-      .card.my-3
+      .card.mb-3
         .row
           .col-md-3.col-xl-2.image
             = image_tag(item.image, size: 150, class: "avatar")
