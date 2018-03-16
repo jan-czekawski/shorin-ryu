@@ -5,7 +5,6 @@
   - @cart.cart_items.each do |c_item|
     %div{id: "#{c_item.item.id}"}
       %p= c_item.item.name
-      %p= c_item.item.description
       = form_for c_item, url: cart_item_url(c_item.cart.id, c_item.id), remote: true do |f|
         .form-inline.cart_item
           = f.hidden_field :item_id, value: c_item.item.id
