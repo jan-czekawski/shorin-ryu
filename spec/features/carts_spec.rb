@@ -162,9 +162,7 @@ feature "Cart management", type: :feature do
     if cart.cart_items.any?
       cart.cart_items.each do |c_item|
         expect(page).to have_content c_item.item.name
-        expect(page).to have_content c_item.item.description
         expect(page).to have_content c_item.item.price
-        expect(page).to have_content "Qty:"
         expect(page).to have_content c_item.quantity
         path = cart_item_path(c_item.cart, c_item)
         expect(page).to have_link "Delete item", href: path
