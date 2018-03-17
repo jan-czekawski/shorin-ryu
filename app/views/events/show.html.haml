@@ -1,6 +1,8 @@
 .row.justify-content-center
   .col-md-6
     %h1= @event.name
+.row
+  %section.col-md-8
     .card
       .card-body
         %h5.card-title
@@ -33,6 +35,5 @@
               = f.label :content
               = f.text_area :content, class: "form-control"
               = f.submit "Add comment", class: "btn btn-success btn-wide"
-              
-              
-              
+  %aside.col-md-4
+    = render "shared/cart"
