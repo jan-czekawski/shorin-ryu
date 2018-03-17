@@ -1,6 +1,8 @@
 .row.justify-content-center
   .col-md-6.col-lg-4
     %h1= type == "new" ? "New item" : "Edit item"
+.row
+  %secion.col-md-8
     = form_for item do |f|
       = render "shared/errors", obj: item
       .form-group
@@ -30,4 +32,5 @@
           = f.label :store_item_id, "Item_id"
           = f.number_field :store_item_id, min: 220301, step: 1, placeholder: "220301-", class: "form-control"
       = f.submit "#{type == 'new' ? 'Create' : 'Update'}", class: "btn btn-success btn-wide"
-      
+  %aside.col-md-4
+    = render "shared/cart"
