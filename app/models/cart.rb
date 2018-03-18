@@ -4,4 +4,5 @@ class Cart
 
   belongs_to :user
   has_many :cart_items, dependent: :destroy
+  has_one :checkout, dependent: :destroy
 end

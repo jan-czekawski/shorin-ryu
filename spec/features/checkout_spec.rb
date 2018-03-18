@@ -10,11 +10,11 @@ feature "Handle orders in checkout", type: :feature do
     cart_item = create(:cart_item, item: item, cart: cart)
     login_as(user)
     visit cart_path(cart)
-    click_button "Proceed to checkout"
-    expect(current_path).to eq checkout_path(user.checkout)
+    click_link "Proceed to checkout"
+    expect(current_path).to eq new_checkout_path
     expect(page).to have_content "Items in your checkout:"
     expect(page).to have_content cart.sum_price
-    check "Standard deliver"
+    check "Standard delivery"
     click_button "Continue"
     fill_in "First Name", with: "John"
     fill_in "Last Name", with: "Doe"
