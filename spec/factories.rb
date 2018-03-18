@@ -1,5 +1,4 @@
 FactoryBot.define do
-
   # sequence :login { |number| "John_#{number}" }
 
   factory :user do
@@ -55,4 +54,14 @@ FactoryBot.define do
     association :item, strategy: :build
     quantity 300
   end
+  
+  factory :checkout do
+    user nil
+    cart nil
+    delivery_method 1
+    payment_method 1
+    delivery_address ""
+    billing_address ""
+  end
+  
 end
