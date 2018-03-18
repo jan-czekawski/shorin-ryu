@@ -1,0 +1,19 @@
+%h1 
+  Checkout
+%main
+  Items in your checkout:
+  - @cart.cart_items.each do |c_item|
+    %div{id: "#{c_item.item.id}"}
+      %b
+        = c_item.item.name
+      %p
+        = c_item.item.price.to_s + " PLN "
+        &times;
+        %span{id: "quantity_#{c_item.item.id}"}= c_item.quantity
+      %p
+        = link_to "Delete item", cart_item_path(c_item.cart, c_item), class: "btn btn-danger btn-sm" ,method: :delete, data: { confirm: "Are you sure?" }, remote: true
+  %h4
+    = "Total price: "
+  %span#total_price
+    = @cart.sum_price
+  
