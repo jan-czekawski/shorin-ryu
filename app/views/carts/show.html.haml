@@ -27,7 +27,7 @@
   %strong
     = "Total price: "
     %span#total_price= @cart.sum_price
-  = link_to "Proceed to checkout", checkout_path(@cart.checkout), class: "btn btn-success"
+  = link_to "Proceed to checkout", new_checkout_path, class: "btn btn-success"
   
   
   
