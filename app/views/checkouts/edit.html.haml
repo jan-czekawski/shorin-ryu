@@ -1,0 +1,89 @@
+.row.justify-content-center
+  .col-md-6.col-lg-4
+    %h1 
+      Checkout
+.row
+  %section
+    %main
+      Items in your checkout:
+      - @cart.cart_items.each do |c_item|
+        %div{id: "#{c_item.item.id}"}
+          %b
+            = c_item.item.name
+          %p
+            = c_item.item.price.to_s + " PLN "
+            &times;
+            %span{id: "quantity_#{c_item.item.id}"}= c_item.quantity
+          %p
+            = link_to "Delete item", cart_item_path(c_item.cart, c_item), class: "btn btn-danger btn-sm" ,method: :delete, data: { confirm: "Are you sure?" }, remote: true
+      %h4
+        = "Total price: "
+      %span#total_price
+        = @cart.sum_price
+    = form_for @checkout do |f|
+      = render "shared/errors", obj: @checkout
+      .form-check
+        = f.radio_button :delivery_method, 1, class: "form-check-input"
+        = f.label :delivery_method_1, "Standard delivery", class: "form-check-label"
+      .form-check
+        = f.radio_button :delivery_method, 2, class: "form-check-input"
+        = f.label :delivery_method_2, "Express delivery", class: "form-check-label"
+      .delivery_address
+        %h4 Delivery address
+        = f.fields_for :delivery_address do |adr_form|
+          .form-group
+            = adr_form.label :first_name, "First Name"
+            = adr_form.text_field :first_name, class: "form-control"
+          .form-group
+            = adr_form.label :last_name, "Last Name"
+            = adr_form.text_field :last_name, class: "form-control"
+          .form-group
+            = adr_form.label :phone_number, "Phone Number"
+            = adr_form.text_field :phone_number, class: "form-control"
+          .form-group
+            = adr_form.label :email_address, "Email Address"
+            = adr_form.text_field :email_address, class: "form-control"
+          .form-group
+            = adr_form.label :street
+            = adr_form.text_field :street, class: "form-control"
+          .form-group
+            = adr_form.label :house_number, "House #"
+            = adr_form.number_field :house_number, class: "form-control"
+          .form-group
+            = adr_form.label :city
+            = adr_form.text_field :city, class: "form-control"
+          .form-group
+            = adr_form.label :zip_code, "Zipcode"
+            = adr_form.text_field :zip_code, class: "form-control"
+      .billing_address
+        %h4 Billing address
+        = f.fields_for :billing_address do |adr_form|
+          .form-group
+            = adr_form.label :first_name, "First Name"
+            = adr_form.text_field :first_name, class: "form-control"
+          .form-group
+            = adr_form.label :last_name, "Last Name"
+            = adr_form.text_field :last_name, class: "form-control"
+          .form-group
+            = adr_form.label :phone_number, "Phone Number"
+            = adr_form.text_field :phone_number, class: "form-control"
+          .form-group
+            = adr_form.label :email_address, "Email Address"
+            = adr_form.text_field :email_address, class: "form-control"
+          .form-group
+            = adr_form.label :street
+            = adr_form.text_field :street, class: "form-control"
+          .form-group
+            = adr_form.label :house_number, "House #"
+            = adr_form.number_field :house_number, class: "form-control"
+          .form-group
+            = adr_form.label :city
+            = adr_form.text_field :city, class: "form-control"
+          .form-group
+            = adr_form.label :zip_code, "Zipcode"
+            = adr_form.text_field :zip_code, class: "form-control"
+      = f.submit "Continue", class: "btn btn-success"
+      
+      
+      
+      
