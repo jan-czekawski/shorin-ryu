@@ -55,6 +55,7 @@
           .form-group
             = adr_form.label :zip_code, "Zipcode"
             = adr_form.text_field :zip_code, class: "form-control"
+      = button_tag "Use delivery address", type: "button", id: "use_delivery_address", class: "btn btn-success"
       .billing_address
         %h4 Billing address
         = f.fields_for :billing_address do |adr_form|

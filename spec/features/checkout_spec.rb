@@ -26,15 +26,16 @@ feature "Handle orders in checkout", type: :feature do
       fill_in "House #", with: "100"
       fill_in "Zipcode", with: "22-300"
     end
+    click_link "Use delivery address"
     within ".billing_address" do
-      fill_in "First Name", with: "John"
-      fill_in "Last Name", with: "Doe"
-      fill_in "Phone Number", with: "+48500800800"
-      fill_in "Email Address", with: user.email
-      fill_in "City", with: "Juarez"
-      fill_in "Street", with: "Main Street"
-      fill_in "House #", with: "100"
-      fill_in "Zipcode", with: "22-300"
+    #   fill_in "First Name", with: "John"
+    #   fill_in "Last Name", with: "Doe"
+    #   fill_in "Phone Number", with: "+48500800800"
+    #   fill_in "Email Address", with: user.email
+    #   fill_in "City", with: "Juarez"
+    #   fill_in "Street", with: "Main Street"
+    #   fill_in "House #", with: "100"
+    #   fill_in "Zipcode", with: "22-300"
     end
     # click_button "Continue"
   end

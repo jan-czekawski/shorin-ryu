@@ -13,9 +13,14 @@ class CheckoutsController < ApplicationController
   private
 
   def set_checkout
-    p Checkout.count
-    p Checkout.last.id
-    @checkout = Checkout.find(params[:id])
+    # p Cart.last.id
+    # p Cart.count
+    # p params[:id]
+    # p Checkout.last.id
+    # p Checkout.count
+    # FIXME: make sure correct id is passed in params
+    # @checkout = Checkout.find(params[:id])
+    @checkout = current_user.cart.checkout
   end
 
   def event_params
