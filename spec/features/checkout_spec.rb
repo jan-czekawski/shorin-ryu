@@ -26,7 +26,7 @@ feature "Handle orders in checkout", type: :feature do
       fill_in "House #", with: "100"
       fill_in "Zipcode", with: "22-300"
     end
-    click_link "Use delivery address"
+    click_button "Use delivery address"
     within ".billing_address" do
     #   fill_in "First Name", with: "John"
     #   fill_in "Last Name", with: "Doe"
