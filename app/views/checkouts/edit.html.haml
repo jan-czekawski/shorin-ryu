@@ -1,3 +1,5 @@
+%script{:src => "https://checkout.stripe.com/checkout.js"}
+
 .row.justify-content-center
   .col-md-6.col-lg-4
     %h1 
@@ -28,7 +30,7 @@
         .form-check
           = f.radio_button :delivery_method, 2, class: "form-check-input"
           = f.label :delivery_method_2, "Express delivery", class: "form-check-label"
-      = button_tag "Continue", type: "button", class: "btn btn-success", id: "pick_delivery_method"
+      = button_tag "Continue", type: "button", class: "btn btn-success", id: "from_delivery_method"
       .delivery_address
         %h4 Delivery address
         = f.fields_for :delivery_address do |adr_form|
@@ -59,8 +61,8 @@
             .form-group.col-md-2
               = adr_form.label :zip_code, "Zipcode"
               = adr_form.text_field :zip_code, class: "form-control"
-      = button_tag "Back", type: "button", class: "btn btn-warning", id: "back_delivery_address"
-      = button_tag "Continue", type: "button", class: "btn btn-success", id: "pick_delivery_address"
+      = button_tag "Back", type: "button", class: "btn btn-warning", id: "to_delivery_method"
+      = button_tag "Continue", type: "button", class: "btn btn-success", id: "from_delivery_address"
       = button_tag "Use delivery address", type: "button", id: "use_delivery_address", class: "btn btn-success"
       .billing_address
         %h4 Billing address
@@ -92,15 +94,15 @@
             .form-group.col-md-2
               = adr_form.label :zip_code, "Zipcode"
               = adr_form.text_field :zip_code, class: "form-control"
-      = button_tag "Back", type: "button", class: "btn btn-warning", id: "back_billing_address"
-      = button_tag "Continue", type: "button", class: "btn btn-success", id: "payment_method_button"
-      .payment_method
-        %form{:action => "/checkouts", :method => "POST"}
-          %script.stripe-button{"data-amount" => "999", "data-description" => "Example charge", "data-image" => "https://stripe.com/img/documentation/checkout/marketplace.png", "data-key" => "pk_test_6pRNASCoBOKtIshFeQd4XMUh", "data-locale" => "auto", "data-name" => "Stripe.com", "data-zip-code" => "true", :src => "https://checkout.stripe.com/checkout.js"}
-            :cdata      
-      = button_tag "Back", type: "button", class: "btn btn-warning", id: "back_payment_method"  
-      // = f.submit "Continue", class: "btn btn-success", id: "submit_form"
-      
+      = button_tag "Back", type: "button", class: "btn btn-warning", id: "to_delivery_address"
+      = button_tag "Continue", type: "button", class: "btn btn-success", id: "from_billing_address"
+      = button_tag "Back", type: "button", class: "btn btn-warning", id: "to_billing_address"  
+      = f.submit "Submit", class: "btn btn-success", id: "submit_form"
+    .payment_method
+      = button_tag "Pay with Card", type: "button", id: "creditCardButton", class: "btn btn-info"
+      // %form{:action => "/checkouts", :method => "POST"}
+      //   %script.stripe-button{"data-amount" => "999", "data-description" => "Example charge", "data-image" => "https://stripe.com/img/documentation/checkout/marketplace.png", "data-key" => "pk_test_GQq9bxu7aMfrR0YCsfw86ZYF", "data-locale" => "auto", "data-name" => "Stripe.com", "data-zip-code" => "true", :src => "https://checkout.stripe.com/checkout.js"}
+      //     :cdata
       
       
       
