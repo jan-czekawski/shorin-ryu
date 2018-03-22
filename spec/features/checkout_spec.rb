@@ -15,7 +15,7 @@ feature "Handle orders in checkout", type: :feature do
     expect(page).to have_content "Items in your checkout:"
     expect(page).to have_content cart.sum_price
     choose "Standard delivery"
-    # click_button "Continue"
+    click_button "Continue", id: "pick_delivery_method"
     within ".delivery_address" do
       fill_in "First Name", with: "John"
       fill_in "Last Name", with: "Doe"
@@ -26,6 +26,7 @@ feature "Handle orders in checkout", type: :feature do
       fill_in "House #", with: "100"
       fill_in "Zipcode", with: "22-300"
     end
+    click_button "Continue", id: "pick_delivery_address"
     click_button "Use delivery address"
     within ".billing_address" do
       expect(page).to have_field("First Name", with: "John")
