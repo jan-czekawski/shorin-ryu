@@ -5,41 +5,85 @@ $(document).on("turbolinks:load", function(){
     PasteBillingAddress(array);
   });
   
-  $("#pick_delivery_method").on("click", function(){
+  $("#from_delivery_method").on("click", function(){
     $(".delivery_method").hide();
     $(".delivery_address").show();
-    $("#back_delivery_address").show();
-    $("#pick_delivery_address").show();
+    $("#to_delivery_method").show();
+    $("#from_delivery_address").show();
     $(this).hide();
   });
   
-  $("#back_delivery_address").on("click", function(){
+  $("#to_delivery_method").on("click", function(){
     $(".delivery_method").show();
     $(".delivery_address").hide();
-    $("#back_delivery_address").hide();
-    $("#pick_delivery_address").hide();
+    $("#to_delivery_method").hide();
+    $("#from_delivery_address").hide();
     $(this).hide();
-    $("#pick_delivery_method").show();
+    $("#from_delivery_method").show();
   });
 
-  $("#pick_delivery_address").on("click", function(){
+  $("#from_delivery_address").on("click", function(){
     $(".billing_address").show();
     $(".delivery_address").hide();
     $("#use_delivery_address").show();
-    $("#submit_form").show();
     $(this).hide();
-    $("#back_delivery_address").hide();
-    $("#back_billing_address").show();
+    $("#to_delivery_method").hide();
+    $("#to_delivery_address").show();
+    $("#from_billing_address").show();
   });
   
-  $("#back_billing_address").on("click", function(){
+  $("#to_delivery_address").on("click", function(){
     $(".billing_address").hide();
     $(".delivery_address").show();
     $("#use_delivery_address").hide();
     $("#submit_form").hide();
     $(this).hide();
-    $("#back_delivery_address").show();
-    $("#pick_delivery_address").show();
+    $("#to_delivery_method").show();
+    $("#from_delivery_address").show();
+    $("#from_billing_address").hide();
+  });
+  
+  $("#from_billing_address").on("click", function(){
+    $(".payment_method").show();
+    $("#to_billing_address").show();
+    $("#to_delivery_address").hide();
+    $("#use_delivery_address").hide();
+    $(".billing_address").hide();
+    $("#submit_form").show();
+    $(this).hide();
+  });
+  
+  $("#to_billing_address").on("click", function(){
+    $(".payment_method").hide();
+    $("#submit_form").hide();
+    $(this).hide();
+    $("#to_delivery_address").show();
+    $("#from_billing_address").show();
+    $(".billing_address").show();
+  });
+
+  var handler = StripeCheckout.configure({
+    key: "pk_test_GQq9bxu7aMfrR0YCsfw86ZYF",
+    image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+    locale: 'auto',
+    token: function(token) {
+      // console.log(token);
+    }
+  });
+  
+  document.getElementById('creditCardButton').addEventListener('click', function(e) {
+    // Open Checkout with further options:
+    handler.open({
+      name: 'Stripe.com',
+      // description: '2 widgets',
+      // zipCode: true,
+      amount: 1000
+    });
+    e.preventDefault();
+  });
+  
+  window.addEventListener('popstate', function() {
+    handler.close();
   });
 });
 
