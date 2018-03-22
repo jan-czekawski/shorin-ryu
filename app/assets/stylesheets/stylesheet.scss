@@ -124,3 +124,14 @@ input[type=number]::-webkit-outer-spin-button {
 .buttons {
   float: right;
 }
+
+#use_delivery_address,
+#pick_delivery_address,
+#back_delivery_address,
+#back_billing_address,
+#submit_form,
+.delivery_address,
+.billing_address,
+.payment_method {
+  display: none;
+}
