@@ -97,6 +97,47 @@ $(document).on("turbolinks:load", function(){
   window.addEventListener('popstate', function() {
     handler.close();
   });
+  
+  paypal.Button.render({
+    // env: 'production', // Or 'sandbox',
+    env: 'sandbox', // Or 'sandbox',
+
+    commit: true, // Show a 'Pay Now' button
+
+    style: {
+      color: 'black',
+      size: 'small'
+    },
+
+    payment: function(data, actions) {
+      /* 
+       * Set up the payment here 
+       */
+       console.log("payment");
+    },
+
+    onAuthorize: function(data, actions) {
+      /* 
+       * Execute the payment here 
+       */
+       console.log("authorize");
+    },
+
+    onCancel: function(data, actions) {
+      /* 
+       * Buyer cancelled the payment 
+       */
+       console.log("cancel");
+    },
+
+    onError: function(err) {
+      /* 
+       * An error occurred during the transaction 
+       */
+       console.log("error");
+    }
+  }, '#paypal-button');
+  
 });
 
 function CollectDeliveryAddress(arr){

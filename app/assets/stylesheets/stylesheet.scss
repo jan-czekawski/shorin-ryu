@@ -125,6 +125,10 @@ input[type=number]::-webkit-outer-spin-button {
   float: right;
 }
 
+#paypal-button {
+  display: inline-block;
+}
+
 #use_delivery_address,
 #from_delivery_address,
 #to_delivery_method,
@@ -137,6 +141,8 @@ input[type=number]::-webkit-outer-spin-button {
 #to_billing_address {
   display: none;
 }
+
+
 
 // .btn-stripe {
 //   	color: #fff;
