@@ -5,6 +5,7 @@ class CheckoutsController < ApplicationController
   end
   
   def update
+  # TODO: provide correct amount (sum of cart + delivery) in the stripe
   end
 
   def show

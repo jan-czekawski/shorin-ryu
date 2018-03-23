@@ -21,15 +21,16 @@
       %h4
         = "Total price: "
         %span#total_price= @cart.sum_price
+        = " PLN"
     = form_for @checkout do |f|
       = render "shared/errors", obj: @checkout
       .delivery_method
         .form-check
-          = f.radio_button :delivery_method, 1, class: "form-check-input"
-          = f.label :delivery_method_1, "Standard delivery", class: "form-check-label"
+          = f.radio_button :delivery_method, 1, class: "form-check-input", checked: true
+          = f.label :delivery_method_1, "Standard delivery - 19.90 PLN", class: "form-check-label"
         .form-check
           = f.radio_button :delivery_method, 2, class: "form-check-input"
-          = f.label :delivery_method_2, "Express delivery", class: "form-check-label"
+          = f.label :delivery_method_2, "Express delivery - 29.90 PLN", class: "form-check-label"
       = button_tag "Continue", type: "button", class: "btn btn-success", id: "from_delivery_method"
       .delivery_address
         %h4 Delivery address
@@ -96,10 +97,12 @@
               = adr_form.text_field :zip_code, class: "form-control"
       = button_tag "Back", type: "button", class: "btn btn-warning", id: "to_delivery_address"
       = button_tag "Continue", type: "button", class: "btn btn-success", id: "from_billing_address"
+      .payment_method
+        = button_tag "Pay with Card", type: "button", id: "creditCardButton", class: "btn btn-info"
+        = button_tag "Pay with PayPal", type: "button", class: "btn btn-secondary"
       = button_tag "Back", type: "button", class: "btn btn-warning", id: "to_billing_address"  
       = f.submit "Submit", class: "btn btn-success", id: "submit_form"
-    .payment_method
-      = button_tag "Pay with Card", type: "button", id: "creditCardButton", class: "btn btn-info"
+
       // %form{:action => "/checkouts", :method => "POST"}
       //   %script.stripe-button{"data-amount" => "999", "data-description" => "Example charge", "data-image" => "https://stripe.com/img/documentation/checkout/marketplace.png", "data-key" => "pk_test_GQq9bxu7aMfrR0YCsfw86ZYF", "data-locale" => "auto", "data-name" => "Stripe.com", "data-zip-code" => "true", :src => "https://checkout.stripe.com/checkout.js"}
       //     :cdata
