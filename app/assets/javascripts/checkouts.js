@@ -67,17 +67,29 @@ $(document).on("turbolinks:load", function(){
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
     locale: 'auto',
     token: function(token) {
-      // console.log(token);
+      console.log(token);
     }
   });
   
+  var money = Number($("#total_price").text());
+  var delivery = 19.90;
+
+  $("#checkout_delivery_method_1").on("click", function(){
+    delivery = 19.90;
+  });
+  
+  $("#checkout_delivery_method_2").on("click", function(){
+    delivery = 29.90;
+  });
+
   document.getElementById('creditCardButton').addEventListener('click', function(e) {
     // Open Checkout with further options:
     handler.open({
       name: 'Stripe.com',
       // description: '2 widgets',
       // zipCode: true,
-      amount: 1000
+      amount: (money + delivery) * 100,
+      currency: "PLN"  
     });
     e.preventDefault();
   });
