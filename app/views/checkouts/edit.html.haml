@@ -1,4 +1,5 @@
 %script{:src => "https://checkout.stripe.com/checkout.js"}
+%script{:src => "https://www.paypalobjects.com/api/checkout.js"}
 
 .row.justify-content-center
   .col-md-6.col-lg-4
@@ -102,7 +103,7 @@
         = button_tag "Pay with PayPal", type: "button", class: "btn btn-secondary"
       = button_tag "Back", type: "button", class: "btn btn-warning", id: "to_billing_address"  
       = f.submit "Submit", class: "btn btn-success", id: "submit_form"
-
+      #paypal-button
       // %form{:action => "/checkouts", :method => "POST"}
       //   %script.stripe-button{"data-amount" => "999", "data-description" => "Example charge", "data-image" => "https://stripe.com/img/documentation/checkout/marketplace.png", "data-key" => "pk_test_GQq9bxu7aMfrR0YCsfw86ZYF", "data-locale" => "auto", "data-name" => "Stripe.com", "data-zip-code" => "true", :src => "https://checkout.stripe.com/checkout.js"}
       //     :cdata
