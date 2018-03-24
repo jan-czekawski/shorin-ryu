@@ -25,6 +25,7 @@
         = " PLN"
     = form_for @checkout do |f|
       = render "shared/errors", obj: @checkout
+      // = f.hidden_field :paid
       .delivery_method
         .form-check
           = f.radio_button :delivery_method, 1, class: "form-check-input", checked: true
