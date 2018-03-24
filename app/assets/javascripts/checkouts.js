@@ -97,10 +97,18 @@ $(document).on("turbolinks:load", function(){
   window.addEventListener('popstate', function() {
     handler.close();
   });
+
+  var seller_business = "bihone-facilitator@wp.pl";
+  var buyer_personal = "bihone-buyer@wp.pl";
   
   paypal.Button.render({
     // env: 'production', // Or 'sandbox',
     env: 'sandbox', // Or 'sandbox',
+    
+    client: {
+      sandbox:    'AYp013VvGi4nnls3I0d4z3Ldh9aqQDCBuQKc3oEPP8T62pAmXtFbubzgJYM3fye7G0UwS-hmeJEuPNJ6',
+      production: 'ARY1D7-mGduukgDRp3qA9RhMh9ZuFgWnJ8Ze80GosNDtAXdZJCS6huV0Jb_goGtlqb1aL1oBZLaY4Dhz'
+    },
 
     commit: true, // Show a 'Pay Now' button
 
@@ -110,17 +118,23 @@ $(document).on("turbolinks:load", function(){
     },
 
     payment: function(data, actions) {
-      /* 
-       * Set up the payment here 
-       */
-       console.log("payment");
+      console.log("payment");
+      return actions.payment.create({
+        payment: {
+          transactions: [{
+            amount: { total: "10.00", currency: "PLN" }
+          }]   
+        }
+      });
     },
 
+
+
     onAuthorize: function(data, actions) {
-      /* 
-       * Execute the payment here 
-       */
-       console.log("authorize");
+      console.log("authorize");
+      return actions.payment.execute().then(function(payment){
+        console.log("DONE");
+      });
     },
 
     onCancel: function(data, actions) {
