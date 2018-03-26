@@ -125,7 +125,7 @@ $(document).on("turbolinks:load", function(){
         return actions.payment.create({
           payment: {
             transactions: [{
-              amount: { total: "10.00", currency: "PLN" }
+              amount: { total: money + delivery, currency: "PLN" }
             }]   
           }
         });
