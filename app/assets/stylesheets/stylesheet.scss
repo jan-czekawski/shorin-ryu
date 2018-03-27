@@ -143,7 +143,26 @@ input[type=number]::-webkit-outer-spin-button {
   display: none;
 }
 
+@media only screen and (min-width: 1550px) {
+  .carousel-caption.d-none.d-md-block,
+  .carousel-indicators {
+    margin-bottom: 5em;
+  }
+}
 
+@media only screen and (min-width: 1700px) {
+  .carousel-caption.d-none.d-md-block,
+  .carousel-indicators {
+    margin-bottom: 10em;
+  }
+}
+
+@media only screen and (min-width: 1820px) {
+  .carousel-caption.d-none.d-md-block,
+  .carousel-indicators {
+    margin-bottom: 15em;
+  }
+}
 
 // .btn-stripe {
 //   	color: #fff;
