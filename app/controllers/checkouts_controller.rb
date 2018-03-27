@@ -5,7 +5,7 @@ class CheckoutsController < ApplicationController
   end
   
   def update
-    # TODO: handle paypal and stripe paid => continue
+    # TODO: remove cart items from cart after checkout payment is successed
   end
 
   def show

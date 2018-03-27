@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :set_flash, only: [:home]
   before_action :set_cart_for_user
 
+  include UserRequirements
+
   def home; end
 
   protected
@@ -15,8 +17,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  
-  include UserRequirements
 
   def set_class
     @body_class = "container-fluid"
