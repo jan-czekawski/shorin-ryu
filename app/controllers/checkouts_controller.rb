@@ -1,6 +1,15 @@
 class CheckoutsController < ApplicationController
   before_action :set_checkout, only: %i[edit update]
   
+  def new
+    @checkout = Checkout.new
+    @checkout.cart = current_user.cart
+    @checkout.move_items_from_cart
+  end
+  
+  def create
+  end
+  
   def edit
   end
   
