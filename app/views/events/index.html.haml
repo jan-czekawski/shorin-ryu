@@ -5,6 +5,7 @@
   %section.col-md-8
     - if user_signed_in?
       = link_to "New event", new_event_path, class: "btn btn-success btn-wide"
+    - p @events.last.address.class
     - @events.each do |event|
       .card.my-3
         .row
@@ -16,11 +17,23 @@
                 = event.name
               %p.card-text
                 %b Address:
-                = event.address[:street]
-                = event.address[:house_number]
+                - if event[:address].nil?
+                  = event.address.street
+                - else
+                  = event[:address][:street]
+                - if event[:address].nil?
+                  = event.address.house_number
+                - else
+                  = event[:address][:house_number]
                 = ","
-                = event.address[:zip_code]
-                = event.address[:city]
+                - if event[:address].nil?
+                  = event.address.zip_code
+                - else
+                  = event[:address][:zip_code]
+                - if event[:address].nil?
+                  = event.address.city
+                - else
+                  = event[:address][:city]
                 %small
                   %b added by:
                   = link_to event.user.login, user_path(event.user)
