@@ -10,6 +10,7 @@ class Event
   has_one :address
   # TODO: go back to relation if checkout address won't work
   # FIXME: in events index view there's temporary fix to display address
+  # TODO: add test for displaying events page
   
   # field :address, type: CheckoutAddress
   field :name,  type: String
