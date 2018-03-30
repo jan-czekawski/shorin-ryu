@@ -5,9 +5,9 @@ class Checkout
   field :payment_method, type: Integer
   field :delivery_address, type: CheckoutAddress
   field :billing_address, type: CheckoutAddress
-  belongs_to :cart
+  belongs_to :user
 
   def move_items_from_cart
-    # move cart_items to @checkout
+    
   end
 end

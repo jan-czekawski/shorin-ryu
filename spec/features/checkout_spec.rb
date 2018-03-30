@@ -11,7 +11,7 @@ feature "Handle orders in checkout", type: :feature do
     login_as(user)
     visit cart_path(cart)
     click_link "Proceed to checkout"
-    expect(current_path).to eq edit_checkout_path(cart.checkout)
+    expect(current_path).to eq new_checkout_path
     expect(page).to have_content "Items in your checkout:"
     expect(page).to have_content cart.sum_price
     choose "Standard delivery"

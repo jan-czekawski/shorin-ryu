@@ -3,7 +3,7 @@ class CheckoutsController < ApplicationController
   
   def new
     @checkout = Checkout.new
-    @checkout.cart = current_user.cart
+    @checkout.user_id = current_user.id
     @checkout.move_items_from_cart
   end
   
