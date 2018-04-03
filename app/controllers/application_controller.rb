@@ -30,6 +30,6 @@ class ApplicationController < ActionController::Base
   def set_cart_for_user
     return nil unless user_signed_in?
     @cart ||= current_user.cart? ? current_user.cart : current_user.create_cart
-    # @cart.user.create_checkout
+    @cart.user.create_checkout
   end
 end
