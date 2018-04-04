@@ -10,13 +10,13 @@
           = f.hidden_field :item_id, value: c_item.item.id
           = f.label :quantity
           %a.decrease_cart_item
-            %button.btn.btn-dark{type: "button"}
-              = "-"
+            // %button.btn.btn-dark{type: "button"}
+            //   = "-"
             =icon("far", "minus-square", class: "fa-2x")
           = f.number_field :quantity, min: 1, step: 1, class: "form-control cart_quantity"
           %a.increase_cart_item
-            %button.btn.btn-dark{type: "button"}
-            = "+"
+            // %button.btn.btn-dark{type: "button"}
+            // = "+"
             = icon("far", "plus-square", class: "fa-2x")
           %div
             = f.submit "Update cart", class: "btn btn-info", remote: true
