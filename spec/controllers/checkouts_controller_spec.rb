@@ -4,7 +4,6 @@ RSpec.describe CheckoutsController, type: :controller do
   # TODO: set up checkouts controller
   describe "#new" do
     context "when user logged in" do
-      
       it "renders new template and assigns new checkout instance to @checkout" do
         sign_in create(:user)
         get :new
@@ -14,6 +13,10 @@ RSpec.describe CheckoutsController, type: :controller do
     end
     
     context "when user not logged in" do
+      it "redirects to login page" do
+        get :new
+        expect(response).to_be redirected_to :login_page
+      end
     end
   end
 end
