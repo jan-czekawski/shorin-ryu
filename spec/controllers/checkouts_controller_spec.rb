@@ -19,4 +19,19 @@ RSpec.describe CheckoutsController, type: :controller do
       end
     end
   end
+
+  describe "#edit" do
+    context "when user logged in" do
+      it "renders edit template and assigns checkout to @checkout" do
+        user = create(:user)
+        sign_in user
+        get :edit, params: { checkout: user.checkout }
+        expect(response).to render_template :edit
+        expect(assigns(:checkout)).to be_eq user.checkout    
+      end
+    end
+
+    context "when user not logged in" do
+    end
+  end
 end
