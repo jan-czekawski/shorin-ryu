@@ -26,7 +26,7 @@ class CartItemsController < ApplicationController
       end
     end
   end
-  
+
   def update
     respond_to do |format|
       if @cart_item.update(cart_items_params)
