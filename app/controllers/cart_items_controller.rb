@@ -5,6 +5,8 @@ class CartItemsController < ApplicationController
   before_action :require_same_cart, only: %i[update destroy]
   before_action :require_item_in_cart, only: %i[update destroy]
 
+  include CartRequirements
+
   def create
     cart_item = CartItem.check_if_already_in_cart(@cart, cart_items_params[:item_id])
     cart_item = CartItem.add_to_cart(@cart, cart_item, cart_items_params)
@@ -59,8 +61,4 @@ class CartItemsController < ApplicationController
       end
     end
   end
-  
-  private
-
-  include CartRequirements
 end

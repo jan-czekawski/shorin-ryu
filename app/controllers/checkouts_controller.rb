@@ -1,10 +1,20 @@
 class CheckoutsController < ApplicationController
   before_action :set_checkout, only: %i[edit update]
   
+  def new
+    @checkout = Checkout.new
+    @checkout.user_id = current_user.id
+    @checkout.move_items_from_cart
+  end
+  
+  def create
+  end
+  
   def edit
   end
   
   def update
+    # TODO: remove cart items from cart after checkout payment is successed
   end
 
   def show

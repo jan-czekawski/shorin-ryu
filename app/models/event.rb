@@ -8,7 +8,11 @@ class Event
   belongs_to :user
   has_many :comments, as: :commentable, dependent: :destroy
   has_one :address
+  # TODO: go back to relation if checkout address won't work
+  # FIXME: in events index view there's temporary fix to display address
+  # TODO: add test for displaying events page
   
+  # field :address, type: CheckoutAddress
   field :name,  type: String
   field :image, type: String, default: ""
   

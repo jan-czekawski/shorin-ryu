@@ -40,7 +40,7 @@ feature "Cart management", type: :feature do
     check_cart_content(user)
   end
   
-  scenario "change quantity of items by using +/- buttons", js: true do
+  scenario "change quantity of items by using +/- buttons", js: true, slow: true do
     user = create(:user)
     ticket = create(:item, name: "ticket")
     login_as(user)

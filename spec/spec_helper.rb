@@ -91,6 +91,10 @@ RSpec.configure do |config|
   config.before(:each) { GC.disable }
   config.after(:each) { GC.enable }
 
+  # declare an exclusion filter
+  config.filter_run_excluding :slow => true unless ENV["slow_specs"]
+
+
   # config.before(:all) do
   #   DeferredGarbageCollection.start
   # end
