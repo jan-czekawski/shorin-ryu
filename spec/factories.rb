@@ -56,8 +56,8 @@ FactoryBot.define do
   end
   
   factory :checkout do
-    user nil
-    cart nil
+    association :user, strategy: :build
+    # association :cart, strategy: :build
     delivery_method 1
     payment_method 1
     delivery_address ""
