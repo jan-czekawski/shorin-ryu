@@ -36,6 +36,11 @@ RSpec.describe CheckoutsController, type: :controller do
     end
 
     context "when user not logged in" do
+      it "redirects to login page" do
+        user = create(:user)
+        checkout = create(:checkout, user: user)
+        get :edit, params: { id: checkout.id }
+      end
     end
   end
 end
