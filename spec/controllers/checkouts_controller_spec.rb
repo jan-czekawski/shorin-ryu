@@ -31,7 +31,7 @@ RSpec.describe CheckoutsController, type: :controller do
         # TODO: confirm if checkouts is
         get :edit, params: { id: checkout.id }
         # expect(response).to render_template :edit
-        # expect(assigns(:checkout)).to be_eq user.checkout    
+        # expect(assigns(:checkout)).to be_eq user.checkout.first
       end
     end
 
@@ -40,7 +40,23 @@ RSpec.describe CheckoutsController, type: :controller do
         user = create(:user)
         checkout = create(:checkout, user: user)
         get :edit, params: { id: checkout.id }
+        expect(response).to require_login
       end
+    end
+  end
+  
+  describe "#show" do
+    context "when user logged in" do
+      it "renders show template and assigns checkout to @checkout" do
+        user = create(:user)
+        checkout = create(:checkout, user: user)
+        get :show, params: { id: checkout.id }
+        expect(response).to render_template :show
+        expect(assigns(:checkout)).to be_eq user.checkout.first
+      end
+    end
+    
+    context "when user not logged in" do
     end
   end
 end
