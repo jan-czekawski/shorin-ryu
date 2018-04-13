@@ -12,7 +12,7 @@ RSpec.describe CheckoutsController, type: :controller do
         # expect(assigns(:checkout)).to be_a_new Checkout
       end
     end
-    
+
     context "when user not logged in" do
       it "redirects to login page" do
         get :new
@@ -44,19 +44,26 @@ RSpec.describe CheckoutsController, type: :controller do
       end
     end
   end
-  
+
   describe "#show" do
     context "when user logged in" do
       it "renders show template and assigns checkout to @checkout" do
         user = create(:user)
+        sign_in user
         checkout = create(:checkout, user: user)
         get :show, params: { id: checkout.id }
         expect(response).to render_template :show
         expect(assigns(:checkout)).to be_eq user.checkout.first
       end
     end
-    
+
     context "when user not logged in" do
+      it "redirects to login page" do
+        user = create(:user)
+        checkout = create(:checkout, user: user)
+        get :show, params: { id: checkout.id }
+        expect(response).to require_login
+      end
     end
   end
 end
