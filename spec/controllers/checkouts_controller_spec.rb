@@ -66,4 +66,17 @@ RSpec.describe CheckoutsController, type: :controller do
       end
     end
   end
+
+  describe "#destroy" do
+    context "when user logged in" do
+      it "deletes or empties user's checkout" do
+        user = create(:user)
+        sign_in user
+        checkout = create(:checkout, user: user)
+        delete :destroy, params: { id: checkout.id }
+        expect(assigns(:checkout).cart_items.count).to be_eq 0
+        # TEMPORARY FIX
+      end
+    end
+  end
 end
