@@ -26,7 +26,7 @@ RSpec.describe CommentsController, type: :controller do
           expect(response).to redirect_to item
         end
       end
-      
+
       describe "with invalid event information" do
         it "doesn't change comment count and redirects to event page" do
           event = create(:event)
@@ -38,7 +38,7 @@ RSpec.describe CommentsController, type: :controller do
           expect(response).to redirect_to event_path(event)
         end
       end
-      
+
       describe "with invalid item information" do
         it "doesn't change comment count and redirects to item page" do
           item = create(:item)
@@ -89,7 +89,7 @@ RSpec.describe CommentsController, type: :controller do
             expect(response).to redirect_to event_path(comment.commentable_id)
           end
         end
-  
+
         describe "with valid item information" do
           it "decreases comment count by 1 and redirects to item page" do
             comment = create(:items_comment)
@@ -101,7 +101,7 @@ RSpec.describe CommentsController, type: :controller do
             expect(response).to redirect_to item_path(comment.commentable_id)
           end
         end
-        
+
         describe "when comment's id and event_id are not from the same comment" do
           it "doesn't change comment count and redirects to event page" do
             comment = create(:events_comment)
@@ -109,26 +109,27 @@ RSpec.describe CommentsController, type: :controller do
             sign_in comment.user
             expect do
               delete :destroy, params: { id: comment.id,
-                                        event_id: diff_event.id }
+                                         event_id: diff_event.id }
             end.not_to change(Comment, :count)
             expect(response).to redirect_to root_url
           end
         end
-        
-        describe "when comment's id and item_id are not from the same comment" do
+
+        describe "when comment's id and item_id are" \
+                 " not from the same comment" do
           it "doesn't change comment count and redirects to item page" do
             comment = create(:items_comment)
             diff_item = create(:item)
             sign_in comment.user
             expect do
               delete :destroy, params: { id: comment.id,
-                                        item_id: diff_item.id }
+                                         item_id: diff_item.id }
             end.not_to change(Comment, :count)
             expect(response).to redirect_to root_url
           end
         end
       end
-      
+
       context "and is admin" do
         describe "with valid event information" do
           it "decreases comment count by 1 and redirects to event page" do
@@ -141,7 +142,7 @@ RSpec.describe CommentsController, type: :controller do
             expect(response).to redirect_to event_path(comment.commentable_id)
           end
         end
-  
+
         describe "with valid item information" do
           it "decreases comment count by 1 and redirects to item page" do
             comment = create(:items_comment)
@@ -154,7 +155,7 @@ RSpec.describe CommentsController, type: :controller do
           end
         end
       end
-      
+
       context "and not comment's owner nor admin" do
         describe "with valid event information" do
           it "doesn't change comment count and redirects to root" do
@@ -167,7 +168,7 @@ RSpec.describe CommentsController, type: :controller do
             expect(response).to redirect_to root_url
           end
         end
-        
+
         describe "with valid item information" do
           it "doesn't change comment count and redirects to root" do
             comment = create(:items_comment)
