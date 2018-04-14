@@ -1,8 +1,7 @@
 class CheckoutsController < ApplicationController
-  before_action :require_user, only: %i[new edit]
-  before_action :set_checkout, only: %i[edit update]
-  
-  
+  before_action :require_user, only: %i[new edit show]
+  before_action :set_checkout, only: %i[edit update show]
+
   def new
     @checkout = Checkout.new
     @checkout.user_id = current_user.id
@@ -20,6 +19,9 @@ class CheckoutsController < ApplicationController
   end
 
   def show
+  end
+  
+  def destroy
   end
   
   private
