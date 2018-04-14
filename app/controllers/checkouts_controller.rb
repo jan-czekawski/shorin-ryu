@@ -1,6 +1,6 @@
 class CheckoutsController < ApplicationController
   before_action :require_user, only: %i[new edit show]
-  before_action :set_checkout, only: %i[edit update show]
+  before_action :set_checkout, only: %i[edit update show destroy]
 
   def new
     @checkout = Checkout.new

@@ -73,9 +73,13 @@ RSpec.describe CheckoutsController, type: :controller do
       it "deletes or empties user's checkout" do
         user = create(:user)
         sign_in user
+        create(:cart, user: user)
+        cart_item = create(:cart_item, cart: user.cart)
         checkout = create(:checkout, user: user)
+        # FIXME: TypeError!!!
+        checkout.cart_items << cart_item
         delete :destroy, params: { id: checkout.id }
-        expect(assigns(:checkout).cart_items.count).to be_eq 0
+        expect(assigns(:checkout).cart_items.count).to eq 0
       end
     end
 
