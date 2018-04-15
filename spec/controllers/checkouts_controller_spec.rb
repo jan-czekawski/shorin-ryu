@@ -5,18 +5,34 @@ RSpec.describe CheckoutsController, type: :controller do
   describe "#new" do
     context "when user logged in" do
       it "renders new template and assigns new checkout instance to @checkout" do
-        sign_in create(:user)
-        get :new
-        expect(response).to render_template :new
+        # sign_in create(:user)
+        # get :new
+        # expect(response).to render_template :new
         # FIXME: @checkout should be filled
         # expect(assigns(:checkout)).to be_a_new Checkout
+        
+        
+        
+        user = create(:user)
+        sign_in user
+        create(:cart, user: user)
+        checkout = create(:checkout, user: user)
+        # TODO: move cart_items from checkout to cart
+        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
+        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
+        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
+        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
+        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
+        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
+        get :new
+        expect(response).to render_template :new
       end
     end
 
     context "when user not logged in" do
       it "redirects to login page" do
         get :new
-        expect(response).to redirect_to new_user_session_url
+        expect(response).to require_login
       end
     end
   end

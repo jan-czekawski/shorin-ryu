@@ -10,13 +10,15 @@ class Checkout
   belongs_to :user
 
   def move_items_from_cart
-    # byebug
     # TODO: make sure why method is missing - is cart deleted before or unavailable in checkout???
-    c_items = []
+    # PROBABLY FIXED!!! -> CONFIRM THAT!!!
     self.user.cart.cart_items.each do |c_item|
-      c_items.push(c_item)
-      # self.cart_items.push(c_item)
+      self.cart_items.build(item_id: c_item.item_id,
+                            cart_id: c_item.cart_id,
+                            checkout_id: c_item.checkout_id,
+                            quantity: c_item.quantity)
+                     .save
     end
-    self.update(cart_items: c_items)
+    self.user.cart.cart_items.delete_all
   end
 end

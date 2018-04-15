@@ -15,7 +15,8 @@ class CheckoutsController < ApplicationController
   end
   
   def update
-    # TODO: remove cart items from cart after checkout payment is successed
+    # TODO: remove cart items from cart after checkout payment is successful
+    # CART_ITEMS should be removed when "go to checkout" button is clicked, not when payment is successful
   end
 
   def show
