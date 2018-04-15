@@ -22,6 +22,7 @@ class CheckoutsController < ApplicationController
   end
   
   def destroy
+    @checkout.cart_items.delete_all
   end
   
   private

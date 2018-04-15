@@ -3,7 +3,8 @@ class CartItem
   include HandleErrors
   
   belongs_to :item
-  belongs_to :cart, optional: true
+  # TODO: cart_item should only have cart_id or checkout_id => in cart or in checkout 
+  belongs_to :cart#, optional: true
   belongs_to :checkout, optional: true
   field :quantity, type: Integer
   
