@@ -77,20 +77,22 @@ RSpec.describe CheckoutsController, type: :controller do
         checkout = create(:checkout, user: user)
         # TODO: move cart_items from checkout to cart
         cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
-        
         delete :destroy, params: { id: checkout.id }
-        expect(assigns(:checkout).cart_items.count).to eq 0
+        expect(checkout.cart_items.count).to eq 0
       end
     end
 
     context "when user not logged in" do
-      # it "redirects to login page and doesn't empty user's checkout" do
-      #   user = create(:user)
-      #   checkout = create(:checkout, user: user)
-      #   delete :destroy, params: { id: checkout.id }
-      #   expect(assigns(:checkout).cart_items.count).not_to be_eq 0
-      #   expect(response).to be require_login
-      # end
+      it "redirects to login page and doesn't empty user's checkout" do
+        user = create(:user)
+        create(:cart, user: user)
+        checkout = create(:checkout, user: user)
+        # TODO: move cart_items from checkout to cart
+        create(:cart_item, cart: user.cart, checkout: checkout)
+        delete :destroy, params: { id: checkout.id }
+        expect(checkout.cart_items.count).not_to eq 0
+        expect(response).to require_login
+      end
     end
   end
 end
