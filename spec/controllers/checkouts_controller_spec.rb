@@ -5,27 +5,18 @@ RSpec.describe CheckoutsController, type: :controller do
   describe "#new" do
     context "when user logged in" do
       it "renders new template and assigns new checkout instance to @checkout" do
-        # sign_in create(:user)
-        # get :new
-        # expect(response).to render_template :new
-        # FIXME: @checkout should be filled
-        # expect(assigns(:checkout)).to be_a_new Checkout
-        
-        
-        
+        # FIXME: @checkout.cart_items should be fixed
         user = create(:user)
         sign_in user
         create(:cart, user: user)
         checkout = create(:checkout, user: user)
-        # TODO: move cart_items from checkout to cart
-        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
-        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
-        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
-        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
-        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
-        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
+        cart_item = create(:cart_item, cart: user.cart)
+        p user.cart.cart_items.count
         get :new
+        p user.cart.cart_items.count
         expect(response).to render_template :new
+        # p assigns(:checkout).cart_items.count
+        # expect(assigns(:checkout).reload.cart_items.count).to eq 1
       end
     end
 

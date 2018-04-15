@@ -5,7 +5,9 @@ class CheckoutsController < ApplicationController
   def new
     @checkout = Checkout.new
     @checkout.user_id = current_user.id
+    p "BEFORE #{@checkout.cart_items.count}"
     @checkout.move_items_from_cart
+    p "AFTER #{@checkout.cart_items.count}"
   end
   
   def create
@@ -15,7 +17,7 @@ class CheckoutsController < ApplicationController
   end
   
   def update
-    # TODO: remove cart items from cart after checkout payment is successful
+    # TODO: remove cart items from cart after checkout payment is successf
     # CART_ITEMS should be removed when "go to checkout" button is clicked, not when payment is successful
   end
 
