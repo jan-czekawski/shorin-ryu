@@ -74,11 +74,10 @@ RSpec.describe CheckoutsController, type: :controller do
         user = create(:user)
         sign_in user
         create(:cart, user: user)
-        cart_item = build(:cart_item, cart: user.cart)
         checkout = create(:checkout, user: user)
-        # FIXME: TypeError!!
-        # byebug
-        checkout.cart_items.create(cart_item)# << cart_item
+        # TODO: move cart_items from checkout to cart
+        cart_item = create(:cart_item, cart: user.cart, checkout: checkout)
+        
         delete :destroy, params: { id: checkout.id }
         expect(assigns(:checkout).cart_items.count).to eq 0
       end
