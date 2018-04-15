@@ -3,15 +3,16 @@ class CartItem
   include HandleErrors
   
   belongs_to :item
-  belongs_to :cart
+  belongs_to :cart, optional: true
+  belongs_to :checkout, optional: true
   field :quantity, type: Integer
   
   validates :quantity, numericality: { only_integer: true,
                                        greater_than_or_equal_to: 1 }
-
+  
   class << self
     def check_if_already_in_cart(cart, id_of_item)
-      # TODO: refactor method
+      # TODO: refactor
       cart.cart_items.select { |c_item| c_item.item.id.to_s == id_of_item }
                      .first || CartItem.new
     end
