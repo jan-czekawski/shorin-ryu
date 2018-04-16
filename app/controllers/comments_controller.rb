@@ -11,7 +11,7 @@ class CommentsController < ApplicationController
     @commentable = find_commentable
     @comment = @commentable.comments.build(comment_params)
     @comment.user_id = current_user.id
-    
+
     if @comment.save
       flash[:success] = "New comment has been added!"
     else

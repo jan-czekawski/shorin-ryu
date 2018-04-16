@@ -9,25 +9,23 @@ class CheckoutsController < ApplicationController
     @checkout.move_items_from_cart
     p "AFTER #{@checkout.cart_items.count}"
   end
-  
-  def create
-  end
-  
-  def edit
-  end
-  
+
+  def create; end
+
+  def edit; end
+
   def update
     # TODO: remove cart items from cart after checkout payment is successf
-    # CART_ITEMS should be removed when "go to checkout" button is clicked, not when payment is successful
+    # CART_ITEMS should be removed when "go to checkout" button is clicked,
+    # not when payment is successful
   end
 
-  def show
-  end
-  
+  def show; end
+
   def destroy
     @checkout.cart_items.delete_all
   end
-  
+
   private
 
   def set_checkout
@@ -43,7 +41,9 @@ class CheckoutsController < ApplicationController
 
   def event_params
     params.require(:checkout).permit(:name, :user_id, :image,
-                                  address_attributes: %i[city street
-                                                         house_number zip_code])
+                                     address_attributes: %i[city
+                                                            street
+                                                            house_number
+                                                            zip_code])
   end
 end

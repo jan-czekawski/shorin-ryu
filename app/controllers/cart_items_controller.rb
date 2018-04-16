@@ -8,9 +8,10 @@ class CartItemsController < ApplicationController
   include CartRequirements
 
   def create
-    cart_item = CartItem.check_if_already_in_cart(@cart, cart_items_params[:item_id])
+    cart_item = CartItem.check_if_already_in_cart(@cart,
+                                                  cart_items_params[:item_id])
     cart_item = CartItem.add_to_cart(@cart, cart_item, cart_items_params)
-    
+
     respond_to do |format|
       if cart_item.save
         format.html do
@@ -46,7 +47,6 @@ class CartItemsController < ApplicationController
         end
       end
     end
-    
   end
 
   def destroy
