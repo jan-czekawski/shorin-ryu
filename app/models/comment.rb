@@ -2,7 +2,7 @@ class Comment
   include Mongoid::Document
   include Mongoid::Timestamps
   include HandleErrors
-  
+
   belongs_to :user
   belongs_to :commentable, polymorphic: true
 

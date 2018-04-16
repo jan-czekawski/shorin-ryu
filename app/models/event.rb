@@ -11,11 +11,11 @@ class Event
   # TODO: go back to relation if checkout address won't work
   # FIXME: in events index view there's temporary fix to display address
   # TODO: add test for displaying events page
-  
+
   # field :address, type: CheckoutAddress
   field :name,  type: String
   field :image, type: String, default: ""
-  
+
   # embeds_one :address
   accepts_nested_attributes_for :address
 

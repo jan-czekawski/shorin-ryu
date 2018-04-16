@@ -15,7 +15,7 @@ class User
   has_many :comments, dependent: :destroy
   has_one :cart, dependent: :destroy
   has_many :checkouts, dependent: :destroy
-  
+
   # VALIDATIONS
   EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, allow_blank: true, format: EMAIL_FORMAT

@@ -7,6 +7,6 @@ class Address
   field :zip_code
 
   belongs_to :event, optional: true
-  
+
   # embedded_in :event, inverse_of: :address
 end
