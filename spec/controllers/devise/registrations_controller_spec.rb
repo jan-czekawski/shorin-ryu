@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Devise::RegistrationsController, type: :controller do
-  before(:each) do 
+  before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
@@ -52,7 +52,7 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
         expect(response).to redirect_to root_url
       end
     end
-    
+
     context "when user not logged in" do
       describe "with valid information" do
         it "increases users count by 1 and redirects to root url" do
@@ -62,7 +62,7 @@ RSpec.describe Devise::RegistrationsController, type: :controller do
           expect(response).to redirect_to root_url
         end
       end
-  
+
       describe "with invalid information" do
         it "doesn't change users count and renders template 'new'" do
           expect do
