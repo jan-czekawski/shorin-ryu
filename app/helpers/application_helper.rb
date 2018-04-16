@@ -22,10 +22,13 @@ module ApplicationHelper
     return false unless user_signed_in?
     user.admin? || resource.user_id == user._id
   end
-  
+
   def show_flash(arg)
-    arg.gsub(/\n/, '')
-       .gsub(/\"/, '\'')
+    # arg.gsub(/\n/, '')
+    #    .gsub(/\"/, '\'')
+    #    .html_safe
+    arg.delete(/\n/)
+       .tr(/\"/, '\'')
        .html_safe
   end
 end
