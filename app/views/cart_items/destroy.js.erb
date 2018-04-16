@@ -2,6 +2,7 @@ $(document).ready(function(){
   $('#display_flash').addClass("col-10 my-3");
   $('#display_flash').html("<%= show_flash(render 'shared/flash')  %>");
   $("<%= "##{@cart_item.item.id}" %>").html("");
+  console.log($("#total_price").val());
   $('#total_price').html("<%= @cart.sum_price %>");
   // @cart is nil
 });
