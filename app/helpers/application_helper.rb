@@ -24,11 +24,11 @@ module ApplicationHelper
   end
 
   def show_flash(arg)
-    # arg.gsub(/\n/, '')
-    #    .gsub(/\"/, '\'')
-    #    .html_safe
-    arg.delete(/\n/)
-       .tr(/\"/, '\'')
-       .html_safe
+    arg.gsub(/\n/, '')
+        .gsub(/\"/, '\'')
+        .html_safe
+    # arg.delete(/\n/)
+    #   .tr(/\"/, '\'')
+    #   .html_safe
   end
 end
