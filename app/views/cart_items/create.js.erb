@@ -1,8 +1,8 @@
 $(document).ready(function(){
   $('#display_flash').addClass("col-10 my-3");
   $('#display_flash').html("<%= show_flash(render 'shared/flash')  %>");
-  var item = "#<%= current_user.cart.cart_items.last %>"
-  if($(item.id)){
+  var count = Number("<%= current_user.cart.cart_items.count %>");
+  if(count > 1){
     alert("<%= current_user.cart.cart_items.last.item.name %>");
   } else {
     alert("nope");
