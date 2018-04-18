@@ -1,4 +1,12 @@
 $(document).ready(function(){
   $('#display_flash').addClass("col-10 my-3");
   $('#display_flash').html("<%= show_flash(render 'shared/flash')  %>");
+  var item = "#<%= current_user.cart.cart_items.last %>"
+  if($(item.id)){
+    alert("<%= current_user.cart.cart_items.last.item.name %>");
+  } else {
+    alert("nope");
+    $("aside.col-md-4").html('<div id="<%= @cart_item  %>"></div>');
+  }
+  
 });
