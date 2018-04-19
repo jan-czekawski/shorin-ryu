@@ -27,3 +27,11 @@ end
 NAMES = ["2016 European Karate Championship", "WKF Karate Kumite 2017"]
 
 NAMES.each { |ev_name| Event.create(user_id: User.all.sample, name: ev_name) }
+
+ITEMS = [
+          { 
+           name: "White Karate Gi",
+           price: 110, 
+           description: "Very light material for great mobility. High quality. Mesh-Inlets for best ventilation. WKF Approved. 60% Cotton : 40% Polyester" 
+          }
+        ]
