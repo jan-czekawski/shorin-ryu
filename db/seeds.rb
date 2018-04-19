@@ -23,3 +23,7 @@ end
                          house_number: rand(100),
                          zip_code: "#{zip_first}-#{zip_second}" })
 end
+
+NAMES = ["2016 European Karate Championship", "WKF Karate Kumite 2017"]
+
+NAMES.each { |ev_name| Event.create(user_id: User.all.sample, name: ev_name) }
