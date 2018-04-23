@@ -32,6 +32,9 @@ ITEMS = [
           { 
            name: "White Karate Gi",
            price: 110, 
-           description: "Very light material for great mobility. High quality. Mesh-Inlets for best ventilation. WKF Approved. 60% Cotton : 40% Polyester" 
+           description: "Very light material for great mobility. High quality. Mesh-Inlets for best ventilation. WKF Approved. 60% Cotton : 40% Polyester", 
+           store_item_id: 300912,
+           size: "m"
           }
         ]
+ITEMS.each { |item| Item.create(item) }
