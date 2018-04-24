@@ -2,27 +2,27 @@
   .col-md-6
     %h1= @event.name
 .row
-  %section.col-md-8
+  %section.col-md-8.center
     .card
+      =image_tag(@event.image, size: 400, class: "avatar")
       .card-body
-        %h5.card-title
-          %b City:  
+        %h5.card-title= @event.name
+        %p.card-text
+          = @event.description
+        %p.card-text
+          %b Address:
+          = @event.address[:street] + " "
+          = @event.address[:house_number]
+          = ", " + @event.address[:zip_code] 
           = @event.address[:city]
-        %p.card-text
-          %b Zip-Code: 
-          = @event.address[:zip_code] 
-        %p.card-text
-          %b Street:
-          = @event.address[:street] + ", "
-          = @event.address[:house_number]          
         %p.card-text
           %b= "Added by: "
           = link_to @event.user.login, user_path(@event.user)
-        %p.card-text
           %b= "Created: "
           = @event.created_at.strftime("%e-%b-%Y")
-        = link_to "Edit", edit_event_path(@event), class: "btn btn-warning"
-        = link_to "Delete", event_path(@event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
+        - if user_signed_in? && owner_or_admin(current_user, @event)
+          = link_to "Edit", edit_event_path(@event), class: "btn btn-warning"
+          = link_to "Delete", event_path(@event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
         - @event.comments.each do |comment|
           %p.card-text 
             = comment.content
