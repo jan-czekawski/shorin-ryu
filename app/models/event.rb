@@ -14,8 +14,9 @@ class Event
 
   # field :address, type: CheckoutAddress
   field :name,  type: String
+  field :description, type: String
   field :image, type: String, default: ""
-
+  field :date, type: DateTime
   # embeds_one :address
   accepts_nested_attributes_for :address
 
