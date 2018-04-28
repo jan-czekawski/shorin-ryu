@@ -35,6 +35,69 @@ ITEMS = [
            description: "Very light material for great mobility. High quality. Mesh-Inlets for best ventilation. WKF Approved. 60% Cotton : 40% Polyester", 
            store_item_id: 300912,
            size: "m"
-          }
+          },
+          {
+           name: "Red Karate Sparring Mitts with Thumb",
+           price: 60, 
+           description: "Stylish and top quality. Absorbing foam, controlled density. PU cover. Fingers are held with elasticated loops for comfortable, safe & secure sparring. Velcro strap around wrist. Large padded strike area. ",
+           store_item_id: 300913,
+           size: "l"
+          },
+          {
+           name: "Blue Karate Shin Foot Protector WKF Approved",
+           price: 200, 
+           description: "WKF Approved. Removable foot protector attached with two all around elastic straps for a firm, secure closing. Full length shin pads guard your shin all the way down to the top of your foot, to provide the ultimate protection. Injection moulded foam padded shin part and instep. CE Approved",
+           store_item_id: 300914,
+           size: "s"
+          },
+          {
+           name: "Makiwara",
+           price: 105, 
+           description: "Foam padding on natural wood base. Covered with leather like material. Spring loaded. Secured to the wall with three dowel hooks",
+           store_item_id: 300915,
+           size: "m"
+          },
+          {
+           name: "Round Chrome Metal Sai 19.5 inch",
+           price: 195, 
+           description: "Enables the practitioner to train with deadly speed and accuracy. Monouchi (shaft) of the sai is octagonal with an imitation leather handle. Practice training aid only and should not be used for full contact training. Damage incurred through misuse of this item is the responsibility of the customer. Sold in pairs",
+           store_item_id: 300916,
+           size: "m"
+          },
+          {
+           name: "Blitz Swiftlock Smash Board",
+           price: 110, 
+           description: "Yellow = New Starter. Orange = Beginner. Green = Intermediate. Red = Advanced. Colours interchangeable to change strength levels",
+           store_item_id: 300917,
+           size: "m"
+          },
+          {
+           name: "Bytomic Budo Wall Mounted Belt Display Rack",
+           price: 325, 
+           description: "Wall mountable display stand for showing off your martial arts belt achievements. Calligraphy 武道 translates to 'Budo' - the Martial Way. Belts not included. Fixings included",
+           store_item_id: 300918,
+           size: "m"
+          },
+          {
+           name: "Dipped Foam Head Guard",
+           price: 90, 
+           description: "Single overlay foam. Foam sections above the ears are elevated to strengthen the margin of safety. Open face contour design for a good fit and visibility. Ventilation holes around the head guard. Fast closing with an elastic strap. CE Approved",
+           store_item_id: 300919,
+           size: "m"
+          },
+          {
+           name: "Gel Shock Wrap Gloves",
+           price: 48, 
+           description: "Black neoprene with 10mm gel padded knuckles. Red neoprene top. 300cm long black stretchable wrap sewn to the palm of the glove. Velcro closing.",
+           store_item_id: 300920,
+           size: "m"
+          },
+          {
+           name: "Groin Guard",
+           price: 35, 
+           description: "Elasticated material. Reinforced removable nylon cup. Cup edged with soft rubber for comfort. CE Approved.",
+           store_item_id: 300920,
+           size: "m"
+          },
         ]
 ITEMS.each { |item| Item.create(item) }
