@@ -4,7 +4,7 @@
 .row
   %section.col-md-8.center
     .card
-      =image_tag(@event.image, size: 400, class: "avatar")
+      =image_tag(@event.image.url, size: 400, class: "avatar")
       .card-body
         %h5.card-title= @event.name
         %p.card-text

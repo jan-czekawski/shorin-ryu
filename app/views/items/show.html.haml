@@ -5,7 +5,7 @@
 .row
   %section.col-md-8.center
     .card
-      =image_tag(@item.image, size: 400, class: "avatar")
+      =image_tag(@item.image.url, size: 400, class: "avatar")
       .card-body
         .cart_item
           - if current_user.try(:admin?)

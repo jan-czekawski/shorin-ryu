@@ -65,7 +65,7 @@ feature "Items handling", type: :feature do
   end
   
   def check_content(item)
-    expect(page).to have_content item.image
+    expect(page).to have_css ".avatar"
     expect(page).to have_content item.name
     expect(page).to have_content item.description
     expect(page).to have_content item.store_item_id
