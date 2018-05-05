@@ -41,8 +41,8 @@ feature "User management", type: :feature do
     end
     User.each do |user|
       expect(page).to have_content user.login
-      expect(page).to have_content user.image
     end
+    expect(page).to have_css ".avatar", count: User.all.size
   end
 
   scenario "display single user" do
