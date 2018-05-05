@@ -69,7 +69,7 @@ feature "Events handling", type: :feature do
   end
   
   def check_content(event)
-    expect(page).to have_content event.image
+    expect(page).to have_css ".avatar"
     expect(page).to have_content event.name
     expect(page).to have_content event.address[:street]
     expect(page).to have_content event.address[:city]

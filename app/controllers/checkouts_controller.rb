@@ -5,9 +5,9 @@ class CheckoutsController < ApplicationController
   def new
     @checkout = Checkout.new
     @checkout.user_id = current_user.id
-    p "BEFORE #{@checkout.cart_items.count}"
+    # p "BEFORE #{@checkout.cart_items.count}"
     @checkout.move_items_from_cart
-    p "AFTER #{@checkout.cart_items.count}"
+    # p "AFTER #{@checkout.cart_items.count}"
   end
 
   def create; end

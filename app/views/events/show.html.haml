@@ -20,7 +20,7 @@
           = link_to @event.user.login, user_path(@event.user)
           %b= "Created: "
           = @event.created_at.strftime("%e-%b-%Y")
-        - if user_signed_in? && owner_or_admin(current_user, @event)
+        - if user_signed_in? && owner_or_admin?(current_user, @event)
           = link_to "Edit", edit_event_path(@event), class: "btn btn-warning"
           = link_to "Delete", event_path(@event), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete
         - @event.comments.each do |comment|
