@@ -11,9 +11,9 @@ RSpec.describe CheckoutsController, type: :controller do
         create(:cart, user: user)
         checkout = create(:checkout, user: user)
         cart_item = create(:cart_item, cart: user.cart)
-        p user.cart.cart_items.count
+        # p user.cart.cart_items.count
         get :new
-        p user.cart.cart_items.count
+        # p user.cart.cart_items.count
         expect(response).to render_template :new
         # p assigns(:checkout).cart_items.count
         # expect(assigns(:checkout).reload.cart_items.count).to eq 1
