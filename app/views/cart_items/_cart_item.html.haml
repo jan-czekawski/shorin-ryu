@@ -1,0 +1,21 @@
+%div{id: "#{cart_item.item.id}"}
+  %p= cart_item.item.name
+  = form_for cart_item, url: cart_item_url(cart_item.cart.id, cart_item.id), remote: true do |f|
+    .form-inline.cart_item
+      = f.hidden_field :item_id, value: cart_item.item.id
+      = f.label :quantity
+      %a.decrease_cart_item
+        // %button.btn.btn-dark{type: "button"}
+        //   = "-"
+        =icon("far", "minus-square", class: "fa-2x")
+      = f.number_field :quantity, min: 1, step: 1, class: "form-control cart_quantity"
+      %a.increase_cart_item
+        // %button.btn.btn-dark{type: "button"}
+        // = "+"
+        = icon("far", "plus-square", class: "fa-2x")
+      %div
+        = f.submit "Update cart", class: "btn btn-info", remote: true
+        = link_to "Delete item", cart_item_path(cart_item.cart, cart_item), class: "btn btn-danger" ,method: :delete, data: { confirm: "Are you sure?" }, remote: true
+  %strong
+    = cart_item.item.price.to_s + " PLN " + "Qty: "
+    %span{id: "quantity_#{cart_item.item.id}"}= cart_item.quantity
