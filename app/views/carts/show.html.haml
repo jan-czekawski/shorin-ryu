@@ -2,28 +2,8 @@
   Cart
 %main
   Items in the cart:
-  - @cart.cart_items.each do |c_item|
-    %div{id: "#{c_item.item.id}"}
-      %p= c_item.item.name
-      = form_for c_item, url: cart_item_url(c_item.cart.id, c_item.id), remote: true do |f|
-        .form-inline.cart_item
-          = f.hidden_field :item_id, value: c_item.item.id
-          = f.label :quantity
-          %a.decrease_cart_item
-            // %button.btn.btn-dark{type: "button"}
-            //   = "-"
-            =icon("far", "minus-square", class: "fa-2x")
-          = f.number_field :quantity, min: 1, step: 1, class: "form-control cart_quantity"
-          %a.increase_cart_item
-            // %button.btn.btn-dark{type: "button"}
-            // = "+"
-            = icon("far", "plus-square", class: "fa-2x")
-          %div
-            = f.submit "Update cart", class: "btn btn-info", remote: true
-            = link_to "Delete item", cart_item_path(c_item.cart, c_item), class: "btn btn-danger" ,method: :delete, data: { confirm: "Are you sure?" }, remote: true
-      %strong
-        = c_item.item.price.to_s + " PLN " + "Qty: "
-        %span{id: "quantity_#{c_item.item.id}"}= c_item.quantity
+  = render @cart.cart_items
+
   %strong
     = "Total price: "
     %span#total_price= @cart.sum_price

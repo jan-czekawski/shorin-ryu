@@ -3,7 +3,7 @@ class CartsController < ApplicationController
 
   def show; end
     
-  # TODO: add rendering content of the cart in the sidebar => <%= j render @cart %>
+  # TODO: add rendering content of the cart in the sidebar => <%= j render @cart* %>
 
   private
 
