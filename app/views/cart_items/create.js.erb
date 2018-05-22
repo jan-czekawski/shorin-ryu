@@ -1,18 +1,1 @@
-// $(document).ready(function(){
-//   $('#display_flash').addClass("col-10 my-3");
-//   $('#display_flash').html("<%= show_flash(render 'shared/flash')  %>");
-//   var count = Number("<%= current_user.cart.cart_items.count %>");
-//   if(count > 1){
-//     alert("more than 1");
-//     var html = $("aside.col-md-4").html();
-//     var id = "<%= current_user.cart.cart_items.last.id %>";
-//     $("aside.col-md-4").html(html + '<div id=' + id + '></div>');
-//     $("#" + id).html("TEST HTML");
-//   } else {
-//     alert("not more than 1");
-//     $("aside.col-md-4").html('<div id="<%= @cart_item  %>"></div>');
-//   }
-  
-// });
-
-$("aside").html("<%=j render "shared/cart" %>")
+$("aside").html("<%=j render "shared/cart" %>");
