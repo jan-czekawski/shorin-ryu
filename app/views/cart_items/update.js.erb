@@ -1,6 +1,4 @@
-// $(document).ready(function(){
-//   $('<%= "#quantity_#{@cart_item.item.id}" %>').html('<%= @cart_item.quantity  %>');
-//   $('#total_price').html('<%= @cart_params.sum_price  %>');
-// });
-
-$("aside").html("<%=j render "shared/cart" %>");
+$(document).ready(function(){
+  $('<%= "#quantity_#{@cart_item.item.id}" %>').html('<%= @cart_item.quantity  %>');
+  $('#total_price').html('<%= @cart_params.sum_price  %>');
+});
