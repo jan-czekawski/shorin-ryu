@@ -40,7 +40,8 @@ Rails.application.configure do
   config.active_support.deprecation = :stderr
 
   # config.assets.compile = true
-  # config.assets.precompile << %r(bootstrap-sass/assets/fonts/bootstrap/[\w-]+\.(?:eot|svg|ttf|woff2?)$)
+  # config.assets.precompile <<
+  # %r(bootstrap-sass/assets/fonts/bootstrap/[\w-]+\.(?:eot|svg|ttf|woff2?)$)
   # config.assets.precompile = ['*.js', '*.css']
 
   # Raises error for missing translations
