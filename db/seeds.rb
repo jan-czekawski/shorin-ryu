@@ -105,7 +105,7 @@ def generate_address
               zip_code: "#{rand(50000..99999)}") 
 end
 
-EVENTS = [ {
+EVENTS = [{
             name: "2016 European Karate Championship",
             user: User.all.sample,
             description: "As Karate continues reaching new heights, we look forward to an anticipated annual European Karate Championships. Last year the 2017 European Championships were a sound success in terms of sportsmanship and participation of athletes, with nearly 500 competitors from 43 countries taking part at the event and 17 nations claiming medals in the competition.",
@@ -129,17 +129,23 @@ EVENTS = [ {
           {
             name: "14th AKF Senior Championships",
             user: User.all.sample,
-            description: "We invite you to participate in contest on April 11 2019 in Sports Hall in Astana. Categories in competitions: kata, kumite, kata and kumite team. Competitions in terms from six years to the competitions for seniors.",
+            description: "We invite you to participate in contest on April 11|
+            2019 in Sports Hall in Astana. Categories in competitions: kata,|
+            kumite, kata and kumite team. Competitions in terms from six years|
+            to the competitions for seniors.",
             date: Date.new(2019, 4, 11),
             address: generate_address
           },
           {
             name: "Karate 1 - Premier League Madrid 2019",
             user: User.all.sample,
-            description: "On behalf of the Spanish Karate-do Federation I would like to welcome you to the WKF Karate1 Premier League tournament, also known as the Spanish Open. This fantastic tournament will again take place in Madrid and will be held on the 3rd, 4th and 5th of June 2018.",
+            description: "On behalf of the Spanish Karate-do Federation I|
+            would like to welcome you to the WKF Karate1 Premier League|
+            tournament, also known as the Spanish Open. This fantastic|
+            tournament will again take place in Madrid and will be held on|
+            the 3rd, 4th and 5th of June 2018.",
             date: Date.new(2019, 6, 3),
             address: generate_address
-          }
-         ]
+          }]
 
 EVENTS.each { |ev| Event.create!(ev) }
