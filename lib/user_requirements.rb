@@ -11,7 +11,7 @@ module UserRequirements
     flash[:alert] = "You can only delete events you've created."
     redirect_to events_path
   end
-  
+
   def require_admin
     return if current_user.admin?
     flash[:alert] = "You must be an admin to do that!"
