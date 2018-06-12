@@ -102,7 +102,7 @@ def generate_address
   Address.new(city: Faker::Address.city,
               street: Faker::Address.street_address,
               house_number: rand(1..100),
-              zip_code: "#{rand(50000..99999)}") 
+              zip_code: rand(50_000..99_999).to_s)
 end
 
 EVENTS = [{
