@@ -3,19 +3,21 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 feature "Handle orders in checkout", type: :feature do
-  scenario "move items from the cart to checkout", js: true, slow: false do
+  scenario "move items from the cart to checkout", js: true, slow: true do
     user = build(:user)
     cart = build(:cart, user: user)
     item = build(:item)
     create(:cart_item, item: item, cart: cart)
     login_as(user)
     visit cart_path(cart)
+    # save_screenshot
     click_link "Proceed to checkout"
     expect(current_path).to eq new_checkout_path
     # TODO: fix checkout spec later
     sleep(1)
     expect(page).to have_content "Items in your checkout:"
-    # expect(page).to have_content cart.sum_price
+    # save_screenshot
+    expect(page).to have_content cart.sum_price
     choose "Standard delivery"
     click_button "Continue", id: "from_delivery_method"
     within ".delivery_address" do
