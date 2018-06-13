@@ -5,9 +5,8 @@ class CheckoutsController < ApplicationController
   def new
     @checkout = Checkout.new
     @checkout.user_id = current_user.id
-    # p "BEFORE #{@checkout.cart_items.count}"
     @checkout.move_items_from_cart
-    # p "AFTER #{@checkout.cart_items.count}"
+    # TODO: needs to fix delete items from checkout links => from cart to checkout
   end
 
   def create; end
