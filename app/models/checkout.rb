@@ -1,4 +1,5 @@
 class Checkout
+  include Price
   include Mongoid::Document
   # field :paid, type: Boolean, default: false
   field :delivery_method, type: Integer

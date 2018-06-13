@@ -6,7 +6,7 @@
   %section
     %main
       Items in your checkout:
-      - @cart.cart_items.each do |c_item|
+      - @checkout.cart_items.each do |c_item|
         %div{id: "#{c_item.item.id}"}
           %b
             = c_item.item.name
@@ -18,7 +18,7 @@
             = link_to "Delete item", cart_item_path(c_item.cart, c_item), class: "btn btn-danger btn-sm" ,method: :delete, data: { confirm: "Are you sure?" }, remote: true
       %h4
         = "Total price: "
-        %span#total_price= @cart.sum_price
+        %span#total_price= @checkout.sum_price
         = " PLN"
     = form_for @checkout do |f|
       = render "shared/errors", obj: @checkout
