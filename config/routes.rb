@@ -3,7 +3,9 @@ Rails.application.routes.draw do
     resources "cart_items", only: %i[create update destroy], as: :items
   end
 
-  resources "checkouts", only: %i[show new create edit update destroy]
+  resources "checkouts", only: %i[show new create edit update destroy] do
+    resources "cart_items", only: %i[destroy]
+  end
 
   devise_for :users
   resources "users", only: %i[index show destroy]
