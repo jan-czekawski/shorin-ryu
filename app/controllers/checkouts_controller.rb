@@ -6,7 +6,7 @@ class CheckoutsController < ApplicationController
     @checkout = Checkout.new
     @checkout.user_id = current_user.id
     @checkout.move_items_from_cart
-    # TODO: needs to fix delete items from checkout links => from cart to checkout
+    # TODO: needs to update checkouts#new after cart_item is deleted from the view
   end
 
   def create; end
