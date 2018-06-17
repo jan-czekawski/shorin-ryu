@@ -1,8 +1,8 @@
 require "rails_helper"
-include Warden::Test::Helpers
-Warden.test_mode!
 
 feature "User management", type: :feature do
+  include Warden::Test::Helpers
+  Warden.test_mode!
   scenario "adds a new user" do
     user = build(:user)
     visit root_path
