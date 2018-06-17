@@ -1,8 +1,9 @@
 require "rails_helper"
-include Warden::Test::Helpers
-Warden.test_mode!
 
 feature "Handle orders in checkout", type: :feature do
+  include Warden::Test::Helpers
+  Warden.test_mode!
+
   scenario "move items from the cart to checkout", js: true, slow: true do
     user = build(:user)
     cart = build(:cart, user: user)
