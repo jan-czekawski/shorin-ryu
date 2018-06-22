@@ -1,7 +1,10 @@
 module ApplicationHelper
   def show_avatar(user, size = 100)
     unless user.image.blank?
-      return image_tag(user.image.url, alt: user.email, size: 100, class: "avatar")
+      return image_tag(user.image.url,
+                       alt: user.email,
+                       size: 100,
+                       class: "avatar")
     end
     id = Digest::MD5.hexdigest(user.email.downcase)
     path = "https://secure.gravatar.com/avatar/#{id}?s=#{size}&d=mm"
@@ -25,8 +28,8 @@ module ApplicationHelper
 
   def show_flash(arg)
     arg.gsub(/\n/, '')
-        .gsub(/\"/, '\'')
-        .html_safe
+       .gsub(/\"/, '\'')
+       .html_safe
     # arg.delete(/\n/)
     #   .tr(/\"/, '\'')
     #   .html_safe
