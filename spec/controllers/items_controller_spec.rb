@@ -126,13 +126,12 @@ RSpec.describe ItemsController, type: :controller do
   describe "#update" do
     context "when user not logged in" do
       it "doesn't update item's attributes and redirects to login page" do
-        item = create(:item, store_item_id: 100, name: "white_belt")
-        new_attr = attributes_for(:item, store_item_id: 10, name: "black_belt")
+        item = create(:item, store_item_id: 100)
+        new_attr = attributes_for(:item, store_item_id: 10)
         patch :update, params: { id: item.id,
                                  item: new_attr }
         item.reload
         expect(item.store_item_id).not_to eq 10
-        expect(item.name).not_to eq "black_belt"
         expect(response).to require_login
       end
     end
@@ -140,22 +139,20 @@ RSpec.describe ItemsController, type: :controller do
     context "when user logged in" do
       context "and not admin" do
         it "doesn't update item's attributes and redirects to root page" do
-          # TODO: change items names after database cleaner is set up
-          item = create(:item, store_item_id: 200, name: "green_belt")
-          new_attr = attributes_for(:item, store_item_id: 20, name: "blue_belt")
+          item = create(:item, store_item_id: 200)
+          new_attr = attributes_for(:item, store_item_id: 20)
           sign_in create(:user)
           patch :update, params: { id: item.id,
                                    item: new_attr }
           item.reload
           expect(item.store_item_id).not_to eq 20
-          expect(item.name).not_to eq "blue_belt"
           expect(response).to require_admin
         end
       end
 
       describe "and admin" do
         it "updates items attributes and redirects to item path" do
-          item = create(:item, store_item_id: 300, name: "brown_belt")
+          item = create(:item, store_item_id: 300, name: "belt")
           new_attr = attributes_for(:item, store_item_id: 30, name: "kimono")
           sign_in create(:admin)
           
