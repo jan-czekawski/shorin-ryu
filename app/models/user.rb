@@ -1,4 +1,5 @@
 class User
+  # adding the comment again for testing
   include Mongoid::Document
   include Mongoid::Timestamps
 
