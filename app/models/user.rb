@@ -1,5 +1,4 @@
 class User
-  # random comment
   include Mongoid::Document
   include Mongoid::Timestamps
 
